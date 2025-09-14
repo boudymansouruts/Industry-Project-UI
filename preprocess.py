@@ -1,273 +1,378 @@
 #!/usr/bin/env python3
 """
-Data preprocessing for DailyTalk dataset - Whisper fine-tuning
+Audio preprocessing utilities for Whisper speaker identification
 """
 
 import os
 import json
-import numpy as np
 import soundfile as sf
 import librosa
+import numpy as np
 from pathlib import Path
-from tqdm import tqdm
-import argparse
+import re
+from typing import List, Dict, Tuple, Optional
 
-class DailyTalkPreprocessor:
+def load_audio(audio_path: str, target_sr: int = 16000) -> Tuple[np.ndarray, int]:
     """
-    Preprocessor for DailyTalk dataset for Whisper fine-tuning
+    Load and preprocess audio file
+    
+    Args:
+        audio_path: Path to audio file
+        target_sr: Target sample rate (default: 16000)
+    
+    Returns:
+        Tuple of (audio_array, sample_rate)
     """
-    
-    def __init__(self, data_dir: str, output_dir: str, target_sr: int = 16000):
-        self.data_dir = Path(data_dir)
-        self.output_dir = Path(output_dir)
-        self.target_sr = target_sr
-        
-        # Create output directory
-        self.output_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Load metadata
-        self.metadata_path = self.data_dir.parent / "metadata.json"
-        self.metadata = self._load_metadata()
-        
-        print(f"📁 Input directory: {self.data_dir}")
-        print(f"📁 Output directory: {self.output_dir}")
-        print(f"🎵 Target sample rate: {self.target_sr} Hz")
-    
-    def _load_metadata(self):
-        """Load metadata from JSON file"""
-        if not self.metadata_path.exists():
-            raise FileNotFoundError(f"Metadata file not found: {self.metadata_path}")
-        
-        with open(self.metadata_path, 'r', encoding='utf-8') as f:
-            metadata = json.load(f)
-        
-        print(f"📖 Loaded metadata for {len(metadata)} dialogs")
-        return metadata
-    
-    def _preprocess_audio(self, audio_path: str):
-        """
-        Preprocess a single audio file
-        """
-        try:
-            # Load audio
-            audio, sr = sf.read(audio_path)
-            
-            # Convert to mono if stereo
-            if len(audio.shape) > 1:
-                audio = audio[:, 0]
-            
-            # Convert to float32
-            if audio.dtype != np.float32:
-                audio = audio.astype(np.float32)
-            
-            # Resample if needed
-            if sr != self.target_sr:
-                audio = librosa.resample(audio, orig_sr=sr, target_sr=self.target_sr)
-            
-            # Normalize audio
-            audio = librosa.util.normalize(audio)
-            
-            # Remove silence from beginning and end
-            audio, _ = librosa.effects.trim(audio, top_db=20)
-            
-            return audio
-            
-        except Exception as e:
-            print(f"⚠️ Error processing {audio_path}: {e}")
-            return None
-    
-    def _is_valid_sample(self, text: str, audio: np.ndarray):
-        """
-        Check if sample is valid for training
-        """
-        # Check text
-        if not text or len(text.strip()) < 3:
-            return False
-        
-        # Check audio
-        if audio is None or len(audio) < 0.1 * self.target_sr:  # At least 100ms
-            return False
-        
-        # Check audio duration (not too long)
-        if len(audio) > 30 * self.target_sr:  # Max 30 seconds
-            return False
-        
-        return True
-    
-    def preprocess_dataset(self, max_samples: int = None, split_ratios: tuple = (0.8, 0.1, 0.1)):
-        """
-        Preprocess the entire dataset
-        """
-        print("🔄 Starting dataset preprocessing...")
-        
-        # Collect all valid samples
-        samples = []
-        total_processed = 0
-        total_valid = 0
-        
-        for dialog_id in tqdm(sorted(self.metadata.keys(), key=int), desc="Processing dialogs"):
-            if max_samples and total_valid >= max_samples:
-                break
-            
-            dialog_data = self.metadata[dialog_id]
-            dialog_dir = self.data_dir / dialog_id
-            
-            if not dialog_dir.exists():
-                continue
-            
-            for utterance_id in sorted(dialog_data.keys(), key=int):
-                if max_samples and total_valid >= max_samples:
-                    break
-                
-                utterance_data = dialog_data[utterance_id]
-                speaker = utterance_data['speaker']
-                text = utterance_data['text'].strip()
-                
-                # Construct audio file path
-                audio_file = f"{utterance_id}_{speaker}_d{dialog_id}.wav"
-                audio_path = dialog_dir / audio_file
-                
-                if not audio_path.exists():
-                    continue
-                
-                # Preprocess audio
-                audio = self._preprocess_audio(str(audio_path))
-                total_processed += 1
-                
-                # Validate sample
-                if self._is_valid_sample(text, audio):
-                    # Save preprocessed audio
-                    output_audio_path = self.output_dir / f"{dialog_id}_{utterance_id}_{speaker}.wav"
-                    sf.write(output_audio_path, audio, self.target_sr)
-                    
-                    samples.append({
-                        'audio_path': str(output_audio_path),
-                        'text': text,
-                        'speaker': speaker,
-                        'dialog_id': dialog_id,
-                        'utterance_id': utterance_id,
-                        'duration': len(audio) / self.target_sr,
-                        'original_path': str(audio_path)
-                    })
-                    total_valid += 1
-        
-        print(f"📊 Preprocessing complete:")
-        print(f"   Total processed: {total_processed}")
-        print(f"   Valid samples: {total_valid}")
-        print(f"   Success rate: {total_valid/total_processed*100:.1f}%")
-        
-        # Split dataset
-        train_samples, val_samples, test_samples = self._split_dataset(samples, split_ratios)
-        
-        # Save splits
-        self._save_split(train_samples, "train")
-        self._save_split(val_samples, "val") 
-        self._save_split(test_samples, "test")
-        
-        # Save complete metadata
-        self._save_metadata(samples)
-        
-        return samples
-    
-    def _split_dataset(self, samples: list, split_ratios: tuple):
-        """
-        Split dataset into train/val/test
-        """
-        np.random.seed(42)  # For reproducible splits
-        np.random.shuffle(samples)
-        
-        n_samples = len(samples)
-        train_size = int(n_samples * split_ratios[0])
-        val_size = int(n_samples * split_ratios[1])
-        
-        train_samples = samples[:train_size]
-        val_samples = samples[train_size:train_size + val_size]
-        test_samples = samples[train_size + val_size:]
-        
-        print(f"📈 Dataset split:")
-        print(f"   Train: {len(train_samples)} samples ({len(train_samples)/n_samples*100:.1f}%)")
-        print(f"   Val: {len(val_samples)} samples ({len(val_samples)/n_samples*100:.1f}%)")
-        print(f"   Test: {len(test_samples)} samples ({len(test_samples)/n_samples*100:.1f}%)")
-        
-        return train_samples, val_samples, test_samples
-    
-    def _save_split(self, samples: list, split_name: str):
-        """
-        Save a dataset split
-        """
-        split_file = self.output_dir / f"{split_name}.json"
-        
-        with open(split_file, 'w', encoding='utf-8') as f:
-            json.dump(samples, f, indent=2, ensure_ascii=False)
-        
-        print(f"💾 Saved {split_name} split: {split_file}")
-    
-    def _save_metadata(self, samples: list):
-        """
-        Save complete metadata
-        """
-        # Calculate statistics
-        durations = [sample['duration'] for sample in samples]
-        text_lengths = [len(sample['text']) for sample in samples]
-        
-        metadata = {
-            'total_samples': len(samples),
-            'total_duration': sum(durations),
-            'avg_duration': np.mean(durations),
-            'min_duration': min(durations),
-            'max_duration': max(durations),
-            'avg_text_length': np.mean(text_lengths),
-            'min_text_length': min(text_lengths),
-            'max_text_length': max(text_lengths),
-            'sample_rate': self.target_sr,
-            'samples': samples
-        }
-        
-        metadata_file = self.output_dir / "metadata.json"
-        with open(metadata_file, 'w', encoding='utf-8') as f:
-            json.dump(metadata, f, indent=2, ensure_ascii=False)
-        
-        print(f"📊 Dataset statistics:")
-        print(f"   Total duration: {metadata['total_duration']:.1f}s ({metadata['total_duration']/60:.1f}m)")
-        print(f"   Avg duration: {metadata['avg_duration']:.2f}s")
-        print(f"   Avg text length: {metadata['avg_text_length']:.1f} chars")
-        print(f"💾 Saved metadata: {metadata_file}")
-
-def main():
-    """Main preprocessing function"""
-    parser = argparse.ArgumentParser(description="Preprocess DailyTalk dataset for Whisper fine-tuning")
-    parser.add_argument("--data_dir", default="dailytalk/data", help="Path to DailyTalk data directory")
-    parser.add_argument("--output_dir", default="preprocessed_whisper", help="Output directory for preprocessed data")
-    parser.add_argument("--max_samples", type=int, default=None, help="Maximum number of samples to process")
-    parser.add_argument("--sample_rate", type=int, default=16000, help="Target sample rate")
-    
-    args = parser.parse_args()
-    
-    print("🎵 DailyTalk Dataset Preprocessing for Whisper")
-    print("="*60)
-    
-    # Check input directory
-    if not os.path.exists(args.data_dir):
-        print(f"❌ Data directory not found: {args.data_dir}")
-        return
-    
-    # Initialize preprocessor
-    preprocessor = DailyTalkPreprocessor(
-        data_dir=args.data_dir,
-        output_dir=args.output_dir,
-        target_sr=args.sample_rate
-    )
-    
-    # Process dataset
     try:
-        samples = preprocessor.preprocess_dataset(max_samples=args.max_samples)
-        print(f"✅ Preprocessing completed successfully!")
-        print(f"📁 Preprocessed data saved to: {args.output_dir}")
+        audio, sr = sf.read(audio_path)
+        
+        # Convert to mono if stereo
+        if len(audio.shape) > 1:
+            audio = audio[:, 0]
+        
+        # Resample to target sample rate if needed
+        if sr != target_sr:
+            audio = librosa.resample(audio, orig_sr=sr, target_sr=target_sr)
+        
+        # Normalize audio
+        audio = librosa.util.normalize(audio)
+        
+        return audio, target_sr
         
     except Exception as e:
-        print(f"❌ Preprocessing failed: {e}")
-        import traceback
-        traceback.print_exc()
+        print(f"⚠️ Error loading audio {audio_path}: {e}")
+        return np.zeros(target_sr), target_sr
 
-if __name__ == '__main__':
-    main()
+def trim_audio(audio: np.ndarray, max_length_seconds: int = 20, sample_rate: int = 16000) -> np.ndarray:
+    """
+    Trim audio to maximum length
+    
+    Args:
+        audio: Audio array
+        max_length_seconds: Maximum length in seconds
+        sample_rate: Sample rate of audio
+    
+    Returns:
+        Trimmed audio array
+    """
+    max_length = max_length_seconds * sample_rate
+    if len(audio) > max_length:
+        audio = audio[:max_length]
+    return audio
+
+def detect_language(text: str) -> str:
+    """
+    Detect language of the text using pattern matching
+    
+    Args:
+        text: Text to analyze
+    
+    Returns:
+        Language code (en, es, fr, de, ar, tl, el)
+    """
+    text_lower = text.lower()
+    
+    # Enhanced language detection patterns
+    en_words = ['the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'up', 'about', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'between', 'among']
+    es_words = ['el', 'la', 'los', 'las', 'de', 'del', 'en', 'con', 'por', 'para', 'que', 'como', 'pero', 'sin', 'sobre', 'entre', 'durante', 'desde', 'hasta', 'hacia', 'según']
+    fr_words = ['le', 'la', 'les', 'de', 'du', 'des', 'en', 'avec', 'pour', 'que', 'comme', 'mais', 'sans', 'sur', 'entre', 'pendant', 'depuis', 'jusqu', 'vers', 'selon']
+    de_words = ['der', 'die', 'das', 'und', 'oder', 'aber', 'in', 'auf', 'zu', 'für', 'von', 'mit', 'durch', 'über', 'unter', 'zwischen', 'während', 'seit', 'bis', 'nach', 'vor']
+    
+    # Arabic words (transliterated)
+    ar_words = ['al', 'wa', 'fi', 'min', 'ila', 'ma', 'kana', 'lam', 'la', 'bi', 'li', 'an', 'hu', 'hi', 'hum', 'hunna', 'anta', 'anti', 'antum', 'antunna']
+    
+    # Tagalog words
+    tl_words = ['ang', 'ng', 'sa', 'na', 'ay', 'at', 'mga', 'ko', 'mo', 'niya', 'namin', 'ninyo', 'nila', 'ako', 'ikaw', 'siya', 'kami', 'kayo', 'sila', 'ito', 'iyan', 'iyon']
+    
+    # Greek words (transliterated)
+    el_words = ['kai', 'to', 'kai', 'tha', 'einai', 'me', 'se', 'apo', 'gia', 'os', 'den', 'na', 'tha', 'mou', 'sou', 'tou', 'tis', 'mas', 'sas', 'tous']
+    
+    en_score = sum(1 for word in en_words if word in text_lower)
+    es_score = sum(1 for word in es_words if word in text_lower)
+    fr_score = sum(1 for word in fr_words if word in text_lower)
+    de_score = sum(1 for word in de_words if word in text_lower)
+    ar_score = sum(1 for word in ar_words if word in text_lower)
+    tl_score = sum(1 for word in tl_words if word in text_lower)
+    el_score = sum(1 for word in el_words if word in text_lower)
+    
+    scores = {'en': en_score, 'es': es_score, 'fr': fr_score, 'de': de_score, 'ar': ar_score, 'tl': tl_score, 'el': el_score}
+    return max(scores, key=scores.get) if max(scores.values()) > 0 else 'en'
+
+def format_text_with_speaker(text: str, speaker_id: int, language: str = "en", speaker_mapping: Dict[int, str] = None) -> str:
+    """
+    Format text with speaker identification
+    
+    Args:
+        text: Original text
+        speaker_id: Speaker ID
+        language: Language code
+        speaker_mapping: Optional mapping of speaker IDs to names
+    
+    Returns:
+        Formatted text with speaker label
+    """
+    if speaker_mapping and speaker_id in speaker_mapping:
+        speaker_name = speaker_mapping[speaker_id]
+    else:
+        speaker_name = f"Speaker_{speaker_id + 1}"
+    
+    lang_code = language.upper()[:2]
+    return f"[{speaker_name} ({lang_code})]: {text}"
+
+def load_dailytalk_dataset(data_dir: str, max_samples: Optional[int] = None) -> Tuple[List[Dict], Dict[int, str]]:
+    """
+    Load DailyTalk dataset with preprocessing
+    
+    Args:
+        data_dir: Path to data directory
+        max_samples: Maximum number of samples to load
+    
+    Returns:
+        Tuple of (samples_list, speaker_mapping)
+    """
+    data_path = Path(data_dir)
+    metadata_path = data_path.parent / "metadata.json"
+    
+    if not metadata_path.exists():
+        print(f"❌ Metadata file not found: {metadata_path}")
+        return [], {}
+    
+    with open(metadata_path, 'r', encoding='utf-8') as f:
+        metadata = json.load(f)
+    
+    samples = []
+    speaker_mapping = {}
+    count = 0
+    
+    print(f"📖 Loading DailyTalk dataset...")
+    
+    for dialog_id in sorted(metadata.keys(), key=int):
+        if max_samples and count >= max_samples:
+            break
+        
+        dialog_data = metadata[dialog_id]
+        dialog_dir = data_path / dialog_id
+        
+        if not dialog_dir.exists():
+            continue
+        
+        for utterance_id in sorted(dialog_data.keys(), key=int):
+            if max_samples and count >= max_samples:
+                break
+            
+            utterance_data = dialog_data[utterance_id]
+            speaker = utterance_data['speaker']
+            text = utterance_data['text'].strip()
+            
+            if not text or len(text) < 3:
+                continue
+            
+            # Detect language and format text with speaker
+            detected_language = detect_language(text)
+            formatted_text = format_text_with_speaker(text, speaker, detected_language, speaker_mapping)
+            
+            # Create speaker mapping
+            if speaker not in speaker_mapping:
+                speaker_mapping[speaker] = f"Speaker_{len(speaker_mapping) + 1}"
+            
+            audio_file = f"{utterance_id}_{speaker}_d{dialog_id}.wav"
+            audio_path = dialog_dir / audio_file
+            
+            if audio_path.exists():
+                samples.append({
+                    'audio_path': str(audio_path),
+                    'text': formatted_text,
+                    'original_text': text,
+                    'original_speaker': speaker,
+                    'generic_speaker': speaker_mapping[speaker],
+                    'language': detected_language
+                })
+                count += 1
+                
+                if count % 50 == 0:
+                    print(f"   Loaded {count} samples...")
+    
+    print(f"✅ Loaded {len(samples)} samples")
+    print(f"👥 Found {len(speaker_mapping)} unique speakers")
+    
+    return samples, speaker_mapping
+
+def split_audio_into_chunks(audio: np.ndarray, chunk_length_seconds: int = 4, sample_rate: int = 16000) -> List[np.ndarray]:
+    """
+    Split audio into chunks for speaker analysis
+    
+    Args:
+        audio: Audio array
+        chunk_length_seconds: Length of each chunk in seconds
+        sample_rate: Sample rate of audio
+    
+    Returns:
+        List of audio chunks
+    """
+    chunk_length = chunk_length_seconds * sample_rate
+    chunks = []
+    
+    for i in range(0, len(audio), chunk_length):
+        chunk = audio[i:i + chunk_length]
+        if len(chunk) > 1 * sample_rate:  # Only use chunks longer than 1 second
+            chunks.append(chunk)
+    
+    return chunks
+
+def analyze_audio_features(audio_chunk: np.ndarray, sample_rate: int = 16000) -> Dict:
+    """
+    Analyze audio features for speaker identification
+    
+    Args:
+        audio_chunk: Audio chunk to analyze
+        sample_rate: Sample rate of audio
+    
+    Returns:
+        Dictionary of audio features
+    """
+    # Calculate various audio features
+    rms = np.sqrt(np.mean(audio_chunk**2))
+    zero_crossings = np.sum(librosa.zero_crossings(audio_chunk))
+    spectral_centroid = np.mean(librosa.feature.spectral_centroid(y=audio_chunk, sr=sample_rate))
+    spectral_rolloff = np.mean(librosa.feature.spectral_rolloff(y=audio_chunk, sr=sample_rate))
+    mfccs = librosa.feature.mfcc(y=audio_chunk, sr=sample_rate, n_mfcc=13)
+    mfcc_mean = np.mean(mfccs, axis=1)
+    
+    return {
+        'rms': rms,
+        'zero_crossings': zero_crossings,
+        'spectral_centroid': spectral_centroid,
+        'spectral_rolloff': spectral_rolloff,
+        'mfcc_mean': mfcc_mean,
+        'duration': len(audio_chunk) / sample_rate
+    }
+
+def identify_speakers_by_features(chunk_features: List[Dict]) -> List[str]:
+    """
+    Identify speakers based on audio features using improved clustering
+    
+    Args:
+        chunk_features: List of feature dictionaries
+    
+    Returns:
+        List of speaker assignments
+    """
+    # Filter out None features
+    valid_features = [f for f in chunk_features if f is not None]
+    
+    if len(valid_features) < 2:
+        return ["Speaker_1"] * len(chunk_features)
+    
+    # Extract features for clustering
+    features_matrix = []
+    for f in valid_features:
+        features_matrix.append([
+            f['rms'],
+            f['zero_crossings'] / 1000,  # Normalize
+            f['spectral_centroid'] / 1000,  # Normalize
+            f['spectral_rolloff'] / 1000,  # Normalize
+            f['mfcc_mean'][0],  # First MFCC coefficient
+            f['mfcc_mean'][1],  # Second MFCC coefficient
+            f['mfcc_mean'][2],  # Third MFCC coefficient
+        ])
+    
+    features_matrix = np.array(features_matrix)
+    
+    # Improved clustering using multiple features
+    rms_values = features_matrix[:, 0]
+    spectral_centroids = features_matrix[:, 2]
+    mfcc1_values = features_matrix[:, 4]
+    mfcc2_values = features_matrix[:, 5]
+    
+    # Use multiple thresholds for better separation
+    rms_threshold = np.median(rms_values)
+    spectral_threshold = np.median(spectral_centroids)
+    mfcc1_threshold = np.median(mfcc1_values)
+    
+    speaker_assignments = []
+    for i, f in enumerate(chunk_features):
+        if f is None:
+            speaker_assignments.append("Speaker_1")
+        else:
+            # Use multiple features for better speaker separation
+            score = 0
+            if f['rms'] > rms_threshold:
+                score += 1
+            if f['spectral_centroid'] > spectral_threshold:
+                score += 1
+            if f['mfcc_mean'][0] > mfcc1_threshold:
+                score += 1
+            
+            # Assign speaker based on majority vote
+            if score >= 2:
+                speaker_assignments.append("Speaker_1")
+            else:
+                speaker_assignments.append("Speaker_2")
+    
+    # Apply smoothing to reduce speaker switching errors
+    speaker_assignments = smooth_speaker_assignments(speaker_assignments)
+    
+    return speaker_assignments
+
+def smooth_speaker_assignments(assignments: List[str]) -> List[str]:
+    """
+    Smooth speaker assignments to reduce rapid switching
+    
+    Args:
+        assignments: List of speaker assignments
+    
+    Returns:
+        Smoothed speaker assignments
+    """
+    if len(assignments) < 3:
+        return assignments
+    
+    smoothed = assignments.copy()
+    
+    # Apply median filter to reduce noise
+    for i in range(1, len(assignments) - 1):
+        if assignments[i-1] == assignments[i+1] and assignments[i] != assignments[i-1]:
+            # If neighbors are the same but current is different, change current
+            smoothed[i] = assignments[i-1]
+    
+    return smoothed
+
+def create_speaker_transcription(chunk_transcriptions: List[str], speaker_assignments: List[str]) -> str:
+    """
+    Create final transcription with speaker labels
+    
+    Args:
+        chunk_transcriptions: List of chunk transcriptions
+        speaker_assignments: List of speaker assignments
+    
+    Returns:
+        Final formatted transcription
+    """
+    final_parts = []
+    current_speaker = None
+    current_text = []
+    
+    for i, (transcription, speaker) in enumerate(zip(chunk_transcriptions, speaker_assignments)):
+        if not transcription:
+            continue
+            
+        if speaker != current_speaker:
+            # Save previous speaker's text
+            if current_speaker and current_text:
+                speaker_text = " ".join(current_text)
+                final_parts.append(f"[{current_speaker} (EN)]: {speaker_text}")
+            
+            # Start new speaker
+            current_speaker = speaker
+            current_text = [transcription]
+        else:
+            # Same speaker, add to current text
+            current_text.append(transcription)
+    
+    # Add the last speaker's text
+    if current_speaker and current_text:
+        speaker_text = " ".join(current_text)
+        final_parts.append(f"[{current_speaker} (EN)]: {speaker_text}")
+    
+    return "\n".join(final_parts)
+
