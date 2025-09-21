@@ -252,5 +252,5 @@
     "transcribe": 50359,
     "translate": 50358
   },
-  "transformers_version": "4.56.1"
+  "transformers_version": "4.56.0"
 }

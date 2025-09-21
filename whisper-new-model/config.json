@@ -53,7 +53,7 @@
   "num_mel_bins": 80,
   "pad_token_id": 50257,
   "scale_embedding": false,
-  "transformers_version": "4.56.1",
+  "transformers_version": "4.56.0",
   "use_cache": true,
   "use_weighted_layer_sum": false,
   "vocab_size": 51865
