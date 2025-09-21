@@ -1,19 +1,22 @@
-# Speaker Identification with Whisper
+# Advanced Speaker Identification with Whisper
 
-This project provides speaker identification and transcription using a fine-tuned Whisper model that can distinguish between different speakers as Speaker_1, Speaker_2, etc.
+This project provides high-quality speech transcription with speaker identification using a fine-tuned Whisper model. The system uses a hybrid approach that prioritizes transcription accuracy while maintaining speaker identification capabilities.
 
 ## Features
 
+- **Hybrid Transcription Approach**: High-quality transcription first, then speaker identification
 - **Generic Speaker Identification**: Identifies speakers as Speaker_1, Speaker_2, etc.
-- **Multi-language Support**: Supports English, Spanish, French, German, Arabic, Tagalog, and Greek
-- **High Accuracy**: Fine-tuned on DailyTalk dataset
-- **Memory Efficient**: Optimized for 16GB RAM systems
+- **Voice Activity Detection**: Automatically detects speech segments for better processing
+- **Speaker Clustering**: Uses advanced audio features (MFCC, pitch, spectral) for speaker identification
+- **Punctuation Preservation**: Maintains proper punctuation in transcriptions
+- **Consecutive Speaker Merging**: Intelligently merges consecutive segments from the same speaker
+- **High Accuracy**: Fine-tuned on DailyTalk dataset with improved training parameters
 
 ## Files
 
-- `train_model.py` - Train the speaker identification model
-- `transcribe_audio.py` - Transcribe audio with speaker identification
-- `main.py` - Main script for easy usage
+- `train_model.py` - Train the speaker identification model with enhanced parameters
+- `hybrid_transcribe.py` - Hybrid transcription with speaker identification
+- `preprocess.py` - Audio preprocessing and speaker analysis utilities
 - `requirements.txt` - Required dependencies
 
 ## Quick Start
@@ -23,52 +26,65 @@ This project provides speaker identification and transcription using a fine-tune
 pip install -r requirements.txt
 ```
 
-### 2. Train the Model (if not already trained)
+### 2. Train the Model
 ```bash
 python train_model.py
 ```
 
 ### 3. Transcribe Audio with Speaker Identification
 ```bash
-python main.py "path/to/your/audio.wav"
+python hybrid_transcribe.py
 ```
 
-### 4. Save to Specific File
-```bash
-python main.py "path/to/your/audio.wav" --output "my_transcription.txt"
-```
+## Training Configuration
 
-## Example Usage
+The model is trained with enhanced parameters for better quality:
+- **10 epochs** (increased from 5)
+- **Batch size: 2** (reduced for better gradient updates)
+- **Accumulation steps: 8** (increased for stability)
+- **292 audio samples** from DailyTalk dataset
+- **30 unique speakers** mapped to generic Speaker_1, Speaker_2, etc.
 
-```bash
-# Basic usage
-python main.py "C:\Users\boudy\Downloads\091452-i-834-836.wav"
+## Hybrid Approach
 
-# With custom output file
-python main.py "audio.wav" --output "result.txt"
+The system uses a two-stage process:
 
-# With custom model
-python main.py "audio.wav" --model "my_custom_model"
-```
+1. **High-Quality Transcription**: Uses Whisper to transcribe audio in overlapping chunks for maximum accuracy
+2. **Speaker Identification**: Applies voice activity detection and speaker clustering to identify speakers
+3. **Intelligent Merging**: Combines overlapping transcriptions and merges consecutive same-speaker segments
 
 ## Output Format
 
 The system produces transcriptions in the following format:
 
 ```
-[Speaker_1 (EN)]: Hello. How are you today?
-[Speaker_2 (EN)]: I'm doing well, thank you for asking.
-[Speaker_1 (EN)]: That's great to hear!
+[Speaker_1]: Hello, how are you today?
+[Speaker_2]: I'm doing well, thank you for asking.
+[Speaker_1]: That's great to hear!
+[Speaker_2]: Yes, I'm looking forward to our meeting.
 ```
 
-## Model Training
+## Technical Details
 
-The model is trained on the DailyTalk dataset with:
-- 292 audio samples
-- 2 speakers mapped to generic Speaker_1 and Speaker_2
-- 5 epochs of training
-- Batch size of 8
-- Memory optimizations for 16GB RAM
+### Voice Activity Detection
+- Energy threshold analysis
+- Spectral centroid detection
+- Zero-crossing rate analysis
+- Spectral flux analysis
+- Minimum segment length: 0.3 seconds
+
+### Speaker Features
+- **MFCC coefficients** (13 features)
+- **Pitch analysis** (fundamental frequency)
+- **Spectral features** (centroid, rolloff, bandwidth)
+- **RMS energy** and **Zero-crossing rate**
+- **KMeans clustering** for speaker assignment
+
+### Model Architecture
+- **Base Model**: OpenAI Whisper Base
+- **Language**: English
+- **Task**: Transcribe
+- **Processor**: WhisperProcessor with language and task specification
 
 ## Requirements
 
@@ -78,10 +94,33 @@ The model is trained on the DailyTalk dataset with:
 - Librosa
 - SoundFile
 - NumPy
+- Scikit-learn
+- SciPy
+
+## Performance
+
+- **Training Loss**: Final average loss of 0.2100
+- **Memory Optimized**: Efficient processing for various system configurations
+- **High Accuracy**: Improved transcription quality with proper punctuation
+- **Speaker Stability**: Temporal smoothing reduces rapid speaker switching
 
 ## Notes
 
 - The model works best with clear audio recordings
-- Speaker identification is based on audio characteristics
-- Results are saved to `speaker_transcription.txt` by default
+- Speaker identification is based on comprehensive audio characteristics
+- Results are automatically saved with descriptive filenames
+- The hybrid approach ensures both transcription accuracy and speaker identification quality
 
+## Model Files
+
+- `whisper-new-model/` - Latest trained model with enhanced parameters
+- `whisper-generic-speakers/` - Previous model version (if available)
+
+## Recent Updates
+
+- Enhanced training quality with improved hyperparameters
+- Implemented hybrid transcription approach
+- Added comprehensive voice activity detection
+- Improved speaker clustering with multiple audio features
+- Added punctuation preservation and consecutive speaker merging
+- Cleaned up codebase and removed debugging files
