@@ -31,7 +31,7 @@ def load_audio(audio_path: str, target_sr: int = 16000) -> Tuple[np.ndarray, int
         return audio, target_sr
         
     except Exception as e:
-        print(f"⚠️ Error loading audio {audio_path}: {e}")
+        print(f"Error loading audio {audio_path}: {e}")
         return np.zeros(target_sr), target_sr
 
 def trim_audio(audio: np.ndarray, max_length_seconds: int = 20, sr: int = 16000) -> np.ndarray:
@@ -114,7 +114,7 @@ def extract_speaker_embeddings(audio: np.ndarray, sr: int = 16000) -> np.ndarray
         return features
         
     except Exception as e:
-        print(f"⚠️ Error extracting features: {e}")
+        print(f"Error extracting features: {e}")
         return np.zeros(18)
 
 def segment_speakers_with_global_analysis(audio: np.ndarray, sr: int = 16000) -> List[Tuple[float, float, str]]:
@@ -213,7 +213,7 @@ def load_dailytalk_dataset(data_dir: str, max_samples: int = None) -> Tuple[List
                                 return samples, speaker_mapping
                                 
                     except Exception as e:
-                        print(f"⚠️ Error processing {txt_path}: {e}")
+                        print(f"Error processing {txt_path}: {e}")
                         continue
         
         if len(samples) % 50 == 0 and len(samples) > 0:
