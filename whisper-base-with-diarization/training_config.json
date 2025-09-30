@@ -1,0 +1,31 @@
+{
+  "model_name": "openai/whisper-base",
+  "num_epochs": 8,
+  "learning_rate": 5e-05,
+  "batch_size": 2,
+  "accumulation_steps": 4,
+  "warmup_steps": 50,
+  "total_steps": 1168,
+  "max_length": 448,
+  "num_beams": 4,
+  "early_stopping": true,
+  "early_stopping_patience": 3,
+  "scheduler": "linear_with_warmup",
+  "total_training_time_minutes": 129.51050605376562,
+  "dataset_size": 292,
+  "device": "cpu",
+  "best_loss": 0.0021585392821915064,
+  "final_epoch": 8,
+  "training_losses": [
+    0.2549353625612614,
+    0.061675792776864684,
+    0.052627727191589056,
+    0.04852342346447124,
+    0.04203404313549782,
+    0.023617227644897192,
+    0.006829260604568495,
+    0.0021585392821915064
+  ],
+  "diarization_integrated": true,
+  "speaker_aware_training": true
+}

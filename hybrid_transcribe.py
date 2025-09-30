@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Hybrid Transcription with Post-Processing Speaker Identification
+Hybrid Transcription with Fixed Speaker Diarization
 """
 
 import os
@@ -10,14 +10,176 @@ import argparse
 import torch
 import numpy as np
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
-from preprocess import load_audio, find_speech_segments, extract_speaker_embeddings
+import soundfile as sf
+import librosa
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
 import re
 from typing import List, Tuple
+import warnings
+warnings.filterwarnings("ignore")
 
 
-def transcribe_full_audio(audio_file: str, model_dir: str = "whisper-large-full"):
+def detect_speech_segments(audio: np.ndarray, sr: int = 16000) -> List[Tuple[float, float]]:
+    """Detect all speech segments without assuming speaker changes."""
+    frame_length = int(0.025 * sr)
+    hop_length = int(0.01 * sr)
+    
+    rms = librosa.feature.rms(y=audio, frame_length=frame_length, hop_length=hop_length)[0]
+    silence_threshold = np.percentile(rms, 35)  # Increased from 25 to 35 for less aggressive splitting
+    speech_frames = rms > silence_threshold
+    
+    frame_times = np.arange(len(rms)) * hop_length / sr
+    
+    speech_segments = []
+    in_speech = False
+    speech_start = 0
+    
+    for i, is_speech in enumerate(speech_frames):
+        if is_speech and not in_speech:
+            speech_start = frame_times[i]
+            in_speech = True
+        elif not is_speech and in_speech:
+            speech_end = frame_times[i]
+            if speech_end - speech_start >= 0.5:  # Increased from 0.3 to 0.5 for longer segments
+                speech_segments.append((speech_start, speech_end))
+            in_speech = False
+    
+    if in_speech:
+        speech_end = frame_times[-1]
+        if speech_end - speech_start >= 0.5:  # Increased from 0.3 to 0.5
+            speech_segments.append((speech_start, speech_end))
+    
+    return speech_segments
+
+
+def extract_voice_features(audio: np.ndarray, sr: int = 16000) -> np.ndarray:
+    """Extract comprehensive voice features for speaker identification."""
+    try:
+        # Fundamental frequency
+        pitches, magnitudes = librosa.piptrack(y=audio, sr=sr, threshold=0.1)
+        pitch_values = pitches[magnitudes > 0.1 * np.max(magnitudes)]
+        
+        if len(pitch_values) > 10:
+            f0_mean = np.mean(pitch_values)
+            f0_std = np.std(pitch_values)
+            f0_min = np.min(pitch_values)
+            f0_max = np.max(pitch_values)
+            f0_range = f0_max - f0_min
+        else:
+            f0_mean = f0_std = f0_min = f0_max = f0_range = 0
+        
+        # Spectral features
+        spectral_centroids = librosa.feature.spectral_centroid(y=audio, sr=sr)[0]
+        sc_mean = np.mean(spectral_centroids)
+        sc_std = np.std(spectral_centroids)
+        
+        spectral_rolloff = librosa.feature.spectral_rolloff(y=audio, sr=sr)[0]
+        sr_mean = np.mean(spectral_rolloff)
+        sr_std = np.std(spectral_rolloff)
+        
+        # Voice quality
+        zero_crossing_rate = librosa.feature.zero_crossing_rate(audio)[0]
+        zcr_mean = np.mean(zero_crossing_rate)
+        zcr_std = np.std(zero_crossing_rate)
+        
+        # Energy
+        rms = librosa.feature.rms(y=audio)[0]
+        rms_mean = np.mean(rms)
+        rms_std = np.std(rms)
+        
+        # MFCC
+        mfccs = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=6)
+        mfcc_means = np.mean(mfccs, axis=1)
+        mfcc_stds = np.std(mfccs, axis=1)
+        
+        features = np.array([
+            f0_mean, f0_std, f0_min, f0_max, f0_range,
+            sc_mean, sc_std, sr_mean, sr_std,
+            zcr_mean, zcr_std, rms_mean, rms_std,
+            *mfcc_means, *mfcc_stds
+        ])
+        
+        return features
+        
+    except Exception as e:
+        return np.zeros(25)
+
+
+def voice_based_diarization(audio: np.ndarray, sr: int = 16000) -> List[Tuple[float, float, str]]:
+    """Voice-based diarization using proper clustering."""
+    speech_segments = detect_speech_segments(audio, sr)
+    
+    if len(speech_segments) < 2:
+        return [(0, len(audio) / sr, "Speaker_1")]
+    
+    features = []
+    valid_segments = []
+    
+    for start_time, end_time in speech_segments:
+        start_sample = int(start_time * sr)
+        end_sample = int(end_time * sr)
+        segment_audio = audio[start_sample:end_sample]
+        
+        if len(segment_audio) > sr * 1.0:  # Increased from 0.5 to 1.0 for longer, more reliable segments
+            voice_features = extract_voice_features(segment_audio, sr)
+            if not np.all(voice_features == 0):
+                features.append(voice_features)
+                valid_segments.append((start_time, end_time))
+    
+    if len(features) < 2:
+        return [(0, len(audio) / sr, "Speaker_1")]
+    
+    features = np.array(features)
+    scaler = StandardScaler()
+    features_scaled = scaler.fit_transform(features)
+    
+    # Find optimal number of speakers
+    best_score = -1
+    best_labels = None
+    best_n_speakers = 2
+    
+    for n_speakers in range(2, min(6, len(features) + 1)):
+        try:
+            kmeans = KMeans(n_clusters=n_speakers, random_state=42, n_init=20)
+            labels = kmeans.fit_predict(features_scaled)
+            
+            if len(set(labels)) > 1:
+                score = silhouette_score(features_scaled, labels)
+                if score > best_score:
+                    best_score = score
+                    best_labels = labels
+                    best_n_speakers = n_speakers
+        except:
+            continue
+    
+    if best_labels is None:
+        kmeans = KMeans(n_clusters=2, random_state=42, n_init=20)
+        best_labels = kmeans.fit_predict(features_scaled)
+    
+    # Create result
+    result = []
+    for i, (start_time, end_time) in enumerate(valid_segments):
+        speaker_id = best_labels[i] + 1
+        result.append((start_time, end_time, f"Speaker_{speaker_id}"))
+    
+    # Sort by time and merge close segments from same speaker
+    result.sort(key=lambda x: x[0])
+    
+    merged_result = []
+    for start_time, end_time, speaker in result:
+        if (merged_result and 
+            merged_result[-1][2] == speaker and 
+            start_time - merged_result[-1][1] < 3.0):  # Increased from 1.0 to 3.0 seconds
+            merged_result[-1] = (merged_result[-1][0], end_time, speaker)
+        else:
+            merged_result.append((start_time, end_time, speaker))
+    
+    return merged_result
+
+
+def transcribe_full_audio(audio_file: str, model_dir: str = "whisper-base-with-diarization"):
     print(f"Loading audio: {Path(audio_file).name}")
 
     processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
@@ -26,7 +188,19 @@ def transcribe_full_audio(audio_file: str, model_dir: str = "whisper-large-full"
     model = model.to(device)
     model.eval()
 
-    audio, sr = load_audio(audio_file)
+    # Load audio using soundfile for better compatibility
+    audio, sr = sf.read(audio_file)
+    
+    # Convert to mono if stereo
+    if len(audio.shape) > 1:
+        audio = audio[:, 0]
+    
+    # Resample to 16kHz if needed
+    if sr != 16000:
+        audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
+        sr = 16000
+    
+    audio = librosa.util.normalize(audio)
     audio_duration = len(audio) / sr
     print(f"Audio duration: {audio_duration:.1f} seconds")
 
@@ -75,6 +249,116 @@ def transcribe_full_audio(audio_file: str, model_dir: str = "whisper-large-full"
     return full_transcription, audio, sr
 
 
+def transcribe_audio_slice(
+    audio: np.ndarray,
+    sr: int,
+    start_time: float,
+    end_time: float,
+    processor: WhisperProcessor,
+    model: WhisperForConditionalGeneration,
+    device: torch.device
+):
+    """Transcribe a specific audio slice [start_time, end_time)."""
+    start_sample = max(0, int(start_time * sr))
+    end_sample = min(len(audio), int(end_time * sr))
+    slice_audio = audio[start_sample:end_sample]
+
+    if len(slice_audio) < sr * 0.4:
+        return ""
+
+    if len(slice_audio) < sr:
+        slice_audio = np.pad(slice_audio, (0, sr - len(slice_audio)))
+
+    with torch.no_grad():
+        input_features = processor.feature_extractor(
+            slice_audio,
+            sampling_rate=sr,
+            return_tensors="pt",
+            padding="max_length",
+            max_length=processor.feature_extractor.n_samples,
+        ).input_features.to(device)
+
+        predicted_ids = model.generate(
+            input_features,
+            forced_decoder_ids=processor.get_decoder_prompt_ids(language="en", task="transcribe"),
+            max_length=400,
+            num_beams=5,
+            do_sample=False,
+            early_stopping=True,
+            no_repeat_ngram_size=3,
+            length_penalty=1.0,
+        )
+
+        text = processor.tokenizer.batch_decode(
+            predicted_ids, skip_special_tokens=True
+        )[0].strip()
+
+    return text
+
+
+def windowed_asr_segments(audio: np.ndarray, sr: int, model_dir: str) -> list:
+    """Run ASR in fixed windows independent of diarization to get time-stamped text segments.
+
+    We use 15s windows with 2s overlap to improve coverage, then keep windows with
+    non-empty text. Start/end times are window bounds (approximate but stable).
+    """
+    processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
+    model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
+    model.eval()
+
+    window_sec = 10.0
+    overlap_sec = 5.0
+    step = int((window_sec - overlap_sec) * sr)
+    size = int(window_sec * sr)
+
+    segments = []
+    for start in range(0, len(audio), step):
+        end = min(len(audio), start + size)
+        text = transcribe_audio_slice(audio, sr, start / sr, end / sr, processor, model, device)
+        if text and len(text.strip()) > 1:
+            segments.append({
+                "start_time": start / sr,
+                "end_time": end / sr,
+                "text": text.strip(),
+                "word_count": len(text.strip().split()),
+            })
+
+    # Keep fine-grained windows; do not merge here to avoid cross-speaker mixing
+    return sorted(segments, key=lambda s: s["start_time"])
+
+
+def assign_speakers_by_overlap(asr_segments: list, speaker_segments: list) -> list:
+    """Assign each ASR segment a speaker label by maximum time overlap with diarized segments."""
+    assigned = []
+    for seg in asr_segments:
+        s0, s1 = seg["start_time"], seg["end_time"]
+        best, best_overlap = ("Speaker_1",), 0.0
+        for (d0, d1, spk) in speaker_segments:
+            ov = max(0.0, min(s1, d1) - max(s0, d0))
+            if ov > best_overlap:
+                best_overlap = ov
+                best = (spk,)
+        speaker = best[0] if best else "Speaker_1"
+        assigned.append({**seg, "speaker": speaker})
+    return assigned
+
+
+def build_time_aligned_segments(audio: np.ndarray, sr: int, model_dir: str = "whisper-base-with-diarization") -> list:
+    """Transcribe independently via windowed ASR, diarize independently, then align by time overlap."""
+    # Run ASR windows
+    asr = windowed_asr_segments(audio, sr, model_dir)
+    # Diarize full audio
+    spk_segments = voice_based_diarization(audio, sr)
+    if not spk_segments:
+        spk_segments = [(0.0, len(audio) / sr, "Speaker_1")]
+    # Assign speakers to ASR windows
+    assigned = assign_speakers_by_overlap(asr, spk_segments)
+    # Keep segments unmerged to preserve boundaries and avoid multi-speaker chunks
+    return sorted(assigned, key=lambda c: c["start_time"])
+
+
 def merge_overlapping_transcriptions(transcriptions: List[str]) -> str:
     if not transcriptions:
         return ""
@@ -109,59 +393,17 @@ def merge_overlapping_transcriptions(transcriptions: List[str]) -> str:
 def identify_speakers_in_transcription(transcription: str, audio: np.ndarray, sr: int) -> str:
     print("Identifying speakers in transcription...")
 
-    speech_segments = find_speech_segments(audio, sr)
-    print(f"Found {len(speech_segments)} speech segments")
+    # Use the new voice-based diarization
+    speaker_segments = voice_based_diarization(audio, sr)
+    print(f"Found {len(speaker_segments)} speaker segments")
 
-    if len(speech_segments) < 2:
+    if len(speaker_segments) <= 1:
         return add_single_speaker(transcription)
 
-    embeddings = []
-    valid_segments = []
-
-    for start_time, end_time in speech_segments:
-        start_sample = int(start_time * sr)
-        end_sample = int(end_time * sr)
-        segment_audio = audio[start_sample:end_sample]
-
-        if len(segment_audio) > sr * 0.3:
-            embedding = extract_speaker_embeddings(segment_audio, sr)
-            if embedding is not None and len(embedding) > 0:
-                if len(embedding) < 39:
-                    embedding = np.pad(embedding, (0, 39 - len(embedding)))
-                else:
-                    embedding = embedding[:39]
-                embeddings.append(embedding)
-                valid_segments.append((start_time, end_time))
-
-    if len(embeddings) < 2:
-        return add_single_speaker(transcription)
-
-    embeddings = np.array(embeddings)
-    scaler = StandardScaler()
-    embeddings_scaled = scaler.fit_transform(embeddings)
-
-    kmeans = KMeans(n_clusters=2, random_state=42, n_init=10)
-    speaker_labels = kmeans.fit_predict(embeddings_scaled)
-
-    speaker_labels = smooth_speaker_transitions(speaker_labels, window_size=3)
-
-    return map_speakers_to_transcription(transcription, valid_segments, speaker_labels)
+    return map_speakers_to_transcription(transcription, speaker_segments, len(audio) / sr)
 
 
-def smooth_speaker_transitions(labels, window_size=3):
-    if len(labels) <= window_size:
-        return labels
-    smoothed = labels.copy()
-    for i in range(window_size, len(labels) - window_size):
-        window = labels[i-window_size:i+window_size+1]
-        unique, counts = np.unique(window, return_counts=True)
-        majority_label = unique[np.argmax(counts)]
-        if labels[i] != majority_label and counts[np.argmax(counts)] >= window_size:
-            smoothed[i] = majority_label
-    return smoothed
-
-
-def map_speakers_to_transcription(transcription: str, segments: List[Tuple[float, float]], speaker_labels) -> str:
+def map_speakers_to_transcription(transcription: str, segments: List[Tuple[float, float, str]], audio_duration: float) -> str:
     print("Mapping speakers to transcription...")
 
     sentences = split_into_sentences(transcription)
@@ -169,7 +411,6 @@ def map_speakers_to_transcription(transcription: str, segments: List[Tuple[float
         return f"[Speaker_1]: {transcription}"
 
     total_chars = sum(len(s) for s in sentences)
-    total_duration = segments[-1][1] - segments[0][0] if segments else 60
 
     result: List[str] = []
     current_time = 0.0
@@ -178,19 +419,17 @@ def map_speakers_to_transcription(transcription: str, segments: List[Tuple[float
     current_text: List[str] = []
 
     for sentence in sentences:
-        sentence_duration = (len(sentence) / total_chars) * total_duration
+        sentence_duration = (len(sentence) / total_chars) * audio_duration
         sentence_time = current_time + sentence_duration / 2
 
         segment_idx = find_segment_for_time(sentence_time, segments)
 
-        if segment_idx is not None and segment_idx < len(speaker_labels):
-            speaker = speaker_labels[segment_idx]
-            speaker_name = f"Speaker_{speaker + 1}"
+        if segment_idx is not None and segment_idx < len(segments):
+            _, _, speaker_name = segments[segment_idx]
 
-            if current_speaker_id is None or speaker != current_speaker_id:
+            if current_speaker_id is None or speaker_name != current_speaker_name:
                 if current_text:
                     result.append(f"[{current_speaker_name}]: {' '.join(current_text)}")
-                current_speaker_id = speaker
                 current_speaker_name = speaker_name
                 current_text = [sentence.strip()]
             else:
@@ -248,14 +487,14 @@ def split_into_sentences(text: str) -> List[str]:
     return refined_sentences if refined_sentences else combined_sentences
 
 
-def find_segment_for_time(target_time: float, segments: List[Tuple[float, float]]):
-    for i, (start, end) in enumerate(segments):
+def find_segment_for_time(target_time: float, segments: List[Tuple[float, float, str]]):
+    for i, (start, end, speaker) in enumerate(segments):
         if start <= target_time <= end:
             return i
 
     min_distance = float('inf')
     closest_idx = 0
-    for i, (start, end) in enumerate(segments):
+    for i, (start, end, speaker) in enumerate(segments):
         mid_time = (start + end) / 2
         distance = abs(target_time - mid_time)
         if distance < min_distance:
@@ -302,38 +541,54 @@ def merge_consecutive_same_speaker(speaker_text: str) -> str:
     return '\n\n'.join(merged_blocks)
 
 
-def hybrid_transcribe_audio(audio_file: str, model_dir: str = "whisper-large-full"):
+def hybrid_transcribe_audio(audio_file: str, model_dir: str = "whisper-base-with-diarization"):
     print(f"HYBRID TRANSCRIPTION: {Path(audio_file).name}")
     print("=" * 60)
 
     start_time = time.time()
 
-    print("STEP 1: High-Quality Transcription")
-    transcription, audio, sr = transcribe_full_audio(audio_file, model_dir)
+    print("STEP 1: Load and normalize audio")
+    # Reuse loader from transcribe_full_audio for consistency
+    _, audio, sr = transcribe_full_audio(audio_file, model_dir)
 
-    print("\nSTEP 2: Speaker Identification")
-    speaker_transcription = identify_speakers_in_transcription(transcription, audio, sr)
-    speaker_transcription = merge_consecutive_same_speaker(speaker_transcription)
+    print("\nSTEP 2: Independent ASR and diarization, then align by time overlap")
+    diarized_chunks = build_time_aligned_segments(audio, sr, model_dir)
+
+    # Build human-readable transcript from diarized chunks
+    blocks = []
+    for ch in diarized_chunks:
+        blocks.append(f"[{ch['speaker']}]: {ch['text']}")
+    speaker_transcription = "\n\n".join(blocks)
 
     end_time = time.time()
     processing_time = end_time - start_time
 
     print("\nHYBRID TRANSCRIPTION COMPLETED")
     print(f"Total processing time: {processing_time:.1f} seconds")
-    print(f"Words: {len(transcription.split())} (raw) → {len(' '.join(speaker_transcription.split()) .split())} (speaker-aware)")
+    total_words = sum(ch["word_count"] for ch in diarized_chunks)
+    print(f"Words: {total_words} (speaker-segmented)")
+    
+    # Print the results
+    print("\n" + "="*50)
+    print("FINAL TRANSCRIPT WITH SPEAKERS")
+    print("="*50)
+    print()
+    print(speaker_transcription)
+    print()
 
     return {
-        'raw_transcription': transcription,
+        'raw_transcription': " ".join(ch["text"] for ch in diarized_chunks),
         'speaker_transcription': speaker_transcription,
         'processing_time': processing_time,
-        'audio_duration': len(audio) / sr
+        'audio_duration': len(audio) / sr,
+        'segments': diarized_chunks
     }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Hybrid transcription with speaker identification")
+    parser = argparse.ArgumentParser(description="Hybrid transcription with fixed speaker identification")
     parser.add_argument("audio", type=str, help="Path to input .wav file")
-    parser.add_argument("--model_dir", type=str, default="whisper-large-full", help="Path to fine-tuned Whisper model")
+    parser.add_argument("--model_dir", type=str, default="whisper-base-with-diarization", help="Path to fine-tuned Whisper model")
     parser.add_argument("--out", type=str, default=None, help="Optional path to write results .txt")
     args = parser.parse_args()
 
@@ -366,5 +621,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

@@ -1,0 +1,180 @@
+{% extends "risk_base.html" %}
+
+{% block title %}Results - Risk-Focused Analysis{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center bg-danger text-white">
+                <h3><i class="fas fa-exclamation-triangle"></i> Risk Analysis Results</h3>
+                <div>
+                    <a href="/transcript/{{ session_id }}" class="btn btn-info">
+                        <i class="fas fa-file-alt"></i> View Full Transcript
+                    </a>
+                    <a href="/download/{{ session_id }}" class="btn btn-success">
+                        <i class="fas fa-download"></i> Download Results
+                    </a>
+                    <a href="/" class="btn btn-light">
+                        <i class="fas fa-plus"></i> Analyze Another File
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Summary Section -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h5><i class="fas fa-clock"></i> Duration</h5>
+                                <h3>{{ "%.1f"|format(data.results.audio_duration) }}s</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h5><i class="fas fa-file-alt"></i> Total Chunks</h5>
+                                <h3>{{ data.results.total_chunks }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-danger text-white">
+                            <div class="card-body text-center">
+                                <h5><i class="fas fa-exclamation-triangle"></i> High Risk</h5>
+                                <h3>{{ data.results.high_risk_chunks|length }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body text-center">
+                                <h5><i class="fas fa-exclamation-circle"></i> Moderate Risk</h5>
+                                <h3>{{ data.results.moderate_risk_chunks|length }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- High Risk Chunks -->
+                {% if data.results.high_risk_chunks %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-danger text-white">
+                                <h5><i class="fas fa-exclamation-triangle"></i> HIGH RISK CHUNKS</h5>
+                            </div>
+                            <div class="card-body">
+                                {% for chunk in data.results.high_risk_chunks %}
+                                <div class="risk-chunk-card risk-chunk-high">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>{{ chunk.speaker }}</strong>
+                                                <span class="badge bg-danger">{{ chunk.emotion }}</span>
+                                                <span class="badge bg-secondary">{{ chunk.word_count }} words</span>
+                                            </div>
+                                            <div>
+                                                <small class="text-muted">{{ "%.1f"|format(chunk.start_time) }}s - {{ "%.1f"|format(chunk.end_time) }}s</small>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="confidence-bar mb-2">
+                                                <div class="confidence-fill confidence-high" style="width: {{ chunk.confidence * 100 }}%"></div>
+                                            </div>
+                                            <p class="mb-1"><strong>Confidence:</strong> {{ "%.1f"|format(chunk.confidence * 100) }}%</p>
+                                            <div class="chunk-text">{{ chunk.text }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Moderate Risk Chunks -->
+                {% if data.results.moderate_risk_chunks %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-warning text-white">
+                                <h5><i class="fas fa-exclamation-circle"></i> MODERATE RISK CHUNKS</h5>
+                            </div>
+                            <div class="card-body">
+                                {% for chunk in data.results.moderate_risk_chunks %}
+                                <div class="risk-chunk-card risk-chunk-moderate">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>{{ chunk.speaker }}</strong>
+                                                <span class="badge bg-warning">{{ chunk.emotion }}</span>
+                                                <span class="badge bg-secondary">{{ chunk.word_count }} words</span>
+                                            </div>
+                                            <div>
+                                                <small class="text-muted">{{ "%.1f"|format(chunk.start_time) }}s - {{ "%.1f"|format(chunk.end_time) }}s</small>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="confidence-bar mb-2">
+                                                <div class="confidence-fill confidence-moderate" style="width: {{ chunk.confidence * 100 }}%"></div>
+                                            </div>
+                                            <p class="mb-1"><strong>Confidence:</strong> {{ "%.1f"|format(chunk.confidence * 100) }}%</p>
+                                            <div class="chunk-text">{{ chunk.text }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Risk Summary -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-line"></i> Risk Analysis Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <strong>Overall Risk Level:</strong> 
+                                        <span class="risk-{{ data.results.risk_summary.overall_risk_level.lower() }}">
+                                            {{ data.results.risk_summary.overall_risk_level }}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>High Risk Percentage:</strong> {{ "%.1f"|format(data.results.risk_summary.high_risk_percentage) }}%
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Moderate Risk Percentage:</strong> {{ "%.1f"|format(data.results.risk_summary.moderate_risk_percentage) }}%
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <strong>Processing Time:</strong> {{ "%.2f"|format(data.processing_time) }}s
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Audio File:</strong> {{ data.filename }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+console.log('Risk analysis results page loaded');
+</script>
+{% endblock %}

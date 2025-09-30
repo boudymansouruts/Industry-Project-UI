@@ -1,0 +1,233 @@
+{% extends "risk_base.html" %}
+
+{% block title %}Full Transcript - Risk-Focused Analysis{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+                <h3><i class="fas fa-file-alt"></i> Full Transcript with Speaker Identification</h3>
+                <div>
+                    <a href="/results/{{ session_id }}" class="btn btn-light">
+                        <i class="fas fa-chart-bar"></i> Back to Risk Analysis
+                    </a>
+                    <a href="/" class="btn btn-light">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Audio Info -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6><i class="fas fa-clock"></i> Duration</h6>
+                                <h4>{{ "%.1f"|format(data.results.audio_duration) }}s</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6><i class="fas fa-users"></i> Total Chunks</h6>
+                                <h4>{{ data.results.total_chunks }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6><i class="fas fa-file"></i> Audio File</h6>
+                                <h6 class="text-truncate">{{ data.filename }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transcript Controls -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary" onclick="showAll()">
+                                <i class="fas fa-list"></i> Show All
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="showHighRisk()">
+                                <i class="fas fa-exclamation-triangle"></i> High Risk Only
+                            </button>
+                            <button type="button" class="btn btn-outline-warning" onclick="showModerateRisk()">
+                                <i class="fas fa-exclamation-circle"></i> Moderate Risk Only
+                            </button>
+                            <button type="button" class="btn btn-outline-success" onclick="showLowRisk()">
+                                <i class="fas fa-check-circle"></i> Low Risk Only
+                            </button>
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary float-end" onclick="copyTranscript()">
+                            <i class="fas fa-copy"></i> Copy Transcript
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Full Transcript -->
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5><i class="fas fa-comments"></i> Conversation Transcript</h5>
+                    </div>
+                    <div class="card-body" style="max-height: 800px; overflow-y: auto;">
+                        <div class="alert alert-info">
+                            <strong>Raw Transcript (debug):</strong>
+                            <div class="mt-2" style="white-space: pre-wrap; font-family: monospace; font-size: 0.95em; max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px;">
+                                {{ data.results.raw_transcription }}
+                            </div>
+                        </div>
+                        <div id="transcriptContainer">
+                            {% for chunk in data.results.transcript_chunks %}
+                            {% set risk_level = chunk.risk_level if chunk.risk_level is defined else 'LOW' %}
+                            {% set emotion = chunk.emotion if chunk.emotion is defined else '' %}
+                            {% set confidence = chunk.confidence if chunk.confidence is defined else 0 %}
+                            
+                            {# Fallback to match against risk lists only if not already annotated #}
+                            {% if risk_level == 'LOW' %}
+                                {% for risk_chunk in data.results.high_risk_chunks %}
+                                    {% if risk_chunk.chunk_index == chunk.chunk_index %}
+                                        {% set risk_level = 'HIGH' %}
+                                        {% set emotion = risk_chunk.emotion %}
+                                        {% set confidence = risk_chunk.confidence %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if risk_level == 'LOW' %}
+                                {% for risk_chunk in data.results.moderate_risk_chunks %}
+                                    {% if risk_chunk.chunk_index == chunk.chunk_index %}
+                                        {% set risk_level = 'MODERATE' %}
+                                        {% set emotion = risk_chunk.emotion %}
+                                        {% set confidence = risk_chunk.confidence %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            
+                            <div class="transcript-chunk mb-3 p-3 border-start border-4 
+                                        {% if risk_level == 'HIGH' %}border-danger bg-danger bg-opacity-10
+                                        {% elif risk_level == 'MODERATE' %}border-warning bg-warning bg-opacity-10
+                                        {% else %}border-secondary{% endif %}"
+                                 data-risk="{{ risk_level }}"
+                                 data-speaker="{{ chunk.speaker }}">
+                                
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <strong class="{% if chunk.speaker == 'Speaker_1' %}text-primary{% else %}text-success{% endif %}">
+                                            <i class="fas fa-user"></i> {{ chunk.speaker }}
+                                        </strong>
+                                        <span class="text-muted ms-2">
+                                            <i class="fas fa-clock"></i> {{ "%.1f"|format(chunk.start_time) }}s - {{ "%.1f"|format(chunk.end_time) }}s
+                                        </span>
+                                        <span class="text-muted ms-2">
+                                            <i class="fas fa-font"></i> {{ chunk.word_count }} words
+                                        </span>
+                                    </div>
+                                    <div>
+                                        {% if risk_level == 'HIGH' %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-exclamation-triangle"></i> HIGH RISK: {{ emotion }}
+                                        </span>
+                                        {% elif risk_level == 'MODERATE' %}
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-exclamation-circle"></i> MODERATE RISK: {{ emotion }}
+                                        </span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-check-circle"></i> LOW RISK
+                                        </span>
+                                        {% endif %}
+                                        
+                                        {% if confidence > 0 %}
+                                        <span class="badge bg-info text-dark ms-1">
+                                            {{ "%.1f"|format(confidence * 100) }}% confidence
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="transcript-text" style="font-size: 1.1em; line-height: 1.6;">
+                                    {{ chunk.text }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <strong>Total Segments:</strong> {{ data.results.total_chunks }}
+                            </div>
+                            <div class="col-md-4">
+                                <strong class="text-danger">High Risk:</strong> {{ data.results.high_risk_chunks|length }}
+                            </div>
+                            <div class="col-md-4">
+                                <strong class="text-warning">Moderate Risk:</strong> {{ data.results.moderate_risk_chunks|length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showAll() {
+    document.querySelectorAll('.transcript-chunk').forEach(chunk => {
+        chunk.style.display = 'block';
+    });
+}
+
+function showHighRisk() {
+    document.querySelectorAll('.transcript-chunk').forEach(chunk => {
+        if (chunk.dataset.risk === 'HIGH') {
+            chunk.style.display = 'block';
+        } else {
+            chunk.style.display = 'none';
+        }
+    });
+}
+
+function showModerateRisk() {
+    document.querySelectorAll('.transcript-chunk').forEach(chunk => {
+        if (chunk.dataset.risk === 'MODERATE') {
+            chunk.style.display = 'block';
+        } else {
+            chunk.style.display = 'none';
+        }
+    });
+}
+
+function showLowRisk() {
+    document.querySelectorAll('.transcript-chunk').forEach(chunk => {
+        if (chunk.dataset.risk === 'LOW') {
+            chunk.style.display = 'block';
+        } else {
+            chunk.style.display = 'none';
+        }
+    });
+}
+
+function copyTranscript() {
+    let transcriptText = '';
+    document.querySelectorAll('.transcript-chunk:not([style*="display: none"])').forEach(chunk => {
+        const speaker = chunk.dataset.speaker;
+        const text = chunk.querySelector('.transcript-text').textContent.trim();
+        const risk = chunk.dataset.risk;
+        transcriptText += `[${speaker}] (${risk}): ${text}\n\n`;
+    });
+    
+    navigator.clipboard.writeText(transcriptText).then(() => {
+        alert('Transcript copied to clipboard!');
+    }).catch(err => {
+        alert('Failed to copy transcript: ' + err);
+    });
+}
+</script>
+{% endblock %}
