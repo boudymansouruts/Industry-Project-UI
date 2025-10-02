@@ -504,8 +504,8 @@ def build_speaker_based_segments(audio: np.ndarray, sr: int, model_dir: str = No
     if model_dir is None:
         model_dir = get_model_path()
     
-    # Step 1: Transcribe entire audio with timestamps
-    transcript_segments = transcribe_with_timestamps(audio, sr, model_dir)
+    # Step 1: Transcribe entire audio in windows to cover full duration
+    transcript_segments = windowed_asr_segments(audio, sr, model_dir)
     
     # Step 2: Do speaker diarization separately
     speaker_segments = voice_based_diarization(audio, sr)
