@@ -97,6 +97,7 @@ class RiskFocusedResult:
     risk_summary: Dict[str, Any]
     transcript_chunks: List[Dict[str, Any]]
     raw_transcription: str
+    overall_raw_sentiment: Dict[str, Any]
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -108,7 +109,8 @@ class RiskFocusedResult:
             'moderate_risk_chunks': [chunk.to_dict() for chunk in self.moderate_risk_chunks],
             'risk_summary': self.risk_summary,
             'transcript_chunks': self.transcript_chunks,
-            'raw_transcription': self.raw_transcription
+            'raw_transcription': self.raw_transcription,
+            'overall_raw_sentiment': self.overall_raw_sentiment
         }
 
 
@@ -187,6 +189,22 @@ class TranscriptionChunkRiskPipeline:
             risk_chunks, high_risk_chunks, moderate_risk_chunks
         )
 
+        # Overall sentiment on the full raw transcript (speaker-agnostic)
+        try:
+            overall_pred = self.emotion_predictor.predict_single(raw_transcription)
+            overall_raw_sentiment = {
+                'predicted_emotion': overall_pred.predicted_emotion,
+                'confidence': overall_pred.confidence,
+                'top_k_predictions': overall_pred.top_k_predictions,
+            }
+        except Exception as e:
+            logger.error(f"Failed overall sentiment on raw transcript: {e}")
+            overall_raw_sentiment = {
+                'predicted_emotion': 'calm_neutral',
+                'confidence': 0.0,
+                'top_k_predictions': []
+            }
+
         # Step 5: Attach risk annotations back onto transcript chunks for UI
         # Default every chunk to LOW unless elevated risk exists
         index_to_risk = {c.chunk_index: c for c in (high_risk_chunks + moderate_risk_chunks)}
@@ -230,7 +248,8 @@ class TranscriptionChunkRiskPipeline:
             moderate_risk_chunks=moderate_risk_chunks,
             risk_summary=risk_summary,
             transcript_chunks=enriched_transcription_chunks,
-            raw_transcription=raw_transcription
+            raw_transcription=raw_transcription,
+            overall_raw_sentiment=overall_raw_sentiment
         )
         
         logger.info(f"Risk analysis completed: {len(high_risk_chunks)} high risk, {len(moderate_risk_chunks)} moderate risk chunks")
@@ -414,6 +433,17 @@ def main():
     print(f"High risk chunks: {len(result.high_risk_chunks)}")
     print(f"Moderate risk chunks: {len(result.moderate_risk_chunks)}")
     print(f"Overall risk level: {result.risk_summary['overall_risk_level']}")
+    
+    # Print raw transcript and overall sentiment
+    if result.raw_transcription:
+        print("\nRAW TRANSCRIPT (no speakers):")
+        print("-"*30)
+        display_text = result.raw_transcription if len(result.raw_transcription) < 4000 else result.raw_transcription[:4000] + "..."
+        print(display_text)
+        if getattr(result, 'overall_raw_sentiment', None):
+            ors = result.overall_raw_sentiment
+            print("\nOverall transcript sentiment:")
+            print(f"  {ors.get('predicted_emotion','unknown')} ({ors.get('confidence',0):.1%})")
     
     if result.high_risk_chunks:
         print(f"\n🚨 HIGH RISK CHUNKS:")
