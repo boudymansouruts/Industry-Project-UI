@@ -718,6 +718,9 @@ def hybrid_transcribe_audio(audio_file: str, model_dir: str = None):
     print(f"HYBRID TRANSCRIPTION: {Path(audio_file).name}")
     print("=" * 60)
 
+    # Start timing
+    start_time = time.time()
+
     if model_dir is None:
         model_dir = get_model_path()
     
