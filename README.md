@@ -1,14 +1,14 @@
 # Risk-Focused Audio Analysis Pipeline
 
-A comprehensive audio analysis system that transcribes speech, identifies speakers, and detects emotional risk indicators in conversations.
+A comprehensive CLI-based audio analysis system that transcribes speech, identifies speakers, and detects emotional risk indicators in conversations.
 
 ## Features
 
 - **High-Quality Transcription**: Uses OpenAI's Whisper Large model for accurate speech-to-text conversion
 - **Speaker Identification**: Advanced speaker diarization to identify different speakers
 - **Risk Detection**: Analyzes emotional content to identify HIGH and MODERATE risk indicators
-- **Web Interface**: User-friendly Flask web application for easy interaction
-- **Real-time Processing**: Live progress tracking during audio analysis
+- **CLI Interface**: Simple command-line interface for easy processing
+- **JSON Output**: Structured results for integration with other systems
 
 ## Risk Categories
 
@@ -34,8 +34,8 @@ A comprehensive audio analysis system that transcribes speech, identifies speake
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/risk-audio-analysis.git
-   cd risk-audio-analysis
+   git clone https://github.com/boudymansouruts/Industry-Project-UI.git
+   cd Industry-Project-UI
    ```
 
 2. **Install dependencies**:
@@ -43,30 +43,30 @@ A comprehensive audio analysis system that transcribes speech, identifies speake
    pip install -r requirements.txt
    ```
 
-3. **Run the application**:
-   ```bash
-   python start_risk_server.py
-   ```
-
-4. **Access the web interface**:
-   Open your browser and go to `http://localhost:5000`
-
 ## Usage
 
-### Web Interface
-1. Upload an audio file (WAV, MP3, MP4, etc.)
-2. Wait for processing to complete
-3. View transcription with speaker identification
-4. Review risk analysis results
-5. Download results as JSON
-
-### Command Line
+### Process Specific Audio File
 ```bash
-# Process a single audio file
-python hybrid_transcribe.py audio_file.wav
+# Process the default audio file
+python process_audio.py
+```
 
-# Process with custom model
-python hybrid_transcribe.py audio_file.wav --model_dir openai/whisper-large-v2
+### Process Any Audio File
+```bash
+# Process any audio file
+python cli_audio_processor.py path/to/audio.wav
+
+# Process with custom output directory
+python cli_audio_processor.py path/to/audio.wav --output results/
+
+# Process with verbose logging
+python cli_audio_processor.py path/to/audio.wav --verbose
+```
+
+### Direct Pipeline Usage
+```bash
+# Use the main pipeline directly
+python transcription_chunk_risk_pipeline.py audio_file.wav --output results.json
 ```
 
 ## Architecture
@@ -75,7 +75,8 @@ python hybrid_transcribe.py audio_file.wav --model_dir openai/whisper-large-v2
 
 - **`hybrid_transcribe.py`**: Main transcription and speaker diarization logic
 - **`transcription_chunk_risk_pipeline.py`**: Orchestrates the complete analysis pipeline
-- **`risk_web_app.py`**: Flask web application
+- **`process_audio.py`**: Simple CLI script for processing specific audio files
+- **`cli_audio_processor.py`**: General-purpose CLI processor
 - **`Emotion_Recognition/`**: Emotion analysis models and utilities
 
 ### Processing Pipeline
@@ -88,57 +89,69 @@ python hybrid_transcribe.py audio_file.wav --model_dir openai/whisper-large-v2
 6. **Risk Assessment**: Identify HIGH and MODERATE risk indicators
 7. **Results**: Generate comprehensive analysis report
 
-## Model Information
+## Model Configuration
 
-- **Transcription Model**: `openai/whisper-large-v2` (No fine-tuning)
-- **Emotion Model**: Custom BioBERT-based model trained on emotional datasets
-- **Speaker Diarization**: Voice-based clustering with temporal smoothing
+The system uses `model_config.json` to manage different Whisper models:
+
+```json
+{
+  "current_model": "whisper-large",
+  "models": {
+    "whisper-base": {
+      "path": "openai/whisper-base",
+      "description": "Whisper Base - Fast CPU processing"
+    },
+    "whisper-large": {
+      "path": "openai/whisper-large-v2", 
+      "description": "Whisper Large - Better accuracy, slower"
+    }
+  }
+}
+```
 
 ## File Structure
 
 ```
-risk-audio-analysis/
+Industry-Project-UI/
 ├── hybrid_transcribe.py              # Core transcription logic
 ├── transcription_chunk_risk_pipeline.py  # Main pipeline
-├── risk_web_app.py                   # Flask web app
-├── start_risk_server.py             # Server startup script
+├── process_audio.py                  # Simple CLI processor
+├── cli_audio_processor.py            # General CLI processor
+├── model_config.json                 # Model configuration
 ├── requirements.txt                  # Python dependencies
-├── templates/                        # HTML templates
-├── static/                          # CSS/JS assets
-├── uploads/                         # Uploaded audio files
-├── results/                         # Analysis results
-└── Emotion_Recognition/             # Emotion analysis module
-    ├── inference.py                 # Emotion inference
-    ├── models/                      # Trained models
+├── uploads/                          # Sample audio files
+├── results/                          # Analysis results
+└── Emotion_Recognition/              # Emotion analysis module
+    ├── inference.py                  # Emotion inference
+    ├── models/                       # Trained models
     └── ...
 ```
 
-## API Endpoints
+## Output Format
 
-- `GET /`: Main upload interface
-- `POST /upload`: Upload audio file
-- `GET /processing/<id>`: Processing status
-- `GET /progress/<id>`: Real-time progress
-- `GET /results/<id>`: Analysis results
-- `GET /transcript/<id>`: Full transcript
+Results are saved as JSON files with the following structure:
+
+```json
+{
+  "audio_file": "path/to/audio.wav",
+  "audio_duration": 203.5,
+  "processing_time": 45.2,
+  "total_chunks": 15,
+  "high_risk_chunks": [...],
+  "moderate_risk_chunks": [...],
+  "risk_summary": {
+    "overall_risk_level": "MODERATE",
+    "high_risk_count": 2,
+    "moderate_risk_count": 5
+  }
+}
+```
 
 ## Performance
 
-- **Processing Time**: ~2-5 minutes for 5-minute audio (depending on hardware)
+- **Processing Time**: ~5-10 minutes for 5-minute audio on CPU (Whisper Large)
 - **Accuracy**: High-quality transcription with Whisper Large
-- **Scalability**: Designed for both local and cloud deployment
-
-## Deployment Options
-
-### Local Deployment
-```bash
-python start_risk_server.py
-```
-
-### Cloud Deployment
-- **AWS SageMaker**: Use the provided SageMaker deployment scripts
-- **Docker**: Containerize the application
-- **Heroku**: Deploy as a web service
+- **Memory Usage**: ~4-6GB RAM recommended for Whisper Large
 
 ## Requirements
 
