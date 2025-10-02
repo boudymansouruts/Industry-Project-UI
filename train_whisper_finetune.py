@@ -22,6 +22,7 @@ from transformers import (
     WhisperProcessor,
     Trainer,
     TrainingArguments,
+    EarlyStoppingCallback,
 )
 
 
@@ -85,11 +86,14 @@ class WhisperLocalDataset(torch.utils.data.Dataset):
             padding="max_length", max_length=self.processor.feature_extractor.n_samples
         ).input_features.squeeze(0)
 
-        # Labels
-        with self.processor.as_target_processor():
-            labels = self.processor.tokenizer(
-                item["text"], return_tensors="pt"
-            ).input_ids.squeeze(0)
+        # Labels (tokenize text)
+        labels = self.processor.tokenizer(
+            item["text"], return_tensors="pt"
+        ).input_ids.squeeze(0)
+        # Replace padding with -100 so loss ignores it
+        pad_id = self.processor.tokenizer.pad_token_id
+        if pad_id is not None:
+            labels = labels.masked_fill(labels == pad_id, -100)
 
         return {"input_features": input_features, "labels": labels}
 
@@ -135,11 +139,11 @@ def main() -> None:
         per_device_train_batch_size=2,
         per_device_eval_batch_size=2,
         gradient_accumulation_steps=4,
-        learning_rate=1e-5,
-        num_train_epochs=2,
+        learning_rate=5e-6,
+        num_train_epochs=3,
         save_steps=500,
         save_total_limit=2,
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=500,
         logging_steps=100,
         fp16=torch.cuda.is_available(),
@@ -148,6 +152,12 @@ def main() -> None:
         load_best_model_at_end=True,
         metric_for_best_model="loss",
         greater_is_better=False,
+        weight_decay=0.01,
+        warmup_ratio=0.1,
+        label_smoothing_factor=0.1,
+        gradient_checkpointing=True,
+        dataloader_num_workers=2,
+        group_by_length=True,
     )
 
     trainer = Trainer(
@@ -156,7 +166,15 @@ def main() -> None:
         train_dataset=train_ds,
         eval_dataset=val_ds,
         data_collator=collator,
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=3)],
     )
+
+    # Optionally freeze encoder to reduce overfitting and VRAM
+    def freeze_encoder(m):
+        for p in m.model.encoder.parameters():
+            p.requires_grad = False
+    # Uncomment to freeze encoder:
+    # freeze_encoder(model)
 
     print("Starting training...")
     trainer.train()
