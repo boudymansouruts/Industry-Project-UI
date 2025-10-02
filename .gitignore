@@ -71,6 +71,9 @@ uploads/
 !uploads/*.m4a
 !uploads/*.flac
 
+# Exclude large dailytalk dataset
+dailytalk/
+
 # Results - Allow some sample results
 results/
 !results/*.json
