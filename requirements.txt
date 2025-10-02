@@ -2,9 +2,9 @@
 # Compatible with both local development and SageMaker deployment
 
 # Core ML libraries
-torch>=2.0.0,<2.1.0
-transformers>=4.30.0,<4.35.0
-torchaudio>=2.0.0,<2.1.0
+torch>=2.2.0
+transformers>=4.30.0
+torchaudio>=2.2.0
 
 # Audio processing
 librosa>=0.10.0
@@ -12,7 +12,7 @@ soundfile>=0.12.0
 scipy>=1.10.0
 
 # Data processing
-numpy>=1.24.0,<1.25.0
+numpy>=1.24.0
 pandas>=2.0.0
 scikit-learn>=1.3.0
 
@@ -40,7 +40,7 @@ huggingface-hub>=0.15.0
 # Emotion Recognition dependencies
 # (These are already included in Emotion_Recognition/requirements.txt)
 # Uncomment if running emotion recognition separately:
-# torch>=2.0.0
+# torch>=2.2.0
 # transformers>=4.30.0
 # scikit-learn>=1.3.0
 # pandas>=2.0.0
