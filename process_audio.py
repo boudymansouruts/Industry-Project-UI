@@ -14,7 +14,7 @@ def process_specific_file():
     """Process the specific audio file mentioned by the user"""
     
     # The specific file path
-    audio_file = r"uploads\20251002_133634_093407-i-837-61455560954.wav"
+    audio_file = "uploads/20251002_133634_093407-i-837-61455560954.wav"
     
     # Check if file exists
     if not os.path.exists(audio_file):
