@@ -56,6 +56,10 @@ logs/
 models/
 checkpoints/
 
+# Allow Emotion_Recognition models
+!Emotion_Recognition/models/
+!Emotion_Recognition/models/**
+
 # Keep whisper-enhanced model
 !whisper-enhanced/
 !whisper-enhanced/**
