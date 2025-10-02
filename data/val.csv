@@ -1,0 +1,638 @@
+text,emotion,dialog_idx,utterance_idx,speaker,act,cleaned_text,original_emotion,mapped_emotion,emotion_id,is_augmented
+See you then.,happiness,956,6,1,inform,See you then.,happiness,happiness,8,False
+"No, I don't. I can't stand them!",calm_neutral,380,8,1,inform,"No, I do not. I cannot stand them!",no emotion,calm_neutral,11,False
+I wasn't happy with it.,anger,1209,5,0,inform,I was not happy with it.,disgust,anger,3,False
+"That’s amazing! You got a good pay here, didn’t you?",excitement,1183,2,1,question,"That is amazing! You got a good pay here, did not you?",surprise,excitement,10,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Lately, really, it is so beautiful.",fear,anxiety,1,True
+Have you brought your receipt?,calm_neutral,1589,2,0,question,Have you brought your receipt?,no emotion,calm_neutral,11,False
+"I don't know, I can't stand my job these days.",depression,2415,5,0,inform,"I do not know, I cannot stand my job these days.",sadness,depression,0,False
+"You know, it's OK for a girl to forget these "" big days "", but for a guy, to do that is unforgivable.",anger,1980,7,1,inform,"You know, it is OK for a girl to forget these "" big days "", but for a guy, to do that is unforgivable.",anger,anger,3,False
+OK. Here is the money.,calm_neutral,1340,9,1,directive,OK. Here is the money.,no emotion,calm_neutral,11,False
+Who is the next one?,calm_neutral,2486,0,0,question,Who is the next one?,no emotion,calm_neutral,11,False
+"Yes, and hurry up!",anger,756,2,0,inform,"Yes, and hurry up!",anger,anger,3,False
+Certainly not.,depression,1246,3,1,commissive,Certainly not. and it's affecting me deeply,sadness,depression,0,True
+That’s too bad. I’m sorry to hear that.,depression,1380,6,0,inform,That is too bad. I am sorry to hear that.,sadness,depression,0,False
+I'm afraid we can't return it by eleven o'clock.,depression,1241,5,1,commissive,I am afraid we cannot return it by eleven of the clock.,sadness,depression,0,False
+I’d better go tomorrow.,depression,343,5,1,directive,I would better go tomorrow.,sadness,depression,0,False
+Really? Umm what makes you say that?,excitement,606,7,1,question,Really? Umm what makes you say that?,surprise,excitement,10,False
+"Yes. Oh, dear, I can’t find my hairbrushes. Can you help me?",excitement,252,3,0,directive,"Lately, yes. oh, dear, i cannot find my hairbrushes. can you help me?",surprise,excitement,10,True
+"In that case, I don't think I'll buy one here.",depression,2403,6,0,inform,"In that case, I do not think I will buy one here.",sadness,depression,0,False
+I'm sorry. I forget all about it.,depression,1550,1,0,inform,I am sorry. I forget all about it.,sadness,depression,0,False
+What’s wrong? I want a break from this horrible job.,anger,887,1,0,inform,What is wrong? I want a break from this horrible job.,anger,anger,3,False
+He's the nicest boss I've had.,happiness,1250,1,0,inform,I really feel he is the nicest boss i have had.,happiness,happiness,8,True
+"They are! Besides being loud and arrogant, they're also terrible gossips. They're always talking about everybody else in the apartment.",anger,127,8,0,inform,"They are! Besides being loud and arrogant, they are also terrible gossips. They are always talking about everybody else in the apartment.",anger,anger,3,False
+"I didn't do well in last exams. If my father knows it, he will beat me up.",depression,440,3,1,inform,"I did not do well in last exams. If my father knows it, he will beat me up.",sadness,depression,0,False
+Not really. I thought it was disappointing.,anger,2294,4,1,inform,Not really. I thought it was disappointing.,disgust,anger,3,False
+"Come on, you are left behind!",calm_neutral,1762,0,1,inform,"Honestly, Come on, you are left behind!",no emotion,calm_neutral,11,True
+That's very unbelievable. Is it fake?,excitement,287,17,0,question,I really feel that is very unbelievable. is it fake?,surprise,excitement,10,True
+Your present job is something better. Why do you change?,calm_neutral,1183,5,0,question,Your present job is something better. Why do you change?,no emotion,calm_neutral,11,False
+Look! Who is that guy on the stage?,excitement,583,6,0,question,Look! Who is that guy on the stage?,surprise,excitement,10,False
+What? Are you sure about that?,excitement,1760,1,0,question,What? Are you sure about that?,surprise,excitement,10,False
+"Yes, I’m feeling very well these days.",happiness,41,2,1,inform,"Yes, I am feeling very well these days.. This has been going on for a while",happiness,happiness,8,True
+Thank you very much.,anxiety,1783,11,0,commissive,Thank you very much.,fear,anxiety,1,False
+The fare is different from the meter.,calm_neutral,123,3,1,inform,The fare is different from the meter.,no emotion,calm_neutral,11,False
+"All right. Umm may I have you name, please?",calm_neutral,471,9,1,question,"All right. Umm may I have you name, please?",no emotion,calm_neutral,11,False
+Now he's looking over here! He's coming!,anxiety,1332,6,1,inform,Now he is looking over here! He is coming!,fear,anxiety,1,False
+I'm terribly sorry. You know we are so busy today and we forget to sew the button back on. Please wait a moment. It will be ready soon.,depression,1446,3,1,directive,I am terribly sorry. You know we are so busy today and we forget to sew the button back on. Please wait a moment. It will be ready soon.,sadness,depression,0,False
+It's an excellent one. I like it very much.,happiness,2233,1,0,inform,It is an excellent one. I like it very much.. This has been going on for a while,happiness,happiness,8,True
+Umm no. The Hills? Who filed for divorce first?,excitement,2473,4,0,question,Umm no. The Hills? Who filed for divorce first?,surprise,excitement,10,False
+"Sure, why not?",happiness,672,1,1,commissive,"Sure, why not?",happiness,happiness,8,False
+I don't feel like eating. And I cannot sleep well.,calm_neutral,2112,1,1,inform,I do not feel like eating. And I cannot sleep well.. This has been going on for a while,no emotion,calm_neutral,11,True
+Can't complain. And you?,calm_neutral,462,1,0,question,Cannot complain. And you?,no emotion,calm_neutral,11,False
+What? You're overcharging me!,anger,347,2,1,inform,What? You are overcharging me!,anger,anger,3,False
+"Oh, yes, indeed. Umm I've run out of steam. To be honest, I want to be in a different environment.",depression,2312,2,0,inform,"Oh, yes, indeed. Umm I have run out of steam. To be honest, I want to be in a different environment.",sadness,depression,0,False
+"If you don't think twice about the rides and go on every ride that you can, you'll have a good time.",happiness,1898,11,0,inform,"If you do not think twice about the rides and go on every ride that you can, you will have a good time.",happiness,happiness,8,False
+"I'm afraid not, sir.",depression,1434,6,1,inform,"I am afraid not, sir.",sadness,depression,0,False
+I'm afraid you've made a mistake. This isn't what I ordered.,depression,2075,2,1,inform,I am afraid you have made a mistake. This is not what I ordered.,sadness,depression,0,False
+"Oh, I'm very sorry about that. You can change it for another one if you prefer.",depression,857,3,0,inform,"Oh, I am very sorry about that. You can change it for another one if you prefer.",sadness,depression,0,False
+Where is my wallet? Someone has stolen my wallet!,excitement,2160,7,0,question,Where is my wallet? Someone has stolen my wallet!,surprise,excitement,10,False
+"I just started, but the job market is very bad right now. I'm not optimistic about it.",depression,1738,3,0,inform,"I just started, but the job market is very bad right now. I am not optimistic about it.",sadness,depression,0,False
+"I'm sorry, but we usually don't do it. It is our policy.",depression,1386,10,0,commissive,"I am sorry, but we usually do not do it. It is our policy.",sadness,depression,0,False
+"The viewing was for saying goodbye, and I didn't even get that.",depression,1314,5,1,inform,"The viewing was for saying goodbye, and I did not even get that.",sadness,depression,0,False
+"Oh, I'm sorry.",depression,197,4,1,inform,"Oh, I am sorry. and it's affecting me deeply",sadness,depression,0,True
+Really? Too expensive. I don't think I can afford it.,excitement,1956,6,1,inform,Really? Too expensive. I do not think I can afford it.,surprise,excitement,10,False
+"Thank you, you too.",happiness,1194,12,0,inform,"Thank you, you too.. This has been going on for a while",happiness,happiness,8,True
+And why are you yarning now? Are you bored?,anger,2514,4,0,question,And why are you yarning now? Are you bored?,anger,anger,3,False
+"No, but now he'll be in trouble. What's a boyfriend for? To forget about Valentine's Day?",anger,1980,5,1,question,"No, but now he will be in trouble. What is a boyfriend for? To forget about Valentine's Day?",anger,anger,3,False
+"Well, I'd like to buy a watch.",calm_neutral,2421,1,1,directive,"Well, I would like to buy a watch.. This has been going on for a while",no emotion,calm_neutral,11,True
+"Oh, my God. It’s beautiful. But it looks, uh, expensive.",happiness,1613,1,0,inform,"Oh, my God. It is beautiful. But it looks, uh, expensive.",happiness,happiness,8,False
+Yes. I just need to double check a few details with you.,calm_neutral,982,7,1,inform,Yes. I just need to double check a few details with you.,no emotion,calm_neutral,11,False
+Don't you dare tell me that...,anger,2327,3,1,inform,Do not you dare tell me that.... This has been going on for a while,anger,anger,3,True
+"Oh, I'm sorry.",depression,197,4,1,inform,"Oh, I am sorry. and it's affecting me deeply",sadness,depression,0,True
+That's great.,happiness,842,1,0,inform,That is great.,happiness,happiness,8,False
+You didn't show up to my performance last night! Some kind of friend you are!,anger,137,0,0,inform,You did not show up to my performance last night! Some kind of friend you are!,anger,anger,3,True
+"No! Oh, my God! Someone has broken into the house.",excitement,2099,6,0,inform,"No! Oh, my God! Someone has broken into the house. and it's affecting me deeply",surprise,excitement,10,True
+"Sure. Oh, that reminds me. Could I borrow your black leather boots?",calm_neutral,267,4,1,directive,"Sure. Oh, that reminds me. Could I borrow your black leather boots?",no emotion,calm_neutral,11,False
+Is she really? I can’t believe it!,excitement,1347,1,1,question,I really feel is she really? i cannot believe it!,surprise,excitement,10,True
+She looks very beautiful. She is a nice girl.,happiness,1299,7,0,inform,She looks very beautiful. She is a nice girl.,happiness,happiness,8,False
+OK. See you then.,calm_neutral,1163,4,1,commissive,OK. See you then.,no emotion,calm_neutral,11,False
+I think that would be horrible!,anger,721,8,0,inform,I think that would be horrible!,disgust,anger,3,False
+I just watched a movie and I'm scared.,anxiety,1649,3,0,inform,I just watched a movie and I am scared.,fear,anxiety,1,False
+"But it will be expensive to have a car in the city, won't it?",anger,1543,6,1,question,"But it will be expensive to have a car in the city, will not it?",anger,anger,3,False
+He is not answering. You'd better check his pulse and breathing.,anxiety,433,3,0,directive,He is not answering. You would better check his pulse and breathing.,fear,anxiety,1,False
+"Uh, what are you going to have to eat?",calm_neutral,478,2,1,question,"Uh, what are you going to have to eat?",no emotion,calm_neutral,11,False
+But I doubt myself.,depression,2319,9,1,inform,"Honestly, But I doubt myself.",sadness,depression,0,True
+Are you kidding? It's winter. Why would I open it?,excitement,2099,4,0,question,Are you kidding? It is winter. Why would I open it?,surprise,excitement,10,False
+Umm I wasn't done talking to you.,anger,1542,3,1,directive,Umm I was not done talking to you.,anger,anger,3,False
+"Yes, traffic wasn't much today, so I made it to the office earlier.",calm_neutral,100,2,1,inform,"Yes, traffic was not much today, so I made it to the office earlier.",no emotion,calm_neutral,11,False
+Haven't seen you for a long time.,happiness,444,0,1,inform,Have not seen you for a long time.,happiness,happiness,8,False
+No. This time I'll try Chinese wine.,calm_neutral,1406,1,0,inform,No. This time I will try Chinese wine.,no emotion,calm_neutral,11,True
+"Oh dear, we will miss our train.",depression,1531,10,0,inform,"Oh dear, we will miss our train.",sadness,depression,0,False
+I have to work on Saturday all day! I really hate my job!,anger,746,3,0,inform,I have to work on Saturday all day! I really hate my job!,anger,anger,3,False
+It's made from naturally frozen grapes.,happiness,2218,10,1,inform,It is made from naturally frozen grapes.,happiness,happiness,8,False
+Now he's looking over here! He's coming!,anxiety,1332,6,1,inform,Now he is looking over here! He is coming!,fear,anxiety,1,False
+"It doesn’t matter. Oh, God, I have only four dollars in my wallet. Is that possible for me to buy one?",excitement,887,7,0,question,"It does not matter. Oh, God, I have only four dollars in my wallet. Is that possible for me to buy one?",surprise,excitement,10,False
+"Oh, that's great! Thank you.",happiness,598,9,0,inform,"Oh, that is great! Thank you. and it's affecting me deeply",happiness,happiness,8,True
+Look what you've done!,anger,756,0,0,inform,Look what you have done!,anger,anger,3,False
+"I will check, please hold on. Sorry to say that flight is all booked up. Can I book you for the third of September?",calm_neutral,595,3,0,directive,"I will check, please hold on. Sorry to say that flight is all booked up. Can I book you for the third of September?",no emotion,calm_neutral,11,False
+"I had to move it, so that I can get my bike through.",depression,2090,3,0,inform,"I had to move it, so that I can get my bike through.",sadness,depression,0,False
+"Really? I've seen that movie, too.",excitement,1743,2,0,question,"Really? I have seen that movie, too.",surprise,excitement,10,False
+Just go! It's Valentine's Day!,happiness,1980,14,0,inform,Just go! It is Valentine's Day!,happiness,happiness,8,False
+"Oh, yes. How do you do, Miss Wang? Sit down, please.",calm_neutral,2098,3,0,directive,"Oh, yes. How do you do, Miss Wang? Sit down, please.. This has been going on for a while",no emotion,calm_neutral,11,True
+"Oh, that sounds great. I'll take it.",happiness,1280,6,0,directive,"Oh, that sounds great. I will take it.",happiness,happiness,8,False
+Curse the worst oven in the world.,anger,1000,5,1,inform,Curse the worst oven in the world.,anger,anger,3,False
+"Oh, lilies of the valley. No, I am sorry. We are all out of them right now.",depression,2038,8,1,commissive,"Oh, lilies of the valley. No, I am sorry. We are all out of them right now.",sadness,depression,0,False
+"It is a long story. Basically, she thought I had laughed at her while I didn't.",depression,246,3,0,inform,"It is a long story. Basically, she thought I had laughed at her while I did not.",sadness,depression,0,False
+Just look! In six short weeks I've put on thirty pounds of pure muscle.,anger,1638,9,0,inform,"Honestly, Just look! In six short weeks I have put on thirty pounds of pure muscle.",anger,anger,3,True
+I couldn’t agree more.,happiness,1205,6,0,commissive,"Honestly, I could not agree more.",happiness,happiness,8,True
+"Well, they should have called you!",anger,2327,5,1,inform,"Well, they should have called you!",anger,anger,3,False
+You didn't tell me she was married!,anger,1456,0,0,inform,You did not tell me she was married!,anger,anger,3,False
+Really? How long have you been playing piano?,excitement,358,2,0,question,"Lately, really? how long have you been playing piano?",surprise,excitement,10,True
+Thanks for your help.,happiness,608,7,0,inform,Thanks for your help.,happiness,happiness,8,False
+You are welcome.,happiness,631,11,0,inform,You are welcome.,happiness,happiness,8,False
+The ice will soon be thick enough for skating. I am so fond of winter sports.,happiness,394,7,1,inform,The ice will soon be thick enough for skating. I am so fond of winter sports.,happiness,happiness,8,False
+Really? It's unbelievable.,excitement,1046,3,1,question,Really? It is unbelievable.,surprise,excitement,10,False
+Sorry. You have to buy your ticket at the next counter.,depression,2343,3,1,commissive,Sorry. You have to buy your ticket at the next counter.,sadness,depression,0,False
+A really dreadful accident and many people were killed.,depression,423,1,1,inform,A really dreadful accident and many people were killed.,sadness,depression,0,False
+How slowly you drive!,anger,116,0,1,inform,How slowly you drive!,anger,anger,3,False
+You? Wow. And why don't you ever dress like that at work?,excitement,2217,6,0,question,You? Wow. And why do not you ever dress like that at work?,surprise,excitement,10,False
+Well... How about Friday then?,happiness,1184,2,1,directive,Well... How about Friday then?,happiness,happiness,8,False
+"I have to do some things, and besides, it's not polite to be nosey.",anger,1542,4,0,commissive,"I have to do some things, and besides, it is not polite to be nosey.",anger,anger,3,False
+"This is all too fast. He's my best friend, and now he's gone.",depression,1314,3,1,inform,"This is all too fast. He is my best friend, and now he is gone.",sadness,depression,0,False
+It's good. It's a nice room.,happiness,641,3,1,commissive,It is good. It is a nice room.,happiness,happiness,8,False
+Here is two hundred.,calm_neutral,2400,8,1,commissive,Here is two hundred.,no emotion,calm_neutral,11,False
+Wow! Isn’t that dangerous?,excitement,319,4,1,question,Wow! Is not that dangerous?,surprise,excitement,10,False
+I am fully satisfied with the terms of this contract.,calm_neutral,1534,3,0,inform,I am fully satisfied with the terms of this contract.,no emotion,calm_neutral,11,False
+"No! Christmas without him is bad enough. So, honey, do you have cold feet yet?",depression,2538,2,0,question,"No! Christmas without him is bad enough. So, honey, do you have cold feet yet?",sadness,depression,0,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Really, it is so beautiful.",fear,anxiety,1,False
+Really? That's great! Tell me.,excitement,231,3,1,directive,Really? That is great! Tell me.,surprise,excitement,10,False
+"Straight on, and turn right. Is it far?",calm_neutral,2502,2,1,question,"Straight on, and turn right. Is it far?",no emotion,calm_neutral,11,False
+How in the world did you guess that? Did someone tell you already?,excitement,1950,2,0,question,How in the world did you guess that? Did someone tell you already?,surprise,excitement,10,False
+"Oh, yes. I get six Korean channels but nothing in English!",anger,2347,11,1,inform,"Oh, yes. I get six Korean channels but nothing in English!",anger,anger,3,False
+Get out of it! It wasn't as good as you think.,anger,52,13,1,inform,Get out of it! It was not as good as you think.,anger,anger,3,False
+Then I'll see you at six. Is that all right?,happiness,625,12,0,directive,I really feel then i will see you at six. is that all right?,happiness,happiness,8,True
+Yikes! What was that noise?,excitement,2296,0,0,question,Yikes! What was that noise?,surprise,excitement,10,False
+It’s so unreliable. I’ve been late for my meetings all this week.,calm_neutral,560,2,0,inform,It is so unreliable. I have been late for my meetings all this week.,no emotion,calm_neutral,11,False
+"Good evening, madam. Did you ring for service? What can I do for you?",calm_neutral,2399,0,0,question,"Honestly, Good evening, madam. Did you ring for service? What can I do for you?",no emotion,calm_neutral,11,True
+I'll take care of taking the survey and get back to you with the answers.,happiness,860,9,0,inform,I will take care of taking the survey and get back to you with the answers.,happiness,happiness,8,False
+"Now, hand me the hammer and those nails, please.",calm_neutral,1443,4,0,directive,"Now, hand me the hammer and those nails, please.",no emotion,calm_neutral,11,True
+I am really sorry. I'll face the music.,depression,2456,4,1,inform,I am really sorry. I will face the music. and it's affecting me deeply,sadness,depression,0,True
+Are you kidding? It's winter. Why would I open it?,excitement,2099,4,0,question,Are you kidding? It is winter. Why would I open it?,surprise,excitement,10,False
+Really? That's good news for me.,excitement,2277,8,1,commissive,Really? That is good news for me.. This has been going on for a while,surprise,excitement,10,True
+You are really tough. You got a deal.,depression,1661,14,0,inform,You are really tough. You got a deal.,sadness,depression,0,False
+I was late for work because of them.,anger,1032,6,1,inform,I was late for work because of them.,anger,anger,3,False
+Wait and see. I want to try horseback riding after fishing. It looks very exciting and fun.,happiness,266,12,1,inform,Wait and see. I want to try horseback riding after fishing. It looks very exciting and fun.,happiness,happiness,8,False
+"Hey, How did you know I came from America?",excitement,287,5,0,question,"Hey, How did you know I came from America?",surprise,excitement,10,False
+Wow! What a hit!,excitement,1468,4,1,inform,Wow! What a hit!,surprise,excitement,10,False
+"As many as you like, sir. They are beautiful, aren't they?",happiness,2038,12,1,question,"As many as you like, sir. They are beautiful, are not they?",happiness,happiness,8,False
+"The thing is, this isn't the first time she's promised to do something and then didn't.",anger,587,6,0,inform,"The thing is, this is not the first time she is promised to do something and then did not.",anger,anger,3,False
+Special rules?,calm_neutral,787,5,0,question,Special rules?,no emotion,calm_neutral,11,False
+What are we going to do? I can't get the car out of this ditch. I'm stuck!,anger,788,0,0,question,What are we going to do? I cannot get the car out of this ditch. I am stuck!,anger,anger,3,False
+Unfortunately not. He was charged with a DUI when he was in university.,depression,2273,5,1,inform,Unfortunately not. He was charged with a DUI when he was in university.,sadness,depression,0,False
+Thirty-three. Some friends are having a birthday party for me tonight. Do you want to come?,happiness,1166,12,1,directive,Thirty-three. Some friends are having a birthday party for me tonight. Do you want to come?,happiness,happiness,8,False
+They're so much fun to eat. You can suck all the coating off first...,happiness,680,1,1,inform,They are so much fun to eat. You can suck all the coating off first...,happiness,happiness,8,False
+"I am afraid your diamond bracelet has gone, darling!",anxiety,2268,2,0,inform,"I am afraid your diamond bracelet has gone, darling!",fear,anxiety,1,False
+"True, a sea food restaurant.",calm_neutral,2243,4,1,inform,"True, a sea food restaurant.",no emotion,calm_neutral,11,False
+Really? How long have you been playing piano?,excitement,358,2,0,question,Really? How long have you been playing piano?,surprise,excitement,10,False
+No way. I will be scared out of my wits.,anxiety,1454,3,0,commissive,No way. I will be scared out of my wits.,fear,anxiety,1,False
+Twenty years! That's a long time.,excitement,736,6,0,inform,Twenty years! That is a long time.,surprise,excitement,10,False
+"Yeah, I know, but it's too hard to do.",depression,1270,1,1,commissive,"Yeah, I know, but it is too hard to do.",sadness,depression,0,False
+"Oh dear, we will miss our train.",depression,1531,10,0,inform,"Oh dear, we will miss our train. and it's affecting me deeply",sadness,depression,0,True
+I had a bad day yesterday.,depression,1380,1,1,inform,I had a bad day yesterday.,sadness,depression,0,False
+Anything wrong with it?,calm_neutral,857,1,0,question,Anything wrong with it?. This has been going on for a while,no emotion,calm_neutral,11,True
+My boss has been breathing down my neck all day. I can't wait for the weekend!,anger,1484,6,1,inform,My boss has been breathing down my neck all day. I cannot wait for the weekend!,anger,anger,3,False
+Good morning.,calm_neutral,957,1,1,inform,Good morning.,no emotion,calm_neutral,11,False
+Hey! The movie hasn't even started and they're almost gone!,excitement,680,5,1,commissive,Hey! The movie has not even started and they are almost gone!,surprise,excitement,10,False
+Forget it! It was a bitter pill for me to swallow.,anger,94,3,1,inform,Forget it! It was a bitter pill for me to swallow.,anger,anger,3,False
+Why do you think that this would be a good move?,calm_neutral,773,3,0,question,Why do you think that this would be a good move?,no emotion,calm_neutral,11,False
+What do you think would make you happier?,calm_neutral,587,11,1,question,What do you think would make you happier?,no emotion,calm_neutral,11,False
+Just look! In six short weeks I've put on thirty pounds of pure muscle.,anger,1638,9,0,inform,"Honestly, Just look! In six short weeks I have put on thirty pounds of pure muscle.",anger,anger,3,True
+Very well. If I leave I'll miss you.,happiness,2492,2,1,inform,"Honestly, Very well. If I leave I will miss you.",happiness,happiness,8,True
+Well I don’t think so. I don’t like it at all!,anger,1910,2,1,inform,Well I do not think so. I do not like it at all!,disgust,anger,3,False
+How will you spend this lovely weekend?,calm_neutral,1094,0,1,question,How will you spend this lovely weekend?,no emotion,calm_neutral,11,False
+You said the same thing three months ago.,anger,971,2,0,inform,You said the same thing three months ago.,anger,anger,3,False
+Would you like fries with that?,calm_neutral,1764,2,1,directive,Would you like fries with that?,no emotion,calm_neutral,11,False
+Thank you very much.,happiness,381,7,0,inform,Thank you very much.,happiness,happiness,8,False
+"I am sorry, sir. All the tables have been booked.",depression,1375,1,1,inform,"I am sorry, sir. All the tables have been booked.",sadness,depression,0,False
+Hi! My name is Mike.,happiness,1330,0,0,inform,Hi! My name is Mike.,happiness,happiness,8,False
+We can play together if you are free.,happiness,740,9,1,directive,We can play together if you are free.,happiness,happiness,8,False
+Congratulations! I had no idea.,happiness,1898,7,0,inform,Congratulations! I had no idea.,happiness,happiness,8,False
+What? You're overcharging me!,anger,347,2,1,inform,What? You are overcharging me!,anger,anger,3,False
+What! One hundred US dollars. Is it covered by the insurance?,excitement,955,4,0,question,"Honestly, What! One hundred US dollars. Is it covered by the insurance?",surprise,excitement,10,True
+I think it’s too expensive. I can just give you four yuan. Or I’ll go to another B.,depression,1017,6,0,directive,I think it is too expensive. I can just give you four yuan. Or I will go to another B. and it's affecting me deeply,sadness,depression,0,True
+You want to be a politician? Yuck.,excitement,1827,3,1,question,You want to be a politician? Yuck.,surprise,excitement,10,False
+But it’s so pretty.,happiness,539,1,1,inform,But it is so pretty.,happiness,happiness,8,False
+"Wow, this is amazing. I'm glad we've come here. So cool.",happiness,104,0,0,inform,"Wow, this is amazing. I am glad we have come here. So cool.",happiness,happiness,8,False
+I'm absolutely useless at cooking!,depression,1551,3,0,inform,I am absolutely useless at cooking!,sadness,depression,0,False
+Now the coals are just right. I can start grilling.,calm_neutral,2485,0,1,inform,Now the coals are just right. I can start grilling.,no emotion,calm_neutral,11,False
+Really? What's he been doing?,excitement,1698,3,1,question,Really? What is he been doing?,surprise,excitement,10,False
+Too bad. I really like it.,anxiety,2202,2,0,inform,Too bad. I really like it.,fear,anxiety,1,False
+"Leave your phone number, and I will give you a call if the price gets reduced.",calm_neutral,1916,18,1,directive,"Leave your phone number, and I will give you a call if the price gets reduced.",no emotion,calm_neutral,11,False
+Really? Are you going to introduce us?,excitement,835,4,0,question,Really? Are you going to introduce us?,surprise,excitement,10,False
+"The trainer tells me, besides regular sports activities, I should also have a healthy and balanced diet.",calm_neutral,1685,5,0,inform,"The trainer tells me, besides regular sports activities, I should also have a healthy and balanced diet.",no emotion,calm_neutral,11,False
+I wish I knew who had moved our flower pots.,anger,2090,0,1,inform,I wish I knew who had moved our flower pots.. This has been going on for a while,anger,anger,3,True
+Yes. please.,calm_neutral,284,6,0,inform,Yes. please.,no emotion,calm_neutral,11,False
+Good gracious. That’s incredible!,excitement,1347,3,1,inform,Good gracious. That is incredible!,surprise,excitement,10,False
+Where? my car?,excitement,2517,3,0,question,Where? my car?,surprise,excitement,10,False
+"Sorry, sir, uh, you have to pay in the check-out counter. It's there.",depression,396,3,1,commissive,"Sorry, sir, uh, you have to pay in the check-out counter. It is there.",sadness,depression,0,False
+"Ha-ha. Last night, I only told him practice makes perfect.",calm_neutral,94,5,1,inform,"Ha-ha. Last night, I only told him practice makes perfect.",no emotion,calm_neutral,11,False
+You've made a good decision. How would you like to pay?,happiness,1309,7,1,question,You have made a good decision. How would you like to pay?,happiness,happiness,8,False
+"Yes, I thinks so. how much is it?",calm_neutral,2153,5,0,question,"Yes, I thinks so. how much is it?",no emotion,calm_neutral,11,False
+Is that right? We're very sorry.,depression,1241,3,1,question,Is that right? We are very sorry.,sadness,depression,0,False
+"Fill it up with regular, please.",calm_neutral,1124,1,0,directive,"Fill it up with regular, please.",no emotion,calm_neutral,11,False
+"I'm sorry, sir, but may I see your driver's licence and insurance policy, please? I have to give you a ticket.",depression,1569,4,1,directive,"I really feel i am sorry, sir, but may i see your driver's licence and insurance policy, please? i have to give you a ticket.",sadness,depression,0,True
+"Oh, I'm sorry.",depression,2411,4,0,inform,"Oh, I am sorry.",sadness,depression,0,False
+"Sure, here you are.",calm_neutral,1398,1,0,commissive,"Honestly, Sure, here you are.",no emotion,calm_neutral,11,True
+Like that Rastafarian over there? You mean dreadlocks? You crazy! That'll take way too long.,excitement,879,2,1,question,Like that Rastafarian over there? You mean dreadlocks? You crazy! That will take way too long.,surprise,excitement,10,False
+Use this lipstick and it will make your lips shine!,happiness,1822,2,0,directive,Use this lipstick and it will make your lips shine!,happiness,happiness,8,False
+Just what I thought!,anger,1890,4,1,inform,Just what I thought!,anger,anger,3,False
+I went to the library and lost my bag.,depression,1380,3,1,inform,I went to the library and lost my bag.,sadness,depression,0,False
+"Lisa, is there a milk section?",calm_neutral,2187,0,0,question,"Lisa, is there a milk section?",no emotion,calm_neutral,11,False
+"Then, why didn't you try to prevent it in the beginning?",anger,1754,2,0,question,"Then, why did not you try to prevent it in the beginning?",anger,anger,3,False
+Here you are. Thanks.,calm_neutral,90,10,0,commissive,Here you are. Thanks.,no emotion,calm_neutral,11,False
+"oh, I'm sorry to bother you.",depression,1878,4,1,inform,"oh, I am sorry to bother you.",sadness,depression,0,False
+We waste a vacation.,anger,585,7,0,inform,We waste a vacation.,disgust,anger,3,False
+I've said that I've got a problem with the circus. I'm not kidding.,anger,1402,9,0,inform,I have said that I have got a problem with the circus. I am not kidding.,anger,anger,3,False
+Here is ten Yuan.,calm_neutral,1619,5,0,directive,Here is ten Yuan.,no emotion,calm_neutral,11,False
+That’s too bad. I’m sorry to hear that.,depression,1380,6,0,inform,That is too bad. I am sorry to hear that.,sadness,depression,0,False
+That's a good idea. When did you buy it? Is it a name brand?,happiness,2469,6,0,question,That is a good idea. When did you buy it? Is it a name brand?,happiness,happiness,8,False
+I must make an apology for losing my temper.,calm_neutral,1954,2,1,inform,I must make an apology for losing my temper.,no emotion,calm_neutral,11,False
+"Well. It's not all my fault, Anna...",depression,1936,11,0,inform,"Well. It is not all my fault, Anna...",sadness,depression,0,False
+"Never! He’s over eighty, isn’t he?",excitement,1541,1,1,question,"Never! He is over eighty, is not he?",surprise,excitement,10,False
+But she means a lot to me.,depression,2030,7,0,commissive,But she means a lot to me.,sadness,depression,0,False
+"Oh really, Frank? What kind of movies do you like?",excitement,837,3,1,question,"Oh really, Frank? What kind of movies do you like?",surprise,excitement,10,False
+"To be honest, it was horrible! My manager is such a pain in the neck!",anger,269,3,1,inform,"To be honest, it was horrible! My manager is such a pain in the neck!",anger,anger,3,False
+What shall we do after the volleyball match?,happiness,61,0,1,question,What shall we do after the volleyball match?,happiness,happiness,8,False
+Would you like to go to the bookshop with me?,happiness,1853,8,0,directive,Would you like to go to the bookshop with me?,happiness,happiness,8,False
+Really? Why not? I hear it’s pretty good.,excitement,454,3,1,question,Really? Why not? I hear it is pretty good.,surprise,excitement,10,False
+Is it a horror movie?,anxiety,1454,1,0,question,Is it a horror movie?,fear,anxiety,1,False
+Do you think so? I don't like it very much. I found it rather uncomfortable.,anger,2294,6,1,question,Do you think so? I do not like it very much. I found it rather uncomfortable.,disgust,anger,3,False
+"Only twenty one hundred dollars? OK, let me have one.",excitement,253,6,0,question,"Only twenty one hundred dollars? OK, let me have one.",surprise,excitement,10,False
+"Yeah, I will. See you then!",happiness,1254,8,0,commissive,"Yeah, I will. See you then!",happiness,happiness,8,False
+"I'm hungry, let's order up something to eat.",calm_neutral,2340,0,0,directive,"Honestly, I am hungry, let us order up something to eat.",no emotion,calm_neutral,11,True
+"Oh, that's great! Thank you.",happiness,598,9,0,inform,"Oh, that is great! Thank you.",happiness,happiness,8,False
+I'm worried that everything will be chaotic!,anxiety,658,3,1,inform,I am worried that everything will be chaotic!,fear,anxiety,1,False
+"I don't care about that, Allen! What did he steal? That's the question!",anger,2099,10,0,question,"I do not care about that, Allen! What did he steal? That is the question!",anger,anger,3,False
+"Really? well, OK, you're welcome.",excitement,1101,9,1,question,"Really? well, OK, you are welcome.",surprise,excitement,10,False
+"Of course I forgive you. What are friends for? Now, what am I going to do for that other guy?",calm_neutral,137,7,1,question,"Of course I forgive you. What are friends for? Now, what am I going to do for that other guy?",no emotion,calm_neutral,11,False
+Because the board said sixty pesos for every Taiwan dollar.,excitement,701,10,1,inform,Because the board said sixty pesos for every Taiwan dollar.,surprise,excitement,10,False
+What do you mean? It's a scrim.,excitement,196,2,0,question,What do you mean? It is a scrim.,surprise,excitement,10,False
+Sounds reasonable. I'll take three kilos.,happiness,529,8,1,directive,Sounds reasonable. I will take three kilos.,happiness,happiness,8,False
+When did you come to Los Angeles?,calm_neutral,1084,4,0,question,I really feel when did you come to los angeles?,no emotion,calm_neutral,11,True
+Thank you very much.,anxiety,1783,11,0,commissive,Thank you very much.,fear,anxiety,1,False
+I think it’s too expensive. I can just give you four yuan. Or I’ll go to another B.,depression,1017,6,0,directive,I think it is too expensive. I can just give you four yuan. Or I will go to another B.,sadness,depression,0,False
+"Yes, we do. That one comes in green blue and red.",calm_neutral,1040,1,0,inform,"Yes, we do. That one comes in green blue and red.",no emotion,calm_neutral,11,False
+"Mom, I just finished my paper. Umm, can you proofread it before I hand it in?",happiness,2509,0,0,directive,"Mom, I just finished my paper. Umm, can you proofread it before I hand it in?",happiness,happiness,8,False
+Are you? I thought you had something to drink at her home.,excitement,1591,3,0,question,Are you? I thought you had something to drink at her home.,surprise,excitement,10,False
+Why should I do that? I'm good at my job! That's the only important thing!,anger,1549,18,1,inform,Why should I do that? I am good at my job! That is the only important thing!,anger,anger,3,False
+Sure. Will you be long?,happiness,832,3,0,question,Sure. Will you be long?,happiness,happiness,8,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Lately, really, it is so beautiful.",fear,anxiety,1,True
+"Morning, Jenny. Haven't seen you for ages!",excitement,1022,1,0,inform,"Morning, Jenny. Have not seen you for ages!",surprise,excitement,10,False
+Can I help you?,calm_neutral,1106,0,0,question,Can I help you?,no emotion,calm_neutral,11,False
+I apologize for their tardiness.,depression,1032,5,0,inform,I apologize for their tardiness.,sadness,depression,0,False
+I got carried away. I made such a fool of myself. They were both laughing at me!,anger,1456,2,0,inform,"Honestly, I got carried away. I made such a fool of myself. They were both laughing at me!",anger,anger,3,True
+I'm glad that you think so. I thought it might be a bit too revealing.,happiness,2447,3,1,inform,I am glad that you think so. I thought it might be a bit too revealing.,happiness,happiness,8,True
+Self-service?,excitement,1502,3,0,question,Self-service?,surprise,excitement,10,False
+"No, you haven’t. You just don’t care about me. You’re an indifferent wife",anger,2013,8,0,commissive,"No, you have not. You just do not care about me. You are an indifferent wife",anger,anger,3,False
+"Did I? Well, anyway, you will get your raise when the economy starts picking up.",excitement,294,5,1,directive,"Did I? Well, anyway, you will get your raise when the economy starts picking up.",surprise,excitement,10,False
+That's not nice.,anger,1542,7,1,commissive,That is not nice.,anger,anger,3,False
+It’s the worst thing I’ve ever tried.,anger,70,7,1,inform,It is the worst thing I have ever tried.,disgust,anger,3,False
+"Umm to be honest, I'm a bit fed up.",anger,587,2,0,inform,"Umm to be honest, I am a bit fed up.",anger,anger,3,False
+"Sorry, but I'm not really that interested in those things.",depression,1142,1,0,commissive,"Sorry, but I am not really that interested in those things.",sadness,depression,0,False
+"Then, you should dress well.",calm_neutral,1596,3,1,inform,"Then, you should dress well.",no emotion,calm_neutral,11,False
+"I'm afraid you've parked on a double yellow line, sir.",calm_neutral,1034,4,1,inform,"I am afraid you have parked on a double yellow line, sir.",no emotion,calm_neutral,11,False
+Really? Is that why you wanted to come to the play?,excitement,2067,5,0,question,Really? Is that why you wanted to come to the play?,surprise,excitement,10,False
+"Oh, yes. I get six Korean channels but nothing in English!",anger,2347,11,1,inform,"Oh, yes. I get six Korean channels but nothing in English!",anger,anger,3,False
+Nothing. I just feel very lonely in this city. I miss my family.,depression,861,3,1,inform,Nothing. I just feel very lonely in this city. I miss my family.,sadness,depression,0,False
+I'm a TV announcer. Don't you recognize me? I do the weather report on KNT!,excitement,1025,7,1,inform,I am a TV announcer. Do not you recognize me? I do the weather report on KNT!,surprise,excitement,10,False
+"Sorry, I made a mistake. They're on the right side of the TV.",depression,1180,17,0,inform,"Sorry, I made a mistake. They are on the right side of the TV.",sadness,depression,0,False
+How in the world did you guess that? Did someone tell you already?,excitement,1950,2,0,question,How in the world did you guess that? Did someone tell you already?,surprise,excitement,10,False
+I'm afraid that's the best we can do.,depression,1303,10,0,commissive,I am afraid that is the best we can do.,sadness,depression,0,False
+That will work.,calm_neutral,982,3,1,commissive,That will work.,no emotion,calm_neutral,11,False
+Yes. I'm looking for a position as a chef.,calm_neutral,2102,2,0,inform,Yes. I am looking for a position as a chef.,no emotion,calm_neutral,11,False
+This is a pity!,depression,2329,6,0,inform,I really feel this is a pity!,sadness,depression,0,True
+Let me show you.,calm_neutral,1488,3,0,directive,Let me show you.,no emotion,calm_neutral,11,False
+My hair looks hideous.,anger,1520,6,1,inform,My hair looks hideous.,anger,anger,3,False
+It’s because of my son. Dick keeps getting on my nerves.,anger,829,1,0,inform,It is because of my son. Dick keeps getting on my nerves.,anger,anger,3,False
+The film will start at two.,happiness,1969,5,1,inform,The film will start at two.,happiness,happiness,8,False
+The weather is really nice today. Let's walk.,happiness,480,4,0,directive,The weather is really nice today. Let us walk. and it's affecting me deeply,happiness,happiness,8,True
+That will be fine. I'll take it.,calm_neutral,905,5,0,directive,That will be fine. I will take it.,no emotion,calm_neutral,11,False
+"Well, let's take the measurements right now.",happiness,1474,19,1,inform,"Well, let us take the measurements right now.",happiness,happiness,8,False
+Are these all yours?,calm_neutral,903,0,0,question,Are these all yours?,no emotion,calm_neutral,11,False
+"Well, don’t just sit there, do something. Come and help me in the kitchen.",calm_neutral,1888,2,1,directive,"Well, do not just sit there, do something. Come and help me in the kitchen.",no emotion,calm_neutral,11,False
+"Hi, Lin Tao. I have't seen you for some time.",excitement,456,1,1,inform,"Hi, Lin Tao. I have't seen you for some time.",surprise,excitement,10,False
+Yes. It says it will be sunny all day. No sign of rain at all.,happiness,1236,2,1,inform,Yes. It says it will be sunny all day. No sign of rain at all.,happiness,happiness,8,False
+Could you tell me your educational background?,calm_neutral,361,0,1,directive,Could you tell me your educational background?,no emotion,calm_neutral,11,False
+Sure. You look like you're all black and blue.,anger,137,2,0,inform,Sure. You look like you are all black and blue.,anger,anger,3,False
+A bit? I'm extremely annoyed that she didn't phone me when he promised me that he would! She's such a liar.,anger,587,8,0,inform,A bit? I am extremely annoyed that she did not phone me when he promised me that he would! She is such a liar.,anger,anger,3,False
+Umm it's the new neighbor. I hate her guts.,anger,2323,1,0,inform,"Lately, umm it is the new neighbor. i hate her guts.",anger,anger,3,True
+"Oh, how could it be?",excitement,1862,1,1,question,"Oh, how could it be?",surprise,excitement,10,False
+What's this? Essential oil? Wow! This stuff is expensive.,excitement,2368,2,1,question,What is this? Essential oil? Wow! This stuff is expensive.,surprise,excitement,10,False
+My manager jumped on me for my mistake today.,depression,2319,5,1,inform,I really feel my manager jumped on me for my mistake today.,sadness,depression,0,True
+Really? How so?,excitement,711,7,1,question,Really? How so?,surprise,excitement,10,False
+Thank you. Remember to look me up if you’re ever in Washington.,happiness,980,10,1,inform,Thank you. Remember to look me up if you are ever in Washington.,happiness,happiness,8,False
+This is going to be a major production for you!,happiness,303,7,1,inform,This is going to be a major production for you!,happiness,happiness,8,False
+That's a very good hint.,calm_neutral,1190,6,0,inform,That is a very good hint.,no emotion,calm_neutral,11,False
+"Thank you, Steven. I accept your advice.",happiness,45,7,1,directive,"Thank you, Steven. I accept your advice.",happiness,happiness,8,False
+Do you have any sunscreen lotion?,calm_neutral,638,1,1,question,Do you have any sunscreen lotion?,no emotion,calm_neutral,11,False
+"Yes. That's small bag of sugar, four oranges, and a half gallon of milk.",calm_neutral,710,15,1,inform,"Honestly, Yes. That is small bag of sugar, four oranges, and a half gallon of milk.",no emotion,calm_neutral,11,True
+And a storm blew our roof away.,depression,12,8,1,inform,And a storm blew our roof away.,sadness,depression,0,False
+Umm I know. This is terrible. What can we do? This snow doesn't stop falling!,anger,788,2,0,question,Umm I know. This is terrible. What can we do? This snow does not stop falling!,anger,anger,3,False
+Thank you.Thank you for the trouble you've taken.,happiness,549,11,1,inform,Thank you.Thank you for the trouble you have taken.,happiness,happiness,8,False
+"I wasn't feeling too well, so I stayed at home.",calm_neutral,2249,4,0,inform,"I was not feeling too well, so I stayed at home.",no emotion,calm_neutral,11,False
+But I doubt myself.,depression,2319,9,1,inform,But I doubt myself.,sadness,depression,0,False
+"Yes, I know, sir. Umm I'm sorry.",depression,804,3,1,inform,"Yes, I know, sir. Umm I am sorry. and it's affecting me deeply",sadness,depression,0,True
+"Yeah, this sucker is the fastest thing I've ever owned.",happiness,2073,7,0,inform,"Yeah, this sucker is the fastest thing I have ever owned.",happiness,happiness,8,False
+What are you talking about?! He’s passed every drug test he’s taken!,excitement,1836,2,0,inform,What are you talking about?! He is passed every drug test he is taken!,surprise,excitement,10,False
+"The thing is, this isn't the first time she's promised to do something and then didn't.",anger,587,6,0,inform,"The thing is, this is not the first time she is promised to do something and then did not.",anger,anger,3,False
+"Oh, no. He is not breathing and there’s no pulse. Call 911.",excitement,433,4,1,directive,"Oh, no. He is not breathing and there is no pulse. Call .",surprise,excitement,10,False
+"Oh, no. He is not breathing and there’s no pulse. Call 911.",excitement,433,4,1,directive,"Oh, no. He is not breathing and there is no pulse. Call .",surprise,excitement,10,False
+"Sure, that would be great. I'll bring the wine.",happiness,1101,12,0,commissive,"Lately, sure, that would be great. i will bring the wine.",happiness,happiness,8,True
+Turn on the radio? What for?,excitement,2536,5,1,question,Turn on the radio? What for?,surprise,excitement,10,False
+Why should I wear a skirt? Or a dress?,anger,1549,16,1,question,Why should I wear a skirt? Or a dress?,anger,anger,3,False
+That's great! Congratulations.,happiness,415,1,0,inform,That is great! Congratulations.,happiness,happiness,8,False
+"Oh, my God! What do I do now? Bone head.",depression,1561,9,0,question,"Oh, my God! What do I do now? Bone head.",sadness,depression,0,False
+Certainly not.,depression,1246,3,1,commissive,Certainly not.,sadness,depression,0,False
+"Oh, a bouquet of flowers. It's very kind of you.",excitement,455,1,0,commissive,"Oh, a bouquet of flowers. It is very kind of you.",surprise,excitement,10,False
+Holy cow! I never heard of such a thing. How much do they cost?,calm_neutral,1496,4,0,question,Holy cow! I never heard of such a thing. How much do they cost?,no emotion,calm_neutral,11,False
+I lived there for three years. I like summer but I don't like winter.,calm_neutral,992,7,1,inform,I lived there for three years. I like summer but I do not like winter.,no emotion,calm_neutral,11,False
+What? But it is my favorite piece of clothing.,excitement,548,2,1,question,What? But it is my favorite piece of clothing.,surprise,excitement,10,False
+"Uh, sorry, I dialed the wrong number.",depression,2416,4,1,inform,"Uh, sorry, I dialed the wrong number.",sadness,depression,0,False
+Damn it! I think I'm going to miss the plane.,anger,1171,4,1,inform,Damn it! I think I am going to miss the plane.,anger,anger,3,False
+Is there a reason why you're trying to get off the phone so fast?,anger,1542,1,1,directive,Is there a reason why you are trying to get off the phone so fast?,anger,anger,3,False
+I just don't like my hair.,anger,762,8,1,inform,I just do not like my hair.,disgust,anger,3,False
+I want it the way Peckham wears it.,calm_neutral,1928,1,0,inform,I want it the way Peckham wears it.,no emotion,calm_neutral,11,False
+"I still can't believe it! So, did you go to cooking school or something?",excitement,1079,6,0,question,"I still cannot believe it! So, did you go to cooking school or something?",surprise,excitement,10,False
+"It was fantastic! We had such a good time. The only problem was that because it was their high season, we spent hours queuing.",happiness,2307,1,1,inform,"It was fantastic! We had such a good time. The only problem was that because it was their high season, we spent hours queuing.",happiness,happiness,8,False
+"Yes, I'm serious. I'm really sorry about missing your concert.",depression,137,5,1,inform,"Yes, I am serious. I am really sorry about missing your concert.",sadness,depression,0,False
+"No! Christmas without him is bad enough. So, honey, do you have cold feet yet?",depression,2538,2,0,question,"No! Christmas without him is bad enough. So, honey, do you have cold feet yet?",sadness,depression,0,False
+I know. I wonder what's keeping him.,depression,1970,4,0,inform,"Lately, i know. i wonder what is keeping him.",sadness,depression,0,True
+Because the board said sixty pesos for every Taiwan dollar.,excitement,701,10,1,inform,Because the board said sixty pesos for every Taiwan dollar.,surprise,excitement,10,False
+"OK, that's perfect! By the way, is there any playground in our neighborhood?",happiness,583,12,0,question,"OK, that is perfect! By the way, is there any playground in our neighborhood?",happiness,happiness,8,False
+That's amazing.,excitement,1857,5,0,inform,That is amazing.,surprise,excitement,10,False
+"No, I'm afraid we'll have to cancel the order. I'm not sure whether it agrees with me.",depression,20,1,1,inform,"No, I am afraid we will have to cancel the order. I am not sure whether it agrees with me.",sadness,depression,0,False
+"Umm, I found it very disappointing.",anger,1209,3,0,inform,"Umm, I found it very disappointing.",disgust,anger,3,False
+"Oh, really? What do you do there exactly?",excitement,1769,13,1,question,"Oh, really? What do you do there exactly?",surprise,excitement,10,False
+Both the green tea and the black tea are good for our health. And I usually refresh myself with a cup of tea.,happiness,1169,10,0,inform,Both the green tea and the black tea are good for our health. And I usually refresh myself with a cup of tea.,happiness,happiness,8,False
+"Really? Umm, do you think English is that important?",excitement,2381,2,0,question,"Really? Umm, do you think English is that important?",surprise,excitement,10,False
+"Sorry, madam. I'm afraid you have a wrong number. we don't have Mr. Over here.",depression,1878,1,0,inform,"Sorry, madam. I am afraid you have a wrong number. we do not have Mr. Over here.",sadness,depression,0,False
+Yes. That would be nice. When do you want to go?,happiness,2204,1,1,question,Yes. That would be nice. When do you want to go?,happiness,happiness,8,False
+You are saying he will be promoted to the general manager?,excitement,2177,0,1,question,You are saying he will be promoted to the general manager?. This has been going on for a while,surprise,excitement,10,True
+That's incredible!,excitement,2104,4,0,inform,That is incredible!,surprise,excitement,10,False
+Just what I thought!,anger,1890,4,1,inform,Just what I thought!,anger,anger,3,True
+"Yes, we have landscape paintings, figure paintings and flower-and-bird paintings.",calm_neutral,1806,2,1,inform,"Yes, we have landscape paintings, figure paintings and flower-and-bird paintings.",no emotion,calm_neutral,11,False
+"Well, I had a terrible day of work, I'm thinking of quiting my job.",depression,2415,3,0,inform,"Lately, well, i had a terrible day of work, i am thinking of quiting my job.",sadness,depression,0,True
+Really? Umm tell me about it. What's it like?,excitement,2532,2,0,question,Really? Umm tell me about it. What is it like?,surprise,excitement,10,False
+"Science? What are you talking about? Forget about your science, OK? It's a picnic!",excitement,1475,12,0,directive,"Science? What are you talking about? Forget about your science, OK? It is a picnic!",surprise,excitement,10,False
+"Umm, do you think that will be enough to make him have a change of heart?",calm_neutral,1288,3,0,question,"Umm, do you think that will be enough to make him have a change of heart?",no emotion,calm_neutral,11,False
+I didn't know. I'll go to get it. How late will you be open?,calm_neutral,1173,3,1,question,I did not know. I will go to get it. How late will you be open?,no emotion,calm_neutral,11,False
+What a pity! You can't join us.,depression,311,4,1,inform,What a pity! You cannot join us.,sadness,depression,0,False
+Really? Good luck for them.,excitement,1215,7,0,inform,Really? Good luck for them.,surprise,excitement,10,False
+You're welcome.,happiness,2535,10,0,inform,You are welcome.,happiness,happiness,8,False
+I'm afraid you can't.,depression,188,2,0,commissive,I am afraid you cannot.,sadness,depression,0,False
+Umm it's the new neighbor. I hate her guts.,anger,2323,1,0,inform,"Lately, umm it is the new neighbor. i hate her guts.",anger,anger,3,True
+Gee! I don't know what to say! Thanks so much.,happiness,1957,6,1,commissive,Gee! I do not know what to say! Thanks so much.,happiness,happiness,8,False
+Like that Rastafarian over there? You mean dreadlocks? You crazy! That'll take way too long.,excitement,879,2,1,question,Like that Rastafarian over there? You mean dreadlocks? You crazy! That will take way too long.,surprise,excitement,10,False
+"Umm…. That's fine, but do you have your receipt with you?",calm_neutral,2199,8,1,question,"Umm…. That is fine, but do you have your receipt with you?. This has been going on for a while",no emotion,calm_neutral,11,True
+What a pity!,depression,1803,7,1,inform,What a pity!,sadness,depression,0,False
+"I am afraid your diamond bracelet has gone, darling!",anxiety,2268,2,0,inform,"I am afraid your diamond bracelet has gone, darling!",fear,anxiety,1,False
+Is it a horror movie?,anxiety,1454,1,0,question,Is it a horror movie?,fear,anxiety,1,False
+Let me dig my VISA out of my purse.,calm_neutral,253,8,0,inform,"Honestly, Let me dig my VISA out of my purse.",no emotion,calm_neutral,11,True
+"But what about parking? You can't park on the street, can you?",anger,1543,8,1,question,"But what about parking? You cannot park on the street, can you?",anger,anger,3,False
+Umm but it's Saturday!,excitement,268,4,0,inform,Umm but it is Saturday!,surprise,excitement,10,False
+"Oh, I'm so sorry. May I ask what you ordered again?",depression,2325,3,0,directive,"Oh, I am so sorry. May I ask what you ordered again?. This has been going on for a while",sadness,depression,0,True
+My Goodness! What a busy line so early in the morning! Hello.,excitement,2025,0,1,inform,My Goodness! What a busy line so early in the morning! Hello.,surprise,excitement,10,False
+No. I couldn’t find a policeman.,depression,343,7,1,inform,No. I could not find a policeman.,sadness,depression,0,False
+My manager jumped on me for my mistake today.,depression,2319,5,1,inform,My manager jumped on me for my mistake today.,sadness,depression,0,False
+OK! I'll call security.,anxiety,1332,7,0,inform,OK! I will call security.,fear,anxiety,1,False
+"Wait! Look at that board, what's on it?",excitement,2110,1,1,question,"Wait! Look at that board, what is on it?",surprise,excitement,10,False
+"Lorin Maazel. He did an amazing job. Moreover, he just celebrated his seventy fifth birthday.",happiness,2183,12,0,inform,"Lorin Maazel. He did an amazing job. Moreover, he just celebrated his seventy fifth birthday.",happiness,happiness,8,False
+I apologize for their tardiness.,depression,1032,5,0,inform,I really feel i apologize for their tardiness.,sadness,depression,0,True
+What? You're overcharging me!,anger,347,2,1,inform,What? You are overcharging me!,anger,anger,3,False
+You are very skillful driver.,happiness,66,10,0,inform,You are very skillful driver.,happiness,happiness,8,False
+"Really? Me, too. I work for an accountancy company, T&D. Maybe you've heard of them.",excitement,859,5,1,inform,"Lately, really? me, too. i work for an accountancy company, t&d. maybe you have heard of them.",surprise,excitement,10,True
+That's amazing!,excitement,1719,4,0,inform,That is amazing!,surprise,excitement,10,False
+When do you think you’ll have finished reading it?,calm_neutral,2531,14,0,question,When do you think you will have finished reading it?,no emotion,calm_neutral,11,False
+"Good afternoon! Sit down, please. How are you?",happiness,972,1,0,question,"Good afternoon! Sit down, please. How are you?",happiness,happiness,8,False
+"Alright. Thank you. Umm yes, it seems to be working fine. Your total is one ninety nine dollars, sign here, please.",happiness,362,10,0,directive,"Alright. Thank you. Umm yes, it seems to be working fine. Your total is one ninety nine dollars, sign here, please.",happiness,happiness,8,False
+"I agree. They're very lovely, especially Huanhuan",happiness,61,5,0,inform,"I agree. They are very lovely, especially Huanhuan",happiness,happiness,8,False
+"Hey, Jack, where's your car?",calm_neutral,2073,0,1,question,"Hey, Jack, where is your car?",no emotion,calm_neutral,11,False
+You did a horrible job on my hair.,anger,1960,6,1,inform,You did a horrible job on my hair.,anger,anger,3,False
+"Don't laugh at me, please. I'm serious. I've never been required to write this kind of report before, I only do the research reports.",depression,924,3,0,inform,"Do not laugh at me, please. I am serious. I have never been required to write this kind of report before, I only do the research reports.",sadness,depression,0,False
+"I'm sorry, but the price is final.",depression,657,11,0,inform,"I am sorry, but the price is final.",sadness,depression,0,False
+Fine! I can't believe you don't trust me.,anger,1440,6,1,inform,Fine! I cannot believe you do not trust me.,anger,anger,3,False
+But I doubt myself.,depression,2319,9,1,inform,"Honestly, But I doubt myself.",sadness,depression,0,True
+Really? That sounds interesting!,excitement,450,10,1,question,Really? That sounds interesting!,surprise,excitement,10,False
+"Oh, maybe not. It's just your guess. Do not give currency to idle gossip.",calm_neutral,2473,6,0,directive,"Oh, maybe not. It is just your guess. Do not give currency to idle gossip.",no emotion,calm_neutral,11,False
+I feel so tired.,depression,2530,1,0,inform,I feel so tired.,sadness,depression,0,False
+How much will that run me?,calm_neutral,1202,2,1,question,I really feel how much will that run me?,no emotion,calm_neutral,11,True
+What a thrilling trip!,anxiety,1221,8,1,inform,I really feel what a thrilling trip!,fear,anxiety,1,True
+Too bad. I really like it.,anxiety,2202,2,0,inform,Too bad. I really like it.,fear,anxiety,1,False
+"That's right, mutton chops taste so good, we eat them with sauce, have you ever tried?",happiness,1717,4,0,question,"That is right, mutton chops taste so good, we eat them with sauce, have you ever tried?",happiness,happiness,8,False
+"Sure, here you go.",happiness,507,1,1,inform,"Sure, here you go.",happiness,happiness,8,False
+Why are you being so nice to me? Don't think for a second that I trust you.,anger,28,5,0,inform,Why are you being so nice to me? Do not think for a second that I trust you.,anger,anger,3,False
+"Are you sure? Then, I will have more beer, please.",excitement,161,7,1,directive,"Are you sure? Then, I will have more beer, please.",surprise,excitement,10,False
+"No, I’m afraid not.",depression,1499,3,1,inform,"No, I am afraid not.",sadness,depression,0,False
+No! Umm my tour bus got a speeding ticket not ten minutes ago. Now my engine is on fire!,depression,2351,1,0,inform,No! Umm my tour bus got a speeding ticket not ten minutes ago. Now my engine is on fire!,sadness,depression,0,False
+"I'm sorry, but we don't allow returns on sale items.",depression,1386,8,0,commissive,"I am sorry, but we do not allow returns on sale items.",sadness,depression,0,False
+"Really? It is a weekly, isn't it?",excitement,214,4,0,question,"Really? It is a weekly, is not it?",surprise,excitement,10,False
+"Great! Uh, remember that there's a gift exchange, too. We all have to bring a gift.",happiness,1822,3,1,commissive,"Great! Uh, remember that there is a gift exchange, too. We all have to bring a gift.",happiness,happiness,8,False
+I got sacked today.,depression,1785,11,0,inform,I got sacked today.,sadness,depression,0,False
+The fragrance of plum blossoms comes from the hard coldness.,happiness,2252,10,1,inform,The fragrance of plum blossoms comes from the hard coldness.,happiness,happiness,8,False
+Just look! In six short weeks I've put on thirty pounds of pure muscle.,anger,1638,9,0,inform,Just look! In six short weeks I have put on thirty pounds of pure muscle.,anger,anger,3,False
+And why are you yarning now? Are you bored?,anger,2514,4,0,question,And why are you yarning now? Are you bored?,anger,anger,3,False
+I am really sorry. I'll face the music.,depression,2456,4,1,inform,I am really sorry. I will face the music. and it's affecting me deeply,sadness,depression,0,True
+I really don't think it's any of your business.,anger,1542,6,0,directive,I really do not think it is any of your business.,anger,anger,3,False
+"Really? Umm, do you think English is that important?",excitement,2381,2,0,question,"Really? Umm, do you think English is that important?",surprise,excitement,10,False
+"If I tell you, you must be completely taken aback.",calm_neutral,1026,2,0,inform,"If I tell you, you must be completely taken aback.",no emotion,calm_neutral,11,False
+I am awfully sorry. I didn't think you would mind so much.,depression,2090,5,0,inform,I am awfully sorry. I did not think you would mind so much.,sadness,depression,0,False
+Really? You are joking?,excitement,543,1,1,question,Really? You are joking?,surprise,excitement,10,False
+Wow. That sounds like a lot of fun. I am sorry I missed it.,depression,1663,6,1,inform,Wow. That sounds like a lot of fun. I am sorry I missed it.,sadness,depression,0,False
+Why didn't you tell me about that before?,excitement,1421,15,1,question,Why did not you tell me about that before? and it's affecting me deeply,surprise,excitement,10,True
+Hong Kong again. I would like to go somewhere different for a change.,anger,1899,2,1,inform,"Lately, hong kong again. i would like to go somewhere different for a change.",disgust,anger,3,True
+The heat is driving crazy and I hate my new hat.,anger,638,4,0,inform,The heat is driving crazy and I hate my new hat.,disgust,anger,3,False
+"Hey, How did you know I came from America?",excitement,287,5,0,question,"Hey, How did you know I came from America?",surprise,excitement,10,False
+What should I bring?,happiness,120,3,1,question,What should I bring?,happiness,happiness,8,False
+"Uh! I can't swallow them, Dad!",anger,1411,2,1,commissive,"Uh! I cannot swallow them, Dad!",anger,anger,3,False
+I’m down in spirits.,depression,2319,3,1,inform,I am down in spirits.,sadness,depression,0,False
+What sports do you like to play?,calm_neutral,1139,0,0,question,What sports do you like to play?,no emotion,calm_neutral,11,False
+This bloody computer!,anger,487,0,1,inform,This bloody computer!,anger,anger,3,False
+"Really? I like playing basketball, too.",excitement,740,8,0,inform,"Really? I like playing basketball, too.",surprise,excitement,10,False
+"Not from this brand, I'm afraid.",depression,1023,8,0,inform,"Not from this brand, I am afraid.",sadness,depression,0,True
+"Umm if you could, please. That would be wonderful, thanks.",happiness,814,6,1,commissive,"Umm if you could, please. That would be wonderful, thanks.",happiness,happiness,8,False
+"Wow! No wonder people are so fat. Say, Carl, looks like you could be doing a bit more exercising.",excitement,739,10,1,inform,"Lately, wow! no wonder people are so fat. say, carl, looks like you could be doing a bit more exercising.",surprise,excitement,10,True
+I'm worried that everything will be chaotic!,anxiety,658,3,1,inform,I am worried that everything will be chaotic!,fear,anxiety,1,False
+"No, thank you.",anger,178,5,0,commissive,"No, thank you.",anger,anger,3,False
+You mean that I won't get a raise until the recession ends?,anger,294,6,0,question,You mean that I will not get a raise until the recession ends?,disgust,anger,3,False
+Not on your life! I know I'd break my leg,anxiety,1667,8,1,commissive,Not on your life! I know I would break my leg,fear,anxiety,1,False
+"Oh, I thought there were going to be eight. who isn't coming?",excitement,1354,13,0,question,"Oh, I thought there were going to be eight. who is not coming?",surprise,excitement,10,False
+"Sorry, you can only pay cash.",depression,1633,3,1,commissive,"Sorry, you can only pay cash.",sadness,depression,0,False
+"Tom, that lucky guy.",happiness,2490,4,0,inform,"Tom, that lucky guy.",happiness,happiness,8,False
+I got the message. I am quitting.,anger,971,6,0,inform,I got the message. I am quitting.,anger,anger,3,False
+OK. I'll take one.,happiness,1670,11,0,commissive,OK. I will take one.,happiness,happiness,8,False
+You are kidding.,excitement,2111,9,0,commissive,You are kidding.,surprise,excitement,10,False
+He said that career in law was unsuitable for a women.,calm_neutral,2245,4,1,inform,He said that career in law was unsuitable for a women.,no emotion,calm_neutral,11,False
+Look what you've done!,anger,756,0,0,inform,"Lately, look what you have done!",anger,anger,3,True
+We’re in the same boat! I’ve eaten fast food the whole week. I hate it now.,anger,1910,5,0,inform,We are in the same boat! I have eaten fast food the whole week. I hate it now.,anger,anger,3,False
+Really? How come?,excitement,35,2,1,question,Really? How come?,surprise,excitement,10,False
+"I decided to put him up while he's here, big mistake!",anger,1967,5,1,inform,"I decided to put him up while he is here, big mistake!",disgust,anger,3,False
+"I have asked for a talk again, but she refused and said she wanted to be quiet.",depression,1758,5,0,inform,"I have asked for a talk again, but she refused and said she wanted to be quiet.",sadness,depression,0,False
+Good evening. Welcome to Cherry's. Do you have a reservation?,calm_neutral,1512,0,1,question,Good evening. Welcome to Cherry's. Do you have a reservation?,no emotion,calm_neutral,11,False
+"Oh, my god, is there any fixed format for it-the one that I just need to fix my information in?",calm_neutral,924,11,0,inform,"Oh, my god, is there any fixed format for it-the one that I just need to fix my information in?",no emotion,calm_neutral,11,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Really, it is so beautiful.",fear,anxiety,1,False
+"Thank you, Steve. You're always so encouraging.",happiness,986,11,1,inform,"Thank you, Steve. You are always so encouraging.",happiness,happiness,8,False
+Everything seems to be getting worse. I don't know what to do with it.,anger,974,1,0,inform,"Honestly, Everything seems to be getting worse. I do not know what to do with it.",disgust,anger,3,True
+My stomach's growling again!,anger,2508,0,0,inform,My stomach's growling again!,anger,anger,3,False
+"Oh, I'm sorry.",depression,633,1,0,inform,"Oh, I am sorry.. This has been going on for a while",sadness,depression,0,True
+What a pity! I missed it again.,depression,1106,3,1,inform,"Honestly, What a pity! I missed it again.",sadness,depression,0,True
+I can't stand the loud noise in the city.,calm_neutral,1768,2,0,inform,I cannot stand the loud noise in the city.,no emotion,calm_neutral,11,False
+Oops! It's the landlord. I guess the tables have turned now. We're the noisy neighbors. Turn it down!,excitement,2288,5,1,directive,Oops! It is the landlord. I guess the tables have turned now. We are the noisy neighbors. Turn it down!,surprise,excitement,10,False
+"Umm excuse me, which one is of the highest quality here?",calm_neutral,1956,0,1,question,"Umm excuse me, which one is of the highest quality here?",no emotion,calm_neutral,11,False
+"Oh, really?",excitement,2451,8,0,question,"Oh, really?",surprise,excitement,10,False
+OK. How about some lamb kebabs?,calm_neutral,1622,11,1,directive,"Honestly, OK. How about some lamb kebabs?",no emotion,calm_neutral,11,True
+I am sorry. There is a speed limit.,depression,2255,3,1,commissive,I am sorry. There is a speed limit.,sadness,depression,0,False
+How many cases are accessible?,calm_neutral,556,6,0,question,How many cases are accessible?,no emotion,calm_neutral,11,False
+It's huge!,excitement,1707,3,0,inform,It is huge!,surprise,excitement,10,False
+"You can keep the cat, but you should keep it away from me.",anger,1297,5,0,directive,"You can keep the cat, but you should keep it away from me.",disgust,anger,3,True
+I'm really sorry I let you down. I'll make it up to you somehow.,depression,1550,5,0,inform,I am really sorry I let you down. I will make it up to you somehow.,sadness,depression,0,False
+I just lost my job. My boss just told me.,depression,2287,1,1,inform,I just lost my job. My boss just told me.,sadness,depression,0,False
+Let's try it!,calm_neutral,258,7,1,inform,Let us try it!,no emotion,calm_neutral,11,False
+Fifty dollars.,calm_neutral,1441,4,0,inform,Fifty dollars.,no emotion,calm_neutral,11,False
+"Oh, sorry to have you bothered.",depression,782,6,0,inform,"Oh, sorry to have you bothered.",sadness,depression,0,False
+"Not at all. Bang the door, please.",happiness,1497,13,1,directive,"Not at all. Bang the door, please.",happiness,happiness,8,False
+"OK. Boy, this looks expensive.",happiness,2073,4,1,commissive,"OK. Boy, this looks expensive.",happiness,happiness,8,False
+"To be honest, he has no authority. He's a hard-worker, but no one listens to him.",calm_neutral,1635,10,1,inform,"To be honest, he has no authority. He is a hard-worker, but no one listens to him.",no emotion,calm_neutral,11,False
+Yes. But why do I have to fill out a form anyway? This is the emergency room.,anger,1669,14,0,question,Yes. But why do I have to fill out a form anyway? This is the emergency room.,anger,anger,3,False
+That's right.,happiness,1752,11,1,inform,That is right.,happiness,happiness,8,False
+"I'm afraid not, sir.",depression,1434,6,1,inform,"I am afraid not, sir.",sadness,depression,0,False
+"Morning, Jenny. Haven't seen you for ages!",excitement,1022,1,0,inform,"Morning, Jenny. Have not seen you for ages!",surprise,excitement,10,True
+"No, not yet. I just want a haircut.",calm_neutral,858,1,0,inform,"No, not yet. I just want a haircut.",no emotion,calm_neutral,11,False
+OK. Let's go.,happiness,1861,11,1,inform,OK. Let us go.,happiness,happiness,8,False
+"Yes, I'm serious. I'm really sorry about missing your concert.",depression,137,5,1,inform,"Yes, I am serious. I am really sorry about missing your concert.",sadness,depression,0,False
+You are absolutely right.,happiness,931,5,1,inform,You are absolutely right.,happiness,happiness,8,False
+Thank you for your encouragement.,happiness,1833,7,1,inform,Thank you for your encouragement.,happiness,happiness,8,True
+You mean that I won't get a raise until the recession ends?,anger,294,6,0,question,You mean that I will not get a raise until the recession ends?,disgust,anger,3,False
+"That’s amazing! You got a good pay here, didn’t you?",excitement,1183,2,1,question,"That is amazing! You got a good pay here, did not you?",surprise,excitement,10,False
+"Of course, Bamboo!",calm_neutral,2156,4,0,inform,"Of course, Bamboo!",no emotion,calm_neutral,11,False
+"I'm serious, Zina. Back off. I have a bottle of pepper spray in my pocket.",anger,28,3,0,inform,"I am serious, Zina. Back off. I have a bottle of pepper spray in my pocket.",anger,anger,3,False
+"That smells great. I'll take one bottle, please.",happiness,1439,7,0,commissive,"That smells great. I will take one bottle, please.",happiness,happiness,8,False
+"Sorry, but I'm on my way out now. Could you come back in an hour?",depression,1727,5,0,directive,"Sorry, but I am on my way out now. Could you come back in an hour?",sadness,depression,0,False
+"Really? Oh, well, in that case we should play together some time. What's your handicap?",excitement,713,5,1,question,"I really feel really? oh, well, in that case we should play together some time. what is your handicap?",surprise,excitement,10,True
+"I am afraid your diamond bracelet has gone, darling!",anxiety,2268,2,0,inform,"I am afraid your diamond bracelet has gone, darling!",fear,anxiety,1,False
+No. Only a few pounds. But my passport was in the bag. That's what I’m really worried about.,depression,343,3,1,inform,No. Only a few pounds. But my passport was in the bag. That is what I am really worried about.,sadness,depression,0,False
+It's a bit loose. Do you have a middle size?,calm_neutral,1434,5,0,question,It is a bit loose. Do you have a middle size?,no emotion,calm_neutral,11,False
+I know why Mr. Fro didn't like our ad idea! He doesn't know the first thing about coffee.,anger,1288,0,1,inform,I know why Mr. Fro did not like our ad idea! He does not know the first thing about coffee.,anger,anger,3,False
+"I will, sir. I'm really very sorry.",depression,756,9,1,inform,"I will, sir. I am really very sorry.",sadness,depression,0,False
+How about the seaside?,calm_neutral,2053,11,0,inform,How about the seaside?,no emotion,calm_neutral,11,False
+You said the same thing three months ago.,anger,971,2,0,inform,You said the same thing three months ago.,anger,anger,3,False
+"I think it's soon, maybe in a few months. Umm it was renewed in Beijing, so the new expiry date is on the last page.",calm_neutral,2320,5,0,inform,"I think it is soon, maybe in a few months. Umm it was renewed in Beijing, so the new expiry date is on the last page.. This has been going on for a while",no emotion,calm_neutral,11,True
+Really? I will slow down then.,excitement,1762,10,1,question,Really? I will slow down then.,surprise,excitement,10,False
+"Oh, My God! So much!",anger,30,7,1,commissive,"Lately, oh, my god! so much!",disgust,anger,3,True
+Give me a quart of light oil.,calm_neutral,574,9,0,directive,Give me a quart of light oil.,no emotion,calm_neutral,11,False
+Not on your life! I know I'd break my leg,anxiety,1667,8,1,commissive,Not on your life! I know I would break my leg,fear,anxiety,1,False
+I’m afraid you can’t. you have to go out there and walk around.,happiness,2474,5,1,commissive,I am afraid you cannot. you have to go out there and walk around.,happiness,happiness,8,False
+"Sorry, it had been sold out.",depression,1803,6,0,inform,"Sorry, it had been sold out.",sadness,depression,0,False
+It's your fault for mixing the two broths!,anger,1601,4,0,directive,It is your fault for mixing the two broths!,anger,anger,3,False
+"Oh, it costs too much. It's more expensive than the public school.",excitement,1185,2,0,inform,"Oh, it costs too much. It is more expensive than the public school.",surprise,excitement,10,False
+"Well, he made quite a few mistakes on the monthly report and when his supervisor found them, my manager blamed them on me!",anger,269,5,1,inform,"Well, he made quite a few mistakes on the monthly report and when his supervisor found them, my manager blamed them on me!",anger,anger,3,False
+"Milestones? May, you must be kidding.",excitement,1329,7,1,question,"Milestones? May, you must be kidding.",surprise,excitement,10,False
+Really? How long did you stay there?,excitement,1079,8,0,question,Really? How long did you stay there?,surprise,excitement,10,False
+What about other brands?,calm_neutral,1023,9,1,question,What about other brands?,no emotion,calm_neutral,11,False
+So that we can sit down together and listen to some music.,anger,1246,6,0,inform,"Lately, so that we can sit down together and listen to some music.",anger,anger,3,True
+What? I was just having a friendly conversation with the lady here.,excitement,698,1,0,question,What? I was just having a friendly conversation with the lady here.,surprise,excitement,10,False
+You mean I have to wear the same thing every day? MOM!,excitement,784,7,1,question,You mean I have to wear the same thing every day? MOM!,surprise,excitement,10,False
+And why are you yarning now? Are you bored?,anger,2514,4,0,question,And why are you yarning now? Are you bored?,anger,anger,3,False
+"It's Nugent, N-U-G-E-N-T, but just call me Cindy.",calm_neutral,1769,5,1,inform,"It is Nugent, N-YOU-G-E-N-T, but just call me Cindy.. This has been going on for a while",no emotion,calm_neutral,11,True
+I'm sorry I'm so late. I had a really bad day.,depression,2220,0,1,inform,I am sorry I am so late. I had a really bad day.,sadness,depression,0,False
+What a thrilling trip!,anxiety,1221,8,1,inform,I really feel what a thrilling trip!,fear,anxiety,1,True
+I won't be paying you for this.,anger,762,10,1,inform,I will not be paying you for this.,anger,anger,3,False
+Is there any ticket left for tonight's concert?,calm_neutral,2152,0,0,question,Is there any ticket left for tonight's concert?,no emotion,calm_neutral,11,False
+Sounds exciting. I can't wait.,happiness,363,8,0,inform,Sounds exciting. I cannot wait.,happiness,happiness,8,False
+You're kidding. The story and acting were outstanding.,excitement,1743,6,0,inform,You are kidding. The story and acting were outstanding.,surprise,excitement,10,False
+Oh... That makes me excited too!,happiness,1706,8,0,inform,Oh... That makes me excited too!,happiness,happiness,8,False
+"Cool. Thanks. ( Jimmy brings May a glass of orange juice. )  Oh, fresh juice, I love it. Well, I heard American people love hanging out in bars. Is that true?",happiness,1238,10,1,commissive,"Cool. Thanks. ( Jimmy brings May a glass of orange juice. ) Oh, fresh juice, I love it. Well, I heard American people love hanging out in bars. Is that true?",happiness,happiness,8,False
+"Worse still, he is trying to avoid me these days.",depression,458,11,1,inform,"Worse still, he is trying to avoid me these days.",sadness,depression,0,False
+"You made a perfect choice, Jack.",happiness,2073,12,1,inform,"You made a perfect choice, Jack.",happiness,happiness,8,False
+"I've got mixed feelings about it. On the one hand, I really want to end it with her, but on the other hand, I don't want to be without her.",calm_neutral,587,10,0,inform,"I have got mixed feelings about it. On the one hand, I really want to end it with her, but on the other hand, I do not want to be without her.",no emotion,calm_neutral,11,False
+"I tried to introduce myself to them when they moved in, but they were so arrogant that I didin't want to ever talk to them again!",anger,127,4,0,inform,"Honestly, I tried to introduce myself to them when they moved in, but they were so arrogant that I didin't want to ever talk to them again!",anger,anger,3,True
+"Umm no, I don’t want to eat anything.",depression,2319,1,1,inform,"Umm no, I do not want to eat anything.",sadness,depression,0,False
+What a thrilling trip!,anxiety,1221,8,1,inform,What a thrilling trip!,fear,anxiety,1,False
+Really? Why?,excitement,1821,2,0,question,Really? Why?,surprise,excitement,10,False
+Is it a horror movie?,anxiety,1454,1,0,question,Is it a horror movie? and it's affecting me deeply,fear,anxiety,1,True
+You know that my father is irritable.,depression,440,5,1,inform,You know that my father is irritable.,sadness,depression,0,False
+"Oh, they have? I didn't know. I haven't seen Tom lately.",excitement,1866,5,1,question,"Oh, they have? I did not know. I have not seen Tom lately.",surprise,excitement,10,False
+"I like spring, too. We can go for a walk and enjoy the fresh air.",happiness,921,4,0,inform,"I like spring, too. We can go for a walk and enjoy the fresh air.",happiness,happiness,8,False
+They're for my Wife. Her name is Samantha.,calm_neutral,1748,3,0,inform,They are for my Wife. Her name is Samantha.,no emotion,calm_neutral,11,False
+That’s gorgeous! Do they have it in a size eight?,happiness,504,7,1,question,That is gorgeous! Do they have it in a size eight?,happiness,happiness,8,False
+"Well, I just saw a horror movie last night. It almost frightened me to death.",anxiety,1902,1,0,commissive,"Well, I just saw a horror movie last night. It almost frightened me to death.",fear,anxiety,1,False
+Didn't tell me what? What?,excitement,784,3,1,question,Did not tell me what? What?,surprise,excitement,10,False
+I think it is the worst one I have ever seen.,anger,113,4,1,inform,I think it is the worst one I have ever seen. and it's affecting me deeply,disgust,anger,3,True
+Any time is fine.,calm_neutral,1932,3,1,inform,Any time is fine.,no emotion,calm_neutral,11,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Lately, really, it is so beautiful.",fear,anxiety,1,True
+Umm.. Can you tell me where the pots and pans are?,calm_neutral,2234,0,0,directive,Umm.. Can you tell me where the pots and pans are?,no emotion,calm_neutral,11,False
+OK. Look! It’s just near your foot.,excitement,149,7,0,directive,OK. Look! It is just near your foot.,surprise,excitement,10,False
+I'm embarrassed! I forgot completely about them. I'm terribly sorry.,depression,1021,6,1,inform,I am embarrassed! I forgot completely about them. I am terribly sorry.,sadness,depression,0,False
+His name is not fat boy! You can be so rude sometimes.,anger,800,5,1,inform,His name is not fat boy! You can be so rude sometimes.,anger,anger,3,False
+I'm sorry. These batteries are not on sale.,depression,2461,1,1,inform,I am sorry. These batteries are not on sale. and it's affecting me deeply,sadness,depression,0,True
+"Something awful happened. We went to the Portobello Road, and someone stole my handbag.",depression,343,1,1,inform,"Something awful happened. We went to the Portobello Road, and someone stole my handbag.",sadness,depression,0,True
+You don't know what you are asking!,anger,212,1,0,commissive,You do not know what you are asking!,anger,anger,3,True
+"I'm ready when you are, sir.",calm_neutral,1677,1,1,commissive,"I am ready when you are, sir.",no emotion,calm_neutral,11,False
+That's good. And I can also recommend you a good one. It's the brand of DENY.,happiness,287,14,1,directive,That is good. And I can also recommend you a good one. It is the brand of DENY.,happiness,happiness,8,False
+"Yes, that was surprising. I heard that they got into a fight and then decided not to go.",excitement,910,2,1,inform,"Yes, that was surprising. I heard that they got into a fight and then decided not to go.",surprise,excitement,10,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Lately, really, it is so beautiful.",fear,anxiety,1,True
+The price tag says ninety nine-ninety nine dollars.,excitement,1679,2,1,question,"Honestly, The price tag says ninety nine-ninety nine dollars.",surprise,excitement,10,True
+How about this blue sweater?,happiness,2469,5,1,question,How about this blue sweater?,happiness,happiness,8,False
+I am glad you like it.,happiness,1774,2,1,inform,I am glad you like it.,happiness,happiness,8,False
+"Well, there's nothing I can do about my height!",anger,563,4,0,inform,"Well, there is nothing I can do about my height!",anger,anger,3,False
+Thanks. Now let's decide which one of these suits looks best for this occasion.,happiness,1339,4,0,inform,Thanks. Now let us decide which one of these suits looks best for this occasion.,happiness,happiness,8,False
+"Good for you. No problem, I'll listen to the car radio",happiness,2025,13,0,commissive,"Good for you. No problem, I will listen to the car radio. This has been going on for a while",happiness,happiness,8,True
+"OK, thanks a lot. You did me a great favor just now.",happiness,2391,13,0,inform,"OK, thanks a lot. You did me a great favor just now.",happiness,happiness,8,False
+"Autumn is the best season in Beijing, you know.",happiness,632,1,1,inform,"Autumn is the best season in Beijing, you know.",happiness,happiness,8,False
+Anything else?,calm_neutral,1195,8,0,question,Anything else?,no emotion,calm_neutral,11,False
+"Well, I just saw a horror movie last night. It almost frightened me to death.",anxiety,1902,1,0,commissive,"Well, I just saw a horror movie last night. It almost frightened me to death.",fear,anxiety,1,False
+"I'll go in time, thank you.",happiness,1473,7,1,commissive,"I will go in time, thank you.",happiness,happiness,8,False
+"Do you have an account this bank, sir?",calm_neutral,1751,5,1,question,"Do you have an account this bank, sir? and it's affecting me deeply",no emotion,calm_neutral,11,True
+"I think it's soon, maybe in a few months. Umm it was renewed in Beijing, so the new expiry date is on the last page.",calm_neutral,2320,5,0,inform,"I think it is soon, maybe in a few months. Umm it was renewed in Beijing, so the new expiry date is on the last page.",no emotion,calm_neutral,11,False
+I wish I knew who had moved our flower pots.,anger,2090,0,1,inform,I wish I knew who had moved our flower pots.,anger,anger,3,False
+"Only sometimes when I think about it, I feel very sad.",depression,1270,3,1,inform,"Only sometimes when I think about it, I feel very sad.",sadness,depression,0,False
+Hi! Fiona? I almost didn't recognize you. You are much thinner since I last saw you.,excitement,385,0,0,inform,Hi! Fiona? I almost did not recognize you. You are much thinner since I last saw you.,surprise,excitement,10,False
+"Perhaps, but I haven’t felt well for a few days now.",depression,1546,5,1,inform,"Perhaps, but I have not felt well for a few days now.",sadness,depression,0,False
+"Really, it's so beautiful.",anxiety,1909,1,1,inform,"Lately, really, it is so beautiful.",fear,anxiety,1,True
+"Hello? Yes, someone has passed out at Dongle Avenue. and second street. He isn't breathing and doesn't have a pulse. Yes, my friend is performing CPR. Ok, thank you. They are sending an ambulance. Here, let me help.",anxiety,433,5,0,commissive,"Hello? Yes, someone has passed out at Dongle Avenue. and second street. He is not breathing and does not have a pulse. Yes, my friend is performing CPR. Ok, thank you. They are sending an ambulance. Here, let me help.",fear,anxiety,1,False
+You? Do you have a carpenter's license?,excitement,1474,7,1,question,You? Do you have a carpenter's license?,surprise,excitement,10,False
+A bit? I'm extremely annoyed that she didn't phone me when he promised me that he would! She's such a liar.,anger,587,8,0,inform,A bit? I am extremely annoyed that she did not phone me when he promised me that he would! She is such a liar.,anger,anger,3,False
+This bloody computer!,anger,487,0,1,inform,This bloody computer!,anger,anger,3,False
+It's a great feeling.,happiness,793,11,0,inform,It is a great feeling.,happiness,happiness,8,False
+I got the message. I am quitting.,anger,971,6,0,inform,I got the message. I am quitting.,anger,anger,3,False
+Umm I guess that does sound a lot healthier.,happiness,1552,10,1,inform,Umm I guess that does sound a lot healthier.,happiness,happiness,8,False
+Where? my car?,excitement,2517,3,0,question,Where? my car?,surprise,excitement,10,False
+Very interesting!,happiness,2192,1,0,inform,Very interesting!,happiness,happiness,8,False
+My watch says half past five.,calm_neutral,1198,1,0,inform,My watch says half past five.. This has been going on for a while,no emotion,calm_neutral,11,True
+OK! I'll call security.,anxiety,1332,7,0,inform,OK! I will call security.,fear,anxiety,1,False
+I think it’s too expensive. I can just give you four yuan. Or I’ll go to another B.,depression,1017,6,0,directive,I think it is too expensive. I can just give you four yuan. Or I will go to another B.,sadness,depression,0,False
+"I agree with you in the sense. But we’re all more miserable than ever, aren’t we?",calm_neutral,1041,6,1,question,"I agree with you in the sense. But we are all more miserable than ever, are not we?",no emotion,calm_neutral,11,False
+Is there a reason why you're trying to get off the phone so fast?,anger,1542,1,1,directive,Is there a reason why you are trying to get off the phone so fast?,anger,anger,3,False
+Have you made the decision yet?,depression,1936,13,0,question,Have you made the decision yet?,sadness,depression,0,False
+"Yes, stay in touch. Bye!",happiness,2338,10,0,inform,"Yes, stay in touch. Bye!",happiness,happiness,8,False
+"OK, but you must stay calm. Do you want me to give you a lift?",calm_neutral,2041,3,0,directive,"OK, but you must stay calm. Do you want me to give you a lift?",no emotion,calm_neutral,11,False
+"OK, I'll be right back... Congratulations! The manager approved the final price fifteen thousand dollars.",depression,1661,12,0,inform,"OK, I will be right back... Congratulations! The manager approved the final price fifteen thousand dollars.",sadness,depression,0,False
+I'm sorry. These batteries are not on sale.,depression,2461,1,1,inform,I am sorry. These batteries are not on sale. and it's affecting me deeply,sadness,depression,0,True
+"Something awful happened. We went to the Portobello Road, and someone stole my handbag.",depression,343,1,1,inform,"Something awful happened. We went to the Portobello Road, and someone stole my handbag.",sadness,depression,0,False
+Very good. Could I serve you anything else?,happiness,497,8,0,directive,Very good. Could I serve you anything else?,happiness,happiness,8,False
+How much in total?,calm_neutral,430,7,0,question,How much in total?,no emotion,calm_neutral,11,False
+"Ur, you really let me down.",anger,2013,6,0,inform,"You Are, you really let me down.",anger,anger,3,False
+"I've made a tough decision, sir. Here's my resignation.",depression,623,2,1,directive,"I have made a tough decision, sir. Here is my resignation.",sadness,depression,0,False
+I’m sorry?,excitement,2293,6,1,commissive,I am sorry?,surprise,excitement,10,False
+"Umm I am sorry, but you need a receipt for a refund.",depression,669,3,0,commissive,"Umm I am sorry, but you need a receipt for a refund.",sadness,depression,0,False
+"Two, I hope that by telling me about them you are planning on taking me!",excitement,1508,1,1,inform,"Two, I hope that by telling me about them you are planning on taking me!",surprise,excitement,10,False
+I really don't think it's any of your business.,anger,1542,6,0,directive,I really do not think it is any of your business.,anger,anger,3,False
+"Yes, I am. Umm, I really don’t feel much like cooking but the family must eat.",calm_neutral,2491,2,0,inform,"Yes, I am. Umm, I really do not feel much like cooking but the family must eat.",no emotion,calm_neutral,11,False
+My stomach's growling again!,anger,2508,0,0,inform,My stomach's growling again!,anger,anger,3,False
+Out? What do you mean out?,excitement,1483,2,0,question,Out? What do you mean out?,surprise,excitement,10,False
+"Tim, please. Please be seated.",calm_neutral,1485,2,0,directive,"Tim, please. Please be seated.",no emotion,calm_neutral,11,False
+Damn it! I think I'm going to miss the plane.,anger,1171,4,1,inform,Damn it! I think I am going to miss the plane.,anger,anger,3,True
+You're telling me! There are thousands of people here.,happiness,775,1,1,inform,You are telling me! There are thousands of people here.,happiness,happiness,8,False
+It's pretty. May I try it on?,happiness,778,5,0,directive,"Lately, it is pretty. may i try it on?",happiness,happiness,8,True
+Really? How much does it cost to fly to Rome?,excitement,1156,13,0,question,Really? How much does it cost to fly to Rome?,surprise,excitement,10,False
+I can't believe it.,excitement,1559,6,1,inform,I cannot believe it.,surprise,excitement,10,False
+Is he really?,excitement,719,1,0,question,Is he really?,surprise,excitement,10,False
+Can I have a month-to-month lease? I only want to rent the apartment for five months.,calm_neutral,2146,2,1,directive,Can I have a month-to-month lease? I only want to rent the apartment for five months.,no emotion,calm_neutral,11,False
+I'm starving. Let's get something to eat.,calm_neutral,628,0,1,directive,I am starving. Let us get something to eat.,no emotion,calm_neutral,11,False
+"Twenty to one, in favour of the Cougars!",anger,2222,6,0,inform,"Twenty to one, in favour of the Cougars!",anger,anger,3,False
+"Yes, I wanna buy a skirt.",calm_neutral,2145,1,1,directive,"Yes, I want to buy a skirt.",no emotion,calm_neutral,11,False
+Don't you dare tell me that...,anger,2327,3,1,inform,Do not you dare tell me that.... This has been going on for a while,anger,anger,3,True
+"I'm busy year in and year out, but now I've done nothing.",depression,683,0,0,inform,"I am busy year in and year out, but now I have done nothing.",sadness,depression,0,False
+Too bad. I really like it.,anxiety,2202,2,0,inform,Too bad. I really like it.,fear,anxiety,1,False
+That's a lot of money!,excitement,736,12,0,inform,That is a lot of money!,surprise,excitement,10,False
+"Oh, my God! It's good we have food.",excitement,788,18,0,inform,"Oh, my God! It is good we have food.",surprise,excitement,10,False
+"Yes, I would like to book a room for my wife and myself.",calm_neutral,1051,1,0,directive,"Yes, I would like to book a room for my wife and myself.",no emotion,calm_neutral,11,False
+Six fifty Yuan! You must be kidding! I can subscribe for evening newspapers for ten years with that much!,excitement,2059,12,1,inform,Six fifty Yuan! You must be kidding! I can subscribe for evening newspapers for ten years with that much! and it's affecting me deeply,surprise,excitement,10,True
+You are really tough. You got a deal.,depression,1661,14,0,inform,I really feel you are really tough. you got a deal.,sadness,depression,0,True
+It's a great feeling.,happiness,2073,11,0,inform,It is a great feeling.,happiness,happiness,8,False
+That is right up my alley. You say party and I'm there.,happiness,1044,3,1,commissive,That is right up my alley. You say party and I am there.,happiness,happiness,8,False
+"Thanks, goodbye.",happiness,2332,6,1,inform,"Thanks, goodbye.",happiness,happiness,8,False
+"Yeah, I will. See you then!",happiness,1663,8,1,commissive,"Yeah, I will. See you then!",happiness,happiness,8,False
+I think it is the worst one I have ever seen.,anger,113,4,1,inform,I think it is the worst one I have ever seen. and it's affecting me deeply,disgust,anger,3,True
+Is English acceptable for you?,calm_neutral,1715,0,0,directive,Is English acceptable for you?,no emotion,calm_neutral,11,False
+"No, the steak was recommended, but it is not very fresh.",anger,178,1,0,inform,"No, the steak was recommended, but it is not very fresh.",anger,anger,3,False
+I hate landing in the sand trap! Now I'm probably going to waste strokes getting it out.,anger,660,0,0,inform,I hate landing in the sand trap! Now I am probably going to waste strokes getting it out.,disgust,anger,3,False
+"We'd like a non-smoking room, please.",calm_neutral,1192,3,1,directive,"We would like a non-smoking room, please.",no emotion,calm_neutral,11,False
+It must be a haunted house. Are you frightened?,anxiety,2435,11,0,question,It must be a haunted house. Are you frightened?,fear,anxiety,1,False
+I like doing aerobics in my spare time. It's good for my health.,calm_neutral,2267,5,1,inform,I like doing aerobics in my spare time. It is good for my health.,no emotion,calm_neutral,11,False
+"No, cats are too dirty. They are lazy and cunning. I don’t like them at all.",anger,1297,3,0,inform,"No, cats are too dirty. They are lazy and cunning. I do not like them at all.",disgust,anger,3,False
+Sounds perfect. I can't wait!,happiness,2532,14,0,inform,Sounds perfect. I cannot wait!,happiness,happiness,8,False
+You don't know what you are asking!,anger,212,1,0,commissive,You do not know what you are asking!,anger,anger,3,True
+That sounds absolutely disgusting!,anger,896,8,0,inform,That sounds absolutely disgusting!. This has been going on for a while,disgust,anger,3,True
+"Thank you so much, I would really appreciate that.",happiness,193,6,0,commissive,"Honestly, Thank you so much, I would really appreciate that.",happiness,happiness,8,True
+I said it’s a lovely day. Why don't we go for a walk?,calm_neutral,2373,1,1,directive,I said it is a lovely day. Why do not we go for a walk?,no emotion,calm_neutral,11,False
+I was wondering if you like to go to the theatre then.,calm_neutral,2229,4,1,directive,I was wondering if you like to go to the theatre then.,no emotion,calm_neutral,11,False
+I'll pick you up.,happiness,1022,11,0,directive,I will pick you up.,happiness,happiness,8,False
+It doesn't look good at all.,anger,1520,8,1,inform,It does not look good at all.,anger,anger,3,False
+"Hi, Andy. I'm Judy. It's nice meeting you.",happiness,1498,1,1,inform,"Hi, Andy. I am Judy. It is nice meeting you.",happiness,happiness,8,False
+"Umm, I found it very disappointing.",anger,1209,3,0,inform,"Umm, I found it very disappointing.. This has been going on for a while",disgust,anger,3,True
+"Yes, I do. I know a place that has excellent food.",happiness,157,4,1,inform,"Yes, I do. I know a place that has excellent food.. This has been going on for a while",happiness,happiness,8,True
+"I'm sorry, sir. Do you wish to try something else? That would be on the house, of course.",depression,178,4,1,directive,"I am sorry, sir. Do you wish to try something else? That would be on the house, of course.",sadness,depression,0,False
+"Well, they should have called you!",anger,2327,5,1,inform,"Well, they should have called you!",anger,anger,3,False
+I'm afraid you've made a mistake. This isn't what I ordered.,depression,2075,2,1,inform,I am afraid you have made a mistake. This is not what I ordered.,sadness,depression,0,False
+Stones? I know many people collecting coins and stamps but stones?,excitement,751,4,0,question,Stones? I know many people collecting coins and stamps but stones?,surprise,excitement,10,False
+"Hello, Rebecca, fancy meeting you here!",happiness,2442,0,0,inform,"Hello, Rebecca, fancy meeting you here!",happiness,happiness,8,False
+"It costs more than you think to run a car, especially when there are so many things wrong with it!",calm_neutral,1452,15,0,inform,"It costs more than you think to run a car, especially when there are so many things wrong with it!",no emotion,calm_neutral,11,False
+Yes. I've dreamed a thousand times I could lie down here to relax.,happiness,2463,1,1,inform,"Honestly, Yes. I have dreamed a thousand times I could lie down here to relax.",happiness,happiness,8,True
+"That's really cheap for shoes like those. OK, I'll take five pairs.",happiness,287,9,0,directive,"That is really cheap for shoes like those. OK, I will take five pairs.. This has been going on for a while",happiness,happiness,8,True
+"Oh, I can't believe it. He looks very young.",excitement,1581,2,1,inform,"Oh, I cannot believe it. He looks very young.",surprise,excitement,10,False
+Thank you so much.,happiness,2199,11,0,inform,Thank you so much.,happiness,happiness,8,False
+Curse this oven! Curse it!,anger,1000,3,1,inform,Curse this oven! Curse it!,anger,anger,3,False
+Do you smell the sweet scent?,happiness,2252,8,1,question,Do you smell the sweet scent?,happiness,happiness,8,False
+What a thrilling trip!,anxiety,1221,8,1,inform,What a thrilling trip!,fear,anxiety,1,False
+"I'll have us ready for Stars.com by the end of next week. After that, I don't know.",depression,1324,1,1,inform,"I will have us ready for Stars.com by the end of next week. After that, I do not know.",sadness,depression,0,False
+You're really sporty!,happiness,1860,1,0,inform,You are really sporty!,happiness,happiness,8,False

@@ -1,0 +1,15 @@
+{
+  "current_model": "whisper-large",
+  "models": {
+    "whisper-base": {
+      "path": "openai/whisper-base",
+      "description": "Whisper Base - Fast CPU processing",
+      "size": "~150MB"
+    },
+    "whisper-large": {
+      "path": "openai/whisper-large-v2", 
+      "description": "Whisper Large - Better accuracy, slower",
+      "size": "~1.5GB"
+    }
+  }
+}

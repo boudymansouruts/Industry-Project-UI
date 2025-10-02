@@ -32,26 +32,24 @@ from pathlib import Path
 
 # Try to import directly; if it fails, add likely paths and retry
 try:
-    from Emotion_Recognition.inference import HealthRiskPredictor, PredictionResult
-    from Emotion_Recognition.config import *  # noqa: F401,F403
+    from inference import HealthRiskPredictor, PredictionResult
+    from config import *  # noqa: F401,F403
 except ModuleNotFoundError:
     project_root = Path(__file__).resolve().parent
     candidates = [
         project_root,
-        project_root / 'Emotion_Recognition',
         Path.cwd(),
-        Path.cwd() / 'Emotion_Recognition',
     ]
     for c in candidates:
         c_str = str(c)
         if c_str not in sys.path:
             sys.path.append(c_str)
     try:
-        from Emotion_Recognition.inference import HealthRiskPredictor, PredictionResult
-        from Emotion_Recognition.config import *  # noqa: F401,F403
+        from inference import HealthRiskPredictor, PredictionResult
+        from config import *  # noqa: F401,F403
     except ModuleNotFoundError as e:
         raise ModuleNotFoundError(
-            "Could not import Emotion_Recognition. Ensure the directory exists at project root and is included in PYTHONPATH."
+            "Could not import emotion recognition modules. Ensure inference.py and config.py are in the project root."
         ) from e
 
 warnings.filterwarnings("ignore")

@@ -53,12 +53,11 @@ logs/
 *.pth
 *.safetensors
 *.bin
-models/
 checkpoints/
 
-# Allow Emotion_Recognition models
-!Emotion_Recognition/models/
-!Emotion_Recognition/models/**
+# Allow models directory for emotion recognition
+!models/
+!models/**
 
 # Keep whisper-enhanced model
 !whisper-enhanced/
