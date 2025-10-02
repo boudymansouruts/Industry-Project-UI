@@ -40,7 +40,7 @@ def start_streamlit():
     
     # Set environment variables for SageMaker
     os.environ['STREAMLIT_SERVER_PORT'] = '8080'
-    os.environ['STREAMLIT_SERVER_ADDRESS'] = '0.0.0.0'
+    os.environ['STREAMLIT_SERVER_ADDRESS'] = 'localhost'
     os.environ['STREAMLIT_SERVER_HEADLESS'] = 'true'
     os.environ['STREAMLIT_BROWSER_GATHER_USAGE_STATS'] = 'false'
     
@@ -48,7 +48,7 @@ def start_streamlit():
     cmd = [
         sys.executable, '-m', 'streamlit', 'run', 'streamlit_app.py',
         '--server.port', '8080',
-        '--server.address', '0.0.0.0',
+        '--server.address', 'localhost',
         '--server.headless', 'true',
         '--browser.gatherUsageStats', 'false'
     ]
