@@ -17,6 +17,17 @@ def check_and_install_dependencies():
     """Check and install missing dependencies"""
     logger.info("Checking dependencies...")
     
+    # Try to install from requirements.txt first
+    requirements_file = Path("requirements.txt")
+    if requirements_file.exists():
+        logger.info("Installing from requirements.txt...")
+        try:
+            import subprocess
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
+            logger.info("✅ Requirements installed from requirements.txt")
+        except subprocess.CalledProcessError as e:
+            logger.warning(f"Failed to install from requirements.txt: {e}")
+    
     required_packages = [
         'torch',
         'transformers', 

@@ -21,8 +21,8 @@ This script will:
 ### **Step 2: Install Dependencies First**
 
 ```bash
-# Install SageMaker-specific requirements
-pip install -r requirements_sagemaker.txt
+# Install all requirements (includes SageMaker compatibility)
+pip install -r requirements.txt
 
 # Or install individually:
 pip install transformers>=4.30.0 torch>=2.0.0 torchaudio>=2.0.0
@@ -140,7 +140,7 @@ INFO:__main__:Starting server on 0.0.0.0:8080
    ```bash
    conda create -n sagemaker python=3.9
    conda activate sagemaker
-   pip install -r requirements_sagemaker.txt
+   pip install -r requirements.txt
    ```
 
 ## ✅ **Success Indicators**
