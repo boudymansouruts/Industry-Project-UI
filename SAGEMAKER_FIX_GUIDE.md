@@ -1,32 +1,39 @@
 # SageMaker Deployment Guide
 
-## 🚀 **Quick Fix for SageMaker Import Error**
+## 🚀 **Quick Fix for SageMaker Dependency Conflicts**
 
-The `WhisperProcessor` import error occurs because SageMaker needs specific dependency versions. Here's how to fix it:
+The dependency conflicts occur because SageMaker has pre-installed packages (AutoGluon, MLflow) that conflict with our requirements. Here's how to fix it:
 
-### **Step 1: Use the SageMaker Startup Script**
+### **Step 1: Use the SageMaker Installation Script**
 
-Instead of running `python start_risk_server.py`, use:
+Instead of `pip install -r requirements.txt`, use:
 
 ```bash
-python start_sagemaker_server.py
+python install_sagemaker.py
 ```
 
 This script will:
-- ✅ Check and install missing dependencies
-- ✅ Test Whisper imports
-- ✅ Setup environment variables
-- ✅ Start the server properly
+- ✅ Install packages compatible with AutoGluon
+- ✅ Avoid version conflicts
+- ✅ Test all critical imports
+- ✅ Verify Whisper functionality
 
-### **Step 2: Install Dependencies First**
+### **Step 2: Alternative Manual Installation**
+
+If the script doesn't work, install packages individually:
 
 ```bash
-# Install all requirements (includes SageMaker compatibility)
-pip install -r requirements.txt
-
-# Or install individually:
-pip install transformers>=4.30.0 torch>=2.0.0 torchaudio>=2.0.0
-pip install librosa soundfile flask numpy scipy pandas scikit-learn
+# Install core packages with compatible versions
+pip install 'torch>=2.2.0,<2.8.0'
+pip install 'transformers>=4.30.0,<4.50.0'
+pip install 'torchaudio>=2.2.0'
+pip install 'librosa>=0.10.0'
+pip install 'soundfile>=0.12.0'
+pip install 'flask>=2.3.0'
+pip install 'accelerate>=0.20.0'
+pip install 'sentencepiece>=0.1.99'
+pip install 'huggingface-hub>=0.15.0'
+pip install 'datasets>=2.12.0,<4.2.0'
 ```
 
 ### **Step 3: Test Imports**
