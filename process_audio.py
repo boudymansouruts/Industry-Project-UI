@@ -64,6 +64,18 @@ def process_specific_file():
             print(f"Moderate risk chunks: {len(result.moderate_risk_chunks)}")
             print(f"Overall risk level: {result.risk_summary['overall_risk_level']}")
             
+            # Print raw transcript and overall sentiment
+            if getattr(result, 'raw_transcription', None):
+                print("\nRAW TRANSCRIPT (no speakers):")
+                print("-"*30)
+                raw_text = result.raw_transcription
+                display_text = raw_text if len(raw_text) < 4000 else raw_text[:4000] + "..."
+                print(display_text)
+                if getattr(result, 'overall_raw_sentiment', None):
+                    ors = result.overall_raw_sentiment
+                    print("\nOverall transcript sentiment:")
+                    print(f"  {ors.get('predicted_emotion','unknown')} ({ors.get('confidence',0):.1%})")
+            
             return True
         else:
             print("❌ Processing failed!")
