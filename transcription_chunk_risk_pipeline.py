@@ -26,11 +26,33 @@ from hybrid_transcribe import (
     transcribe_full_audio
 )
 
-# Import emotion recognition components  
+# Import emotion recognition components with robust path handling (works in SageMaker & local)
 import sys
-sys.path.append('Emotion_Recognition')
-from Emotion_Recognition.inference import HealthRiskPredictor, PredictionResult
-from Emotion_Recognition.config import *
+from pathlib import Path
+
+# Try to import directly; if it fails, add likely paths and retry
+try:
+    from Emotion_Recognition.inference import HealthRiskPredictor, PredictionResult
+    from Emotion_Recognition.config import *  # noqa: F401,F403
+except ModuleNotFoundError:
+    project_root = Path(__file__).resolve().parent
+    candidates = [
+        project_root,
+        project_root / 'Emotion_Recognition',
+        Path.cwd(),
+        Path.cwd() / 'Emotion_Recognition',
+    ]
+    for c in candidates:
+        c_str = str(c)
+        if c_str not in sys.path:
+            sys.path.append(c_str)
+    try:
+        from Emotion_Recognition.inference import HealthRiskPredictor, PredictionResult
+        from Emotion_Recognition.config import *  # noqa: F401,F403
+    except ModuleNotFoundError as e:
+        raise ModuleNotFoundError(
+            "Could not import Emotion_Recognition. Ensure the directory exists at project root and is included in PYTHONPATH."
+        ) from e
 
 warnings.filterwarnings("ignore")
 
