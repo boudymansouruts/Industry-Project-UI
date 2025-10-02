@@ -71,8 +71,9 @@ uploads/
 !uploads/*.m4a
 !uploads/*.flac
 
-# Exclude large dailytalk dataset
-dailytalk/
+# Allow dailytalk dataset to be tracked (use LFS for audio)
+!dailytalk/
+!dailytalk/**
 
 # Results - Allow some sample results
 results/
