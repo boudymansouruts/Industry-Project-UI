@@ -438,8 +438,7 @@ def main():
     if result.raw_transcription:
         print("\nRAW TRANSCRIPT (no speakers):")
         print("-"*30)
-        display_text = result.raw_transcription if len(result.raw_transcription) < 4000 else result.raw_transcription[:4000] + "..."
-        print(display_text)
+        print(result.raw_transcription)
         if getattr(result, 'overall_raw_sentiment', None):
             ors = result.overall_raw_sentiment
             print("\nOverall transcript sentiment:")

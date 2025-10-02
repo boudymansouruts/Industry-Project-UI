@@ -68,9 +68,7 @@ def process_specific_file():
             if getattr(result, 'raw_transcription', None):
                 print("\nRAW TRANSCRIPT (no speakers):")
                 print("-"*30)
-                raw_text = result.raw_transcription
-                display_text = raw_text if len(raw_text) < 4000 else raw_text[:4000] + "..."
-                print(display_text)
+                print(result.raw_transcription)
                 if getattr(result, 'overall_raw_sentiment', None):
                     ors = result.overall_raw_sentiment
                     print("\nOverall transcript sentiment:")
