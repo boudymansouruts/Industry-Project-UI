@@ -504,7 +504,7 @@ def build_speaker_based_segments(audio: np.ndarray, sr: int, model_dir: str = No
     if model_dir is None:
         model_dir = get_model_path()
     
-    # Step 1: Transcribe entire audio in windows to cover full duration
+        # Step 1: Transcribe entire audio in windows to cover full duration
     transcript_segments = windowed_asr_segments(audio, sr, model_dir)
     
     # Step 2: Do speaker diarization separately
@@ -708,7 +708,11 @@ def get_model_path():
         if config_file.exists():
             with open(config_file, 'r') as f:
                 config = json.load(f)
-                return config.get("model_info", {}).get("path", "openai/whisper-large-v2")
+                current = config.get("current_model", "whisper-large")
+                models = config.get("models", {})
+                if current in models:
+                    return models[current].get("path", "openai/whisper-large-v2")
+                return "openai/whisper-large-v2"
     except:
         pass
     return "openai/whisper-large-v2"  # Default fallback

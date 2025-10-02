@@ -10,6 +10,11 @@
       "path": "openai/whisper-large-v2", 
       "description": "Whisper Large - Better accuracy, slower",
       "size": "~1.5GB"
+    },
+    "whisper-large-finetuned": {
+      "path": "models/whisper-large-finetuned",
+      "description": "Fine-tuned Whisper Large on DailyTalk-style data",
+      "size": "local"
     }
   }
 }
