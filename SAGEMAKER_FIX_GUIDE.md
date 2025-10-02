@@ -23,7 +23,10 @@ This script will:
 If the script doesn't work, install packages individually:
 
 ```bash
-# Install core packages with compatible versions
+# Install from unified requirements.txt
+pip install -r requirements.txt
+
+# Or install core packages with compatible versions
 pip install 'torch>=2.2.0,<2.8.0'
 pip install 'transformers>=4.30.0,<4.50.0'
 pip install 'torchaudio>=2.2.0'

@@ -91,19 +91,25 @@ def install_other_dependencies():
     """Install other required dependencies"""
     logger.info("🔄 Installing other dependencies...")
     
-    packages = [
-        "torch>=2.2.0,<2.8.0",
-        "torchaudio>=2.2.0", 
-        "librosa>=0.10.0",
-        "soundfile>=0.12.0",
-        "flask>=2.3.0",
-        "accelerate>=0.20.0",
-        "sentencepiece>=0.1.99",
-        "huggingface-hub>=0.15.0",
-    ]
-    
-    for package in packages:
-        run_command(f"pip install '{package}'", f"Install {package}")
+    # Try to install from unified requirements.txt first
+    if run_command("pip install -r requirements.txt", "Install from requirements.txt"):
+        logger.info("✅ Requirements installed from requirements.txt")
+    else:
+        logger.warning("Failed to install from requirements.txt, installing individually...")
+        
+        packages = [
+            "torch>=2.2.0,<2.8.0",
+            "torchaudio>=2.2.0", 
+            "librosa>=0.10.0",
+            "soundfile>=0.12.0",
+            "flask>=2.3.0",
+            "accelerate>=0.20.0",
+            "sentencepiece>=0.1.99",
+            "huggingface-hub>=0.15.0",
+        ]
+        
+        for package in packages:
+            run_command(f"pip install '{package}'", f"Install {package}")
 
 def main():
     """Main installation function"""
