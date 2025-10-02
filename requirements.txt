@@ -28,6 +28,8 @@ seaborn>=0.12.0
 # SageMaker and AWS (optional for local development)
 sagemaker>=2.150.0
 boto3>=1.26.0
+onnxruntime==1.16.3
+nvidia-ml-py3==7.352.0
 
 # Additional dependencies for Whisper
 accelerate>=0.20.0
@@ -37,6 +39,9 @@ protobuf>=3.20.0
 # Hugging Face ecosystem - SageMaker compatible versions
 datasets>=2.12.0,<4.2.0
 huggingface-hub>=0.15.0
+
+# Pin pyarrow to avoid conflicts with SageMaker's preinstalled mlflow/autogluon
+pyarrow<20
 
 # Note: pyarrow is pre-installed in SageMaker, avoid conflicts
 # Note: AutoGluon and MLflow are pre-installed in SageMaker
