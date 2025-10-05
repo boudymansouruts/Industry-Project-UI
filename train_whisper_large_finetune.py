@@ -121,12 +121,8 @@ def main() -> None:
     model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(language="en", task="transcribe")
     model.config.suppress_tokens = []
     
-    # Disable cache for training (required for gradient checkpointing)
+    # Disable cache for training when using gradient checkpointing
     model.config.use_cache = False
-
-    # Ensure model-level gradient checkpointing is disabled (Colab/XLA compatibility)
-    if hasattr(model, "gradient_checkpointing_disable"):
-        model.gradient_checkpointing_disable()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
@@ -154,7 +150,7 @@ def main() -> None:
         load_best_model_at_end=True,
         metric_for_best_model="loss",
         greater_is_better=False,
-        gradient_checkpointing=False,
+        gradient_checkpointing=True,
     )
 
     trainer = Trainer(
