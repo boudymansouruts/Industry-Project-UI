@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Analysis - Risk Detection</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 Audio Analysis & Risk Detection</h1>
+            <p>Upload audio files for transcription, emotion recognition, and risk assessment</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <h2>Upload Audio File</h2>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="audioFile" accept=".wav,.mp3,.m4a,.flac" hidden>
+                    <div class="upload-content">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p>Click to upload or drag and drop</p>
+                        <p class="file-types">WAV, MP3, M4A, FLAC (max 100MB)</p>
+                    </div>
+                </div>
+                <div id="selectedFile" class="selected-file" style="display: none;"></div>
+                <button id="analyzeBtn" class="btn btn-primary" disabled>Analyze Audio</button>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progressSection" class="progress-section" style="display: none;">
+                <h3>Processing...</h3>
+                <div class="progress-bar">
+                    <div id="progressBar" class="progress-fill"></div>
+                </div>
+                <p id="progressText">Initializing...</p>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h2>Analysis Results</h2>
+                
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Duration</h3>
+                        <p id="duration" class="metric">--</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Chunks</h3>
+                        <p id="totalChunks" class="metric">--</p>
+                    </div>
+                    <div class="card">
+                        <h3>High Risk</h3>
+                        <p id="highRisk" class="metric risk-high">--</p>
+                    </div>
+                    <div class="card">
+                        <h3>Moderate Risk</h3>
+                        <p id="moderateRisk" class="metric risk-moderate">--</p>
+                    </div>
+                    <div class="card">
+                        <h3>Overall Risk</h3>
+                        <p id="overallRisk" class="metric">--</p>
+                    </div>
+                </div>
+
+                <!-- Transcript Section -->
+                <div class="transcript-section">
+                    <h3>Transcription</h3>
+                    <div id="transcript" class="transcript-box"></div>
+                </div>
+
+                <!-- Risk Analysis Table -->
+                <div class="risk-table-section">
+                    <h3>Risk Analysis Details</h3>
+                    <div class="table-container">
+                        <table id="riskTable">
+                            <thead>
+                                <tr>
+                                    <th>Speaker</th>
+                                    <th>Text</th>
+                                    <th>Emotion</th>
+                                    <th>Risk Level</th>
+                                    <th>Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody id="riskTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section id="errorSection" class="error-section" style="display: none;">
+                <h3>Error</h3>
+                <p id="errorMessage"></p>
+                <button class="btn btn-secondary" onclick="location.reload()">Try Again</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Powered by Whisper Large, BioBERT, and PyAnnote</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+

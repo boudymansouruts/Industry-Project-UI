@@ -1,0 +1,106 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Model files (too large for git)
+*.pt
+*.pth
+*.safetensors
+*.bin
+checkpoints/
+
+# Allow models directory for emotion recognition
+!models/
+!models/**
+
+# Keep whisper-enhanced model
+!whisper-enhanced/
+!whisper-enhanced/**
+
+# Audio files - Allow uploads directory for sample files
+uploads/
+!uploads/*.wav
+!uploads/*.mp3
+!uploads/*.mp4
+!uploads/*.m4a
+!uploads/*.flac
+
+# Allow dailytalk dataset to be tracked (use LFS for audio)
+!dailytalk/
+!dailytalk/**
+
+# Results - Allow some sample results
+results/
+!results/*.json
+
+# Cache
+cache/
+.cache/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# AWS
+.aws/
+
+# SageMaker
+sagemaker_model_package/
+model.tar.gz

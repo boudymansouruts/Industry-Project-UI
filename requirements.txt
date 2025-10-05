@@ -1,0 +1,58 @@
+# Risk Audio Analysis Pipeline - Universal Requirements
+# Compatible with both local development and SageMaker deployment
+# Includes SageMaker compatibility constraints to avoid conflicts
+
+# Core ML libraries - SageMaker compatible versions
+torch>=2.2.0,<2.8.0
+transformers>=4.30.0,<4.50.0
+torchaudio>=2.2.0
+
+# Audio processing
+librosa>=0.10.0
+soundfile>=0.12.0
+scipy>=1.10.0
+
+# Data processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# Text preprocessing
+contractions>=0.1.68
+emoji>=2.8.0
+unidecode>=1.3.8
+nltk>=3.8.1
+
+# Web framework
+flask>=2.3.0
+flask-cors>=4.0.0
+werkzeug>=2.3.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# HTTP requests
+requests>=2.28.0
+
+# SageMaker and AWS (optional for local development)
+sagemaker>=2.150.0
+boto3>=1.26.0
+onnxruntime>=1.17.0,<2.0
+nvidia-ml-py3==7.352.0
+
+# Additional dependencies for Whisper
+accelerate>=0.20.0
+sentencepiece>=0.1.99
+protobuf>=3.20.0
+
+# Hugging Face ecosystem - SageMaker compatible versions
+datasets>=2.12.0,<4.2.0
+huggingface-hub>=0.15.0
+
+# Pin pyarrow to avoid conflicts with SageMaker's preinstalled mlflow/autogluon
+pyarrow<20
+
+# Note: pyarrow is pre-installed in SageMaker, avoid conflicts
+# Note: AutoGluon and MLflow are pre-installed in SageMaker
