@@ -150,8 +150,7 @@ def main() -> None:
         load_best_model_at_end=True,
         metric_for_best_model="loss",
         greater_is_better=False,
-        gradient_checkpointing=True,
-        gradient_checkpointing_kwargs={"use_reentrant": True},
+        gradient_checkpointing=False,
     )
 
     trainer = Trainer(
