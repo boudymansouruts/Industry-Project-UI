@@ -142,7 +142,7 @@ def main() -> None:
         num_train_epochs=2,
         save_steps=500,
         save_total_limit=2,
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=500,
         logging_steps=100,
         fp16=torch.cuda.is_available(),
