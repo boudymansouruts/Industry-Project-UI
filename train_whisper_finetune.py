@@ -85,11 +85,10 @@ class WhisperLocalDataset(torch.utils.data.Dataset):
             padding="max_length", max_length=self.processor.feature_extractor.n_samples
         ).input_features.squeeze(0)
 
-        # Labels
-        with self.processor.as_target_processor():
-            labels = self.processor.tokenizer(
-                item["text"], return_tensors="pt"
-            ).input_ids.squeeze(0)
+        # Labels - use tokenizer directly
+        labels = self.processor.tokenizer(
+            item["text"], return_tensors="pt"
+        ).input_ids.squeeze(0)
 
         return {"input_features": input_features, "labels": labels}
 
