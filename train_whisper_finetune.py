@@ -124,6 +124,10 @@ def main() -> None:
     # Disable cache for training (required for gradient checkpointing)
     model.config.use_cache = False
 
+    # Ensure model-level gradient checkpointing is disabled (Colab/XLA compatibility)
+    if hasattr(model, "gradient_checkpointing_disable"):
+        model.gradient_checkpointing_disable()
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
