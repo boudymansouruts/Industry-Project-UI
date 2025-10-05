@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Deprecated: use train_whisper_large_finetune.py or train_whisper_base_finetune.py
+Fine-tune Whisper Base (openai/whisper-base) on local DailyTalk-style data.
+
+Expects dataset under dailytalk/data/** with matching .wav and .txt files.
+Saves finetuned model and processor to models/whisper-base-finetuned.
 """
 
 import os
@@ -94,8 +97,8 @@ def main() -> None:
     data_root = Path("dailytalk/data")
     assert data_root.exists(), f"Dataset not found at {data_root}"
 
-    base_model = "openai/whisper-large-v2"
-    output_dir = Path("models/whisper-large-finetuned")
+    base_model = "openai/whisper-base"
+    output_dir = Path("models/whisper-base-finetuned")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print("Scanning dataset for audio-text pairs...")
@@ -118,10 +121,8 @@ def main() -> None:
     model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(language="en", task="transcribe")
     model.config.suppress_tokens = []
     
-    # Disable cache for training (required for gradient checkpointing)
+    # Disable cache for training
     model.config.use_cache = False
-
-    # Ensure model-level gradient checkpointing is disabled (Colab/XLA compatibility)
     if hasattr(model, "gradient_checkpointing_disable"):
         model.gradient_checkpointing_disable()
 
@@ -170,7 +171,7 @@ def main() -> None:
     processor.save_pretrained(str(output_dir))
 
     print("Done. To use this model, update model_config.json to:\n"
-          "  {\n    \"current_model\": \"whisper-large-finetuned\",\n    \"models\": { ... , \n      \"whisper-large-finetuned\": { \n        \"path\": \"models/whisper-large-finetuned\"\n      }\n    }\n  }")
+          "  {\n    \"current_model\": \"whisper-base-finetuned\",\n    \"models\": { ... , \n      \"whisper-base-finetuned\": { \n        \"path\": \"models/whisper-base-finetuned\"\n      }\n    }\n  }")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Deprecated: use train_whisper_large_finetune.py or train_whisper_base_finetune.py
+Fine-tune Whisper Large (openai/whisper-large-v2) on local DailyTalk-style data.
+
+Expects dataset under dailytalk/data/** with matching .wav and .txt files.
+Saves finetuned model and processor to models/whisper-large-finetuned.
 """
 
 import os
