@@ -151,7 +151,7 @@ def main() -> None:
         metric_for_best_model="loss",
         greater_is_better=False,
         gradient_checkpointing=True,
-        gradient_checkpointing_kwargs={"use_reentrant": False},
+        gradient_checkpointing_kwargs={"use_reentrant": True},
     )
 
     trainer = Trainer(
