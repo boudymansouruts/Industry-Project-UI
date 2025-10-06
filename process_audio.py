@@ -282,36 +282,54 @@ def process_specific_file():
                     return {'predicted_emotion': 'neutral', 'confidence': 0.5}
             
             def _analyze_with_simple_model(self, text, context=""):
-                """Analyze sentiment using a simple, robust approach"""
+                """Analyze sentiment using the fine-tuned model"""
                 try:
                     from transformers import pipeline
+                    import json
+                    import re
                     
-                    # Use a simpler, more reliable model
+                    # Clean text
+                    clean_text = re.sub(r'\[.*?\]', '', text).strip()
+                    if not clean_text or len(clean_text) < 3:
+                        return {'predicted_emotion': 'neutral', 'confidence': 0.5, 'context': context}
+                    
+                    # Truncate text if too long
+                    if len(clean_text) > 512:  # DistilBERT has 512 token limit
+                        clean_text = clean_text[:512]
+                    
+                    # Use the fine-tuned model
                     sentiment_analyzer = pipeline(
                         "sentiment-analysis",
-                        model="distilbert-base-uncased-finetuned-sst-2-english",
+                        model="models/sentiment-model/checkpoint-500",
                         return_all_scores=True
                     )
                     
-                    # Truncate text if too long
-                    if len(text) > 512:  # DistilBERT has 512 token limit
-                        text = text[:512]
+                    # Load label mapping
+                    try:
+                        with open("models/sentiment-model/label_mapping.json", "r") as f:
+                            label_mapping = json.load(f)
+                    except:
+                        # Fallback mapping
+                        label_mapping = {"0": "negative", "1": "neutral", "2": "positive"}
                     
-                    results = sentiment_analyzer(text)
+                    results = sentiment_analyzer(clean_text)
                     
                     # Get the highest confidence result
                     best_result = max(results[0], key=lambda x: x['score'])
                     
+                    # Map the label to our custom labels
+                    predicted_label = label_mapping.get(str(best_result['label']), best_result['label'])
+                    
                     return {
-                        'predicted_emotion': best_result['label'].lower(),
+                        'predicted_emotion': predicted_label,
                         'confidence': best_result['score'],
-                        'all_scores': {r['label'].lower(): r['score'] for r in results[0]},
+                        'all_scores': {label_mapping.get(str(r['label']), r['label']): r['score'] for r in results[0]},
                         'context': context,
-                        'text_length': len(text)
+                        'text_length': len(clean_text)
                     }
                     
                 except Exception as e:
-                    print(f"⚠️  Model analysis failed for {context}: {str(e)}")
+                    print(f"⚠️  Fine-tuned model analysis failed for {context}: {str(e)}")
                     # Fallback to rule-based analysis
                     return self._rule_based_sentiment(text, context)
             
@@ -417,7 +435,7 @@ def process_specific_file():
                     
                     sentiment_analyzer = pipeline(
                         "sentiment-analysis",
-                        model="distilbert-base-uncased-finetuned-sst-2-english",
+                        model="models/sentiment-model/checkpoint-500",
                         return_all_scores=True
                     )
                     
