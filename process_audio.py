@@ -57,7 +57,7 @@ def perform_speaker_diarization(audio_file, num_speakers=2):
         # Instantiate the pipeline
         pipeline = Pipeline.from_pretrained(
             "pyannote/speaker-diarization-3.1",
-            use_auth_token=os.getenv("HUGGINGFACE_TOKEN", "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")
+            use_auth_token=os.getenv("HUGGINGFACE_TOKEN")
         )
         
         # Run the pipeline on the converted audio file

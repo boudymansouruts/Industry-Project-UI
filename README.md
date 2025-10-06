@@ -31,6 +31,28 @@ A comprehensive audio analysis pipeline powered by Whisper Large, BioBERT, and P
 - Excitement
 - Calm/Neutral
 
+## Environment Setup
+
+### Required Environment Variables
+
+Create a `.env` file in the project root with:
+
+```bash
+HUGGINGFACE_TOKEN=your_huggingface_token_here
+```
+
+Or set the environment variable:
+
+```bash
+export HUGGINGFACE_TOKEN=your_huggingface_token_here
+```
+
+### GitHub Secrets (for CI/CD)
+
+If using GitHub Actions, add the following secret in your repository settings:
+- **Secret Name**: `HUGGINGFACE_TOKEN`
+- **Secret Value**: Your Hugging Face token
+
 ## Installation
 
 ### 1. Clone the Repository
