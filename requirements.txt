@@ -49,6 +49,7 @@ protobuf>=3.20.0
 
 # WhisperX for advanced transcription with diarization
 whisperx>=3.4.0
+python-dotenv>=1.0.0
 pyannote-audio>=3.3.0
 ctranslate2>=4.4.0
 faster-whisper>=1.1.0

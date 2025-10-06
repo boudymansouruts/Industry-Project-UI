@@ -35,16 +35,31 @@ A comprehensive audio analysis pipeline powered by Whisper Large, BioBERT, and P
 
 ### Required Environment Variables
 
-Create a `.env` file in the project root with:
+**Option 1: Using .env file (Recommended)**
+
+1. Copy the example file:
+   ```bash
+   cp env.example .env
+   ```
+
+2. Edit `.env` and add your token:
+   ```bash
+   HUGGINGFACE_TOKEN=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
+   ```
+
+**Option 2: Environment Variables**
+
+Set the environment variable directly:
 
 ```bash
-HUGGINGFACE_TOKEN=your_huggingface_token_here
-```
+# Windows (PowerShell)
+$env:HUGGINGFACE_TOKEN="your_token_here"
 
-Or set the environment variable:
+# Windows (Command Prompt)
+set HUGGINGFACE_TOKEN=your_token_here
 
-```bash
-export HUGGINGFACE_TOKEN=your_huggingface_token_here
+# Linux/Mac
+export HUGGINGFACE_TOKEN=your_token_here
 ```
 
 ### GitHub Secrets (for CI/CD)

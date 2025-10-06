@@ -7,6 +7,13 @@ import os
 import sys
 from pathlib import Path
 
+# Load environment variables from .env file if it exists
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv not installed, continue without it
+
 # Add current directory to path for imports
 sys.path.append(str(Path(__file__).parent))
 
