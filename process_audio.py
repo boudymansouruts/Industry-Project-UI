@@ -15,7 +15,11 @@ except ImportError:
     pass  # dotenv not installed, continue without it
 
 # Import configuration
-from config import HUGGINGFACE_TOKEN
+try:
+    from config_local import get_huggingface_token
+    HUGGINGFACE_TOKEN = get_huggingface_token()
+except ImportError:
+    from config import HUGGINGFACE_TOKEN
 
 # Add current directory to path for imports
 sys.path.append(str(Path(__file__).parent))

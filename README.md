@@ -31,11 +31,23 @@ A comprehensive audio analysis pipeline powered by Whisper Large, BioBERT, and P
 - Excitement
 - Calm/Neutral
 
-## Environment Setup (Optional)
+## Environment Setup (Required)
 
-The project works out of the box with the included token, but you can customize it if needed:
+You need to set up your Hugging Face token to use the speaker diarization features:
 
-**Option 1: Using .env file (Recommended)**
+**Option 1: Using local config file (Recommended for development)**
+
+1. Create a local config file:
+   ```bash
+   cp config_local.py.example config_local.py
+   ```
+
+2. Edit `config_local.py` and add your token:
+   ```python
+   HUGGINGFACE_TOKEN_LOCAL = "hf_your_actual_token_here"
+   ```
+
+**Option 2: Using .env file**
 
 1. Copy the example file:
    ```bash
@@ -44,10 +56,10 @@ The project works out of the box with the included token, but you can customize 
 
 2. Edit `.env` and add your token:
    ```bash
-   HUGGINGFACE_TOKEN=your_token_here
+   HUGGINGFACE_TOKEN=hf_your_actual_token_here
    ```
 
-**Option 2: Environment Variables**
+**Option 3: Environment Variables**
 
 Set the environment variable directly:
 
@@ -62,7 +74,7 @@ set HUGGINGFACE_TOKEN=your_token_here
 export HUGGINGFACE_TOKEN=your_token_here
 ```
 
-**Option 3: Edit config.py directly**
+**Option 4: Edit config.py directly**
 
 Simply edit the `HUGGINGFACE_TOKEN` value in `config.py`:
 ```python

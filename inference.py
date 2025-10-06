@@ -40,19 +40,28 @@ class BioBERTClassifier(nn.Module):
 
 # Define TextPreprocessor inline
 class TextPreprocessor:
-    """Simple text preprocessor"""
+    """ASR-aware text preprocessor for conversational transcripts"""
     def __init__(self):
-        pass
+        import re
+        self._re = re
+        # patterns to remove common ASR artifacts
+        self.bracket_noise = self._re.compile(r"\[(?:inaudible|noise|music|laughter|silence|blank_audio)\]", self._re.I)
+        self.multispace = self._re.compile(r"\s+")
+        self.dup_char = self._re.compile(r"\b(\w{2,})\s+\1\b", self._re.I)  # dedupe repeated words
     
-    def preprocess(self, text):
-        """Basic text preprocessing"""
+    def preprocess(self, text: str) -> str:
+        """Clean ASR artifacts, normalize whitespace, keep content."""
         if not text or not isinstance(text, str):
             return ""
-        # Basic cleaning
-        text = text.strip()
-        # Remove extra whitespace
-        text = ' '.join(text.split())
-        return text
+        t = text.strip()
+        t = self.bracket_noise.sub("", t)
+        # normalize common filler tokens
+        t = t.replace(" uh ", " ").replace(" um ", " ")
+        # de-duplicate immediate repeated words
+        t = self.dup_char.sub(r"\1", t)
+        # collapse whitespace
+        t = self.multispace.sub(" ", t)
+        return t.strip()
 
 # Setup logging
 logging.basicConfig(
@@ -135,7 +144,14 @@ class HealthRiskPredictor:
             'happiness': 'LOW',
             'love_affection': 'LOW',
             'excitement': 'LOW',
-            'calm_neutral': 'LOW'
+            'calm_neutral': 'LOW',
+            # Company-specific labels
+            'frustration': 'MODERATE',
+            'client_wants_to_leave': 'HIGH',
+            'risk_issue': 'HIGH',
+            'anger': 'MODERATE',
+            'urgency': 'MODERATE',
+            'escalation': 'MODERATE'
         }
         
         # Load model and tokenizer
@@ -168,8 +184,8 @@ class HealthRiskPredictor:
             MODEL_NAME,
             cache_dir=CACHE_DIR
         )
-        
-        # Initialize model
+
+        # Initialize plain BioBERT classifier (skip company-specific model)
         self.model = BioBERTClassifier(
             model_name=MODEL_NAME,
             num_classes=NUM_CLASSES,
@@ -218,6 +234,7 @@ class HealthRiskPredictor:
         Returns:
             Tokenized inputs
         """
+        # Plain fixed-length tokenization for stable inference
         encoding = self.tokenizer(
             text,
             add_special_tokens=True,
@@ -227,10 +244,12 @@ class HealthRiskPredictor:
             return_attention_mask=True,
             return_tensors='pt'
         )
-        
+
+        input_ids = encoding['input_ids']
+        attention_mask = encoding['attention_mask']
         return {
-            'input_ids': encoding['input_ids'].to(self.device),
-            'attention_mask': encoding['attention_mask'].to(self.device)
+            'input_ids': input_ids.to(self.device),
+            'attention_mask': attention_mask.to(self.device)
         }
     
     def predict_single(
@@ -260,22 +279,23 @@ class HealthRiskPredictor:
         # Tokenize
         inputs = self.tokenize_text(cleaned_text)
         
-        # Make prediction
+        # Plain single-pass prediction
         with torch.no_grad():
             logits = self.model(
                 inputs['input_ids'],
                 inputs['attention_mask']
             )
-            
-            # Get probabilities
             probabilities = F.softmax(logits, dim=1).squeeze(0)
-            
-            # Get prediction
             predicted_idx = torch.argmax(probabilities).item()
             confidence = probabilities[predicted_idx].item()
         
         # Map to emotion label
         predicted_emotion = ID_TO_LABEL[predicted_idx]
+
+        # Confidence floor to neutral
+        if confidence < 0.55:
+            predicted_emotion = 'calm_neutral'
+            confidence = float(confidence)
         risk_level = self.risk_levels[predicted_emotion]
         
         # Get all probabilities
@@ -306,6 +326,8 @@ class HealthRiskPredictor:
             top_k_predictions=top_k_predictions,
             attention_weights=attention_weights
         )
+
+    # Rule-based overrides removed for plain model usage
     
     def predict_batch(
         self,

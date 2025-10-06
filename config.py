@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 
 # Hugging Face Configuration
-HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN", "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")
+HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
 
 # Project Paths
 PROJECT_ROOT = Path(__file__).parent

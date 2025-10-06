@@ -1,0 +1,18 @@
+{
+  "label2id": {
+    "anger": 0,
+    "client_wants_to_leave": 1,
+    "escalation": 2,
+    "frustration": 3,
+    "risk_issue": 4,
+    "urgency": 5
+  },
+  "id2label": {
+    "0": "anger",
+    "1": "client_wants_to_leave",
+    "2": "escalation",
+    "3": "frustration",
+    "4": "risk_issue",
+    "5": "urgency"
+  }
+}

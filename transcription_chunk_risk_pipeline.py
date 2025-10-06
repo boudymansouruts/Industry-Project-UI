@@ -58,12 +58,10 @@ warnings.filterwarnings("ignore")
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(f'risk_pipeline_log_{datetime.now():%Y%m%d_%H%M%S}.log'),
-        logging.StreamHandler()
-    ]
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
+if not any(isinstance(h, logging.StreamHandler) for h in logging.getLogger().handlers):
+    logging.getLogger().addHandler(logging.StreamHandler())
 logger = logging.getLogger(__name__)
 
 
@@ -190,20 +188,24 @@ class TranscriptionChunkRiskPipeline:
             risk_chunks, high_risk_chunks, moderate_risk_chunks
         )
 
-        # Overall sentiment on the full raw transcript (speaker-agnostic)
+        # Overall sentiment on the full raw transcript (speaker-agnostic) + evidence
         try:
             overall_pred = self.emotion_predictor.predict_single(raw_transcription)
+            # Select top evidence chunks by the predicted emotion probability from chunk-level predictions
+            evidence = self._extract_evidence_chunks(overall_pred.predicted_emotion, risk_chunks, top_k=5)
             overall_raw_sentiment = {
                 'predicted_emotion': overall_pred.predicted_emotion,
                 'confidence': overall_pred.confidence,
                 'top_k_predictions': overall_pred.top_k_predictions,
+                'evidence_chunks': evidence,
             }
         except Exception as e:
             logger.error(f"Failed overall sentiment on raw transcript: {e}")
             overall_raw_sentiment = {
                 'predicted_emotion': 'calm_neutral',
                 'confidence': 0.0,
-                'top_k_predictions': []
+                'top_k_predictions': [],
+                'evidence_chunks': []
             }
 
         # Step 5: Attach risk annotations back onto transcript chunks for UI
@@ -256,6 +258,38 @@ class TranscriptionChunkRiskPipeline:
         logger.info(f"Risk analysis completed: {len(high_risk_chunks)} high risk, {len(moderate_risk_chunks)} moderate risk chunks")
         
         return result
+
+    def _extract_evidence_chunks(self, target_emotion: str, risk_chunks: List[RiskChunk], top_k: int = 5) -> List[Dict[str, Any]]:
+        """Pick chunk snippets that best support the overall sentiment.
+        Preference is given to chunks whose emotion matches target_emotion,
+        sorted by confidence, then include next best confidences if insufficient.
+        """
+        if not risk_chunks:
+            return []
+
+        # First take matching-emotion chunks
+        matching = [c for c in risk_chunks if c.emotion == target_emotion]
+        matching.sort(key=lambda c: c.confidence, reverse=True)
+        selected = matching[:top_k]
+
+        # If not enough, fill with highest confidence remaining
+        if len(selected) < top_k:
+            remaining = [c for c in risk_chunks if c not in selected]
+            remaining.sort(key=lambda c: c.confidence, reverse=True)
+            selected.extend(remaining[: max(0, top_k - len(selected))])
+
+        evidence = []
+        for c in selected:
+            evidence.append({
+                'speaker': c.speaker,
+                'text': c.text,
+                'start_time': c.start_time,
+                'end_time': c.end_time,
+                'emotion': c.emotion,
+                'confidence': c.confidence,
+                'chunk_index': c.chunk_index,
+            })
+        return evidence
     
     def _get_transcription_chunks(self, audio_file: str) -> List[Dict[str, Any]]:
         """
@@ -269,9 +303,31 @@ class TranscriptionChunkRiskPipeline:
         segments = transcription_result.get('segments', [])
 
         transcription_chunks = []
+        # Map raw speaker labels to human-friendly consecutive names: Speaker 1/2
+        speaker_name_map: Dict[str, str] = {}
+        next_speaker_idx = 1
         for i, seg in enumerate(segments):
+            raw_speaker = seg.get('speaker') or ''
+            speaker_key = str(raw_speaker).strip().upper()
+            # Try to extract numeric suffix if available (e.g., SPEAKER_00 -> 1)
+            friendly = None
+            try:
+                import re
+                m = re.search(r'(\d+)$', speaker_key.replace('SPEAKER_', '').replace('SPEAKER', '').strip())
+                if m:
+                    friendly = f"Speaker {int(m.group(1)) + 1 if 'SPEAKER_' in speaker_key or 'SPEAKER' in speaker_key else int(m.group(1))}"
+            except Exception:
+                friendly = None
+
+            if not friendly:
+                # Assign consecutive numbers per unique raw label
+                if speaker_key not in speaker_name_map:
+                    speaker_name_map[speaker_key] = f"Speaker {next_speaker_idx}"
+                    next_speaker_idx += 1
+                friendly = speaker_name_map[speaker_key]
+
             chunk_info = {
-                'speaker': seg['speaker'],
+                'speaker': friendly,
                 'text': seg['text'],
                 'start_time': seg['start_time'],
                 'end_time': seg['end_time'],
@@ -280,13 +336,13 @@ class TranscriptionChunkRiskPipeline:
                 'chunk_index': i
             }
             transcription_chunks.append(chunk_info)
-            logger.info(f"Chunk {i+1}: [{seg['speaker']}] {seg['start_time']:.1f}s-{seg['end_time']:.1f}s, {seg['word_count']} words")
+            logger.info(f"Chunk {i+1}: [{chunk_info['speaker']}] {seg['start_time']:.1f}s-{seg['end_time']:.1f}s, {seg['word_count']} words")
 
         if not transcription_chunks:
             logger.warning("No chunks returned; falling back to single full-audio chunk")
             speaker_transcription = transcription_result['speaker_transcription']
             transcription_chunks.append({
-                'speaker': 'Speaker_1',
+                'speaker': 'Speaker 1',
                 'text': speaker_transcription,
                 'start_time': 0.0,
                 'end_time': audio_duration,
@@ -351,15 +407,25 @@ class TranscriptionChunkRiskPipeline:
         high_risk_chunks: List[RiskChunk], 
         moderate_risk_chunks: List[RiskChunk]
     ) -> Dict[str, Any]:
-        """Generate comprehensive risk summary"""
-        
-        total_chunks = len(all_chunks)
-        high_count = len(high_risk_chunks)
-        moderate_count = len(moderate_risk_chunks)
-        
-        # Calculate percentages
-        high_percentage = (high_count / total_chunks * 100) if total_chunks > 0 else 0
-        moderate_percentage = (moderate_count / total_chunks * 100) if total_chunks > 0 else 0
+        """Generate comprehensive risk summary (duration-weighted).
+        Percentages are based on total time covered by chunks of each risk level
+        divided by the total time covered by all chunks.
+        """
+
+        # Compute total durations
+        def duration(c: RiskChunk) -> float:
+            try:
+                return max(0.0, float(c.end_time) - float(c.start_time))
+            except Exception:
+                return 0.0
+
+        total_duration = sum(duration(c) for c in all_chunks) or 0.0
+        high_duration = sum(duration(c) for c in high_risk_chunks)
+        moderate_duration = sum(duration(c) for c in moderate_risk_chunks)
+
+        # Duration-weighted percentages
+        high_percentage = (high_duration / total_duration * 100.0) if total_duration > 0 else 0.0
+        moderate_percentage = (moderate_duration / total_duration * 100.0) if total_duration > 0 else 0.0
         
         # Determine overall risk level
         if high_percentage >= 20:
@@ -386,7 +452,10 @@ class TranscriptionChunkRiskPipeline:
             'overall_risk_level': overall_risk,
             'high_risk_percentage': high_percentage,
             'moderate_risk_percentage': moderate_percentage,
-            'total_risk_chunks': high_count + moderate_count,
+            'total_risk_chunks': len(high_risk_chunks) + len(moderate_risk_chunks),
+            'high_risk_duration_sec': high_duration,
+            'moderate_risk_duration_sec': moderate_duration,
+            'total_analyzed_duration_sec': total_duration,
             'emotion_distribution': emotion_counts,
             'speaker_risk_summary': speaker_risk,
             'risk_thresholds': {
