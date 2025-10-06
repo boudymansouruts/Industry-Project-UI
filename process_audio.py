@@ -14,6 +14,9 @@ try:
 except ImportError:
     pass  # dotenv not installed, continue without it
 
+# Import configuration
+from config import HUGGINGFACE_TOKEN
+
 # Add current directory to path for imports
 sys.path.append(str(Path(__file__).parent))
 
@@ -64,7 +67,7 @@ def perform_speaker_diarization(audio_file, num_speakers=2):
         # Instantiate the pipeline
         pipeline = Pipeline.from_pretrained(
             "pyannote/speaker-diarization-3.1",
-            use_auth_token=os.getenv("HUGGINGFACE_TOKEN")
+            use_auth_token=HUGGINGFACE_TOKEN
         )
         
         # Run the pipeline on the converted audio file

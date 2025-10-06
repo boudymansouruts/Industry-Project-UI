@@ -4,7 +4,11 @@ This file contains all hyperparameters, paths, and settings for the project
 """
 
 import torch
+import os
 from pathlib import Path
+
+# Hugging Face Configuration
+HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN", "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")
 
 # Project Paths
 PROJECT_ROOT = Path(__file__).parent

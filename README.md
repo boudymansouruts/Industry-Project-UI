@@ -31,9 +31,9 @@ A comprehensive audio analysis pipeline powered by Whisper Large, BioBERT, and P
 - Excitement
 - Calm/Neutral
 
-## Environment Setup
+## Environment Setup (Optional)
 
-### Required Environment Variables
+The project works out of the box with the included token, but you can customize it if needed:
 
 **Option 1: Using .env file (Recommended)**
 
@@ -44,7 +44,7 @@ A comprehensive audio analysis pipeline powered by Whisper Large, BioBERT, and P
 
 2. Edit `.env` and add your token:
    ```bash
-   HUGGINGFACE_TOKEN=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
+   HUGGINGFACE_TOKEN=your_token_here
    ```
 
 **Option 2: Environment Variables**
@@ -60,6 +60,13 @@ set HUGGINGFACE_TOKEN=your_token_here
 
 # Linux/Mac
 export HUGGINGFACE_TOKEN=your_token_here
+```
+
+**Option 3: Edit config.py directly**
+
+Simply edit the `HUGGINGFACE_TOKEN` value in `config.py`:
+```python
+HUGGINGFACE_TOKEN = "your_token_here"
 ```
 
 ### GitHub Secrets (for CI/CD)
