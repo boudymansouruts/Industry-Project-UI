@@ -1,5 +1,5 @@
 {
-  "current_model": "whisper-large",
+  "current_model": "whisper-base-finetuned",
   "models": {
     "whisper-base": {
       "path": "openai/whisper-base",
@@ -14,6 +14,11 @@
     "whisper-large-finetuned": {
       "path": "models/whisper-large-finetuned",
       "description": "Fine-tuned Whisper Large on DailyTalk-style data",
+      "size": "local"
+    },
+    "whisper-base-finetuned": {
+      "path": "models/whisper-base-finetuned",
+      "description": "Fine-tuned Whisper Base on DailyTalk-style data",
       "size": "local"
     }
   }

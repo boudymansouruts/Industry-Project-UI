@@ -22,6 +22,7 @@ from transformers import (
     WhisperProcessor,
     Trainer,
     TrainingArguments,
+    TrainerCallback,
 )
 
 
@@ -94,6 +95,14 @@ class WhisperLocalDataset(torch.utils.data.Dataset):
 
 
 def main() -> None:
+    # Debug: environment info
+    print(f"Torch version: {torch.__version__}")
+    print(f"CUDA available: {torch.cuda.is_available()}")
+    if torch.cuda.is_available():
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+        print(f"CUDA capability: {torch.cuda.get_device_capability(0)}")
+        print(f"Initial CUDA mem allocated: {torch.cuda.memory_allocated() / 1e9:.2f} GB")
+        print(f"Initial CUDA mem reserved: {torch.cuda.memory_reserved() / 1e9:.2f} GB")
     data_root = Path("dailytalk/data")
     assert data_root.exists(), f"Dataset not found at {data_root}"
 
@@ -128,6 +137,7 @@ def main() -> None:
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+    print(f"Using device: {device}")
 
     train_ds = WhisperLocalDataset(train_items, processor)
     val_ds = WhisperLocalDataset(val_items, processor)
@@ -145,7 +155,7 @@ def main() -> None:
         save_total_limit=2,
         eval_strategy="steps",
         eval_steps=500,
-        logging_steps=100,
+        logging_steps=10,
         fp16=torch.cuda.is_available(),
         bf16=False,
         report_to=[],
@@ -155,12 +165,57 @@ def main() -> None:
         gradient_checkpointing=False,
     )
 
+    class DebugCallback(TrainerCallback):
+        def __init__(self, total_train_items: int, eff_batch_size: int):
+            self.total_train_items = total_train_items
+            self.eff_batch_size = max(1, eff_batch_size)
+            self.batches_per_epoch = (total_train_items + self.eff_batch_size - 1) // self.eff_batch_size
+            self.current_epoch = None
+            self.step_in_epoch = 0
+
+        def on_epoch_begin(self, args, state, control, **kwargs):
+            # state.epoch can be None for the first callback; fallback to counter
+            epoch_idx = int(state.epoch) if state.epoch is not None else (self.current_epoch or 0)
+            self.current_epoch = epoch_idx
+            self.step_in_epoch = 0
+            print(f"[Epoch {epoch_idx+1}] starting - {self.batches_per_epoch} batches")
+            return control
+
+        def on_step_end(self, args, state, control, **kwargs):
+            # Increase visible batch counter every optimizer step (after grad accumulation)
+            self.step_in_epoch += 1
+            print(f"[Epoch {int((state.epoch or 0))+1}] batch {self.step_in_epoch}/{self.batches_per_epoch} (global_step={state.global_step})")
+            if torch.cuda.is_available() and state.global_step % args.logging_steps == 0:
+                alloc = torch.cuda.memory_allocated() / 1e9
+                reserv = torch.cuda.memory_reserved() / 1e9
+                print(f"  CUDA mem: allocated={alloc:.2f} GB reserved={reserv:.2f} GB")
+            return control
+
+        def on_log(self, args, state, control, logs=None, **kwargs):
+            if logs is None:
+                return control
+            parts = []
+            for k, v in logs.items():
+                if isinstance(v, (int, float)):
+                    parts.append(f"{k}={v:.6f}")
+                else:
+                    parts.append(f"{k}={v}")
+            line = ", ".join(parts)
+            if torch.cuda.is_available():
+                alloc = torch.cuda.memory_allocated() / 1e9
+                reserv = torch.cuda.memory_reserved() / 1e9
+                print(f"[Metrics] {line} | CUDA: {alloc:.2f}G/{reserv:.2f}G")
+            else:
+                print(f"[Metrics] {line}")
+            return control
+
     trainer = Trainer(
         model=model,
         args=args,
         train_dataset=train_ds,
         eval_dataset=val_ds,
         data_collator=collator,
+        callbacks=[DebugCallback(total_train_items=len(train_ds), eff_batch_size=args.per_device_train_batch_size * args.gradient_accumulation_steps)],
     )
 
     print("Starting training...")

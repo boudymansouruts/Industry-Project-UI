@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 # Import transcription components
 from hybrid_transcribe import (
+    whisperx_transcribe_audio,
     hybrid_transcribe_audio, 
     voice_based_diarization,
     transcribe_full_audio
@@ -258,18 +259,17 @@ class TranscriptionChunkRiskPipeline:
     
     def _get_transcription_chunks(self, audio_file: str) -> List[Dict[str, Any]]:
         """
-        Use hybrid_transcribe to get proper transcription with speaker diarization,
-        then split into manageable chunks for emotion analysis
+        Use WhisperX for transcription with speaker diarization
         """
-        logger.info("Using hybrid transcription with speaker diarization...")
+        logger.info("Using WhisperX transcription with speaker diarization...")
         
-        # Use hybrid_transcribe which now returns diarized time-aligned segments
-        transcription_result = hybrid_transcribe_audio(audio_file)
+        # Use WhisperX for transcription with diarization
+        transcription_result = whisperx_transcribe_audio(audio_file)
         audio_duration = transcription_result['audio_duration']
-        diarized_segments = transcription_result.get('segments', [])
+        segments = transcription_result.get('segments', [])
 
         transcription_chunks = []
-        for i, seg in enumerate(diarized_segments):
+        for i, seg in enumerate(segments):
             chunk_info = {
                 'speaker': seg['speaker'],
                 'text': seg['text'],
@@ -283,7 +283,7 @@ class TranscriptionChunkRiskPipeline:
             logger.info(f"Chunk {i+1}: [{seg['speaker']}] {seg['start_time']:.1f}s-{seg['end_time']:.1f}s, {seg['word_count']} words")
 
         if not transcription_chunks:
-            logger.warning("No diarized chunks returned; falling back to single full-audio chunk")
+            logger.warning("No chunks returned; falling back to single full-audio chunk")
             speaker_transcription = transcription_result['speaker_transcription']
             transcription_chunks.append({
                 'speaker': 'Speaker_1',

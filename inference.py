@@ -206,7 +206,7 @@ class HealthRiskPredictor:
         Returns:
             Cleaned text
         """
-        return self.preprocessor.clean_text(text)
+        return self.preprocessor.preprocess(text)
     
     def tokenize_text(self, text: str) -> Dict[str, torch.Tensor]:
         """
@@ -262,12 +262,10 @@ class HealthRiskPredictor:
         
         # Make prediction
         with torch.no_grad():
-            outputs = self.model(
+            logits = self.model(
                 inputs['input_ids'],
-                inputs['attention_mask'],
-                return_attention=return_attention
+                inputs['attention_mask']
             )
-            logits = outputs['logits']
             
             # Get probabilities
             probabilities = F.softmax(logits, dim=1).squeeze(0)
@@ -295,10 +293,9 @@ class HealthRiskPredictor:
         
         # Get attention weights if requested
         attention_weights = None
-        if return_attention and 'attentions' in outputs:
-            # Average across layers and heads
-            attention_weights = torch.stack(outputs['attentions']).mean(dim=(0, 1, 2))
-            attention_weights = attention_weights.cpu().numpy()
+        if return_attention:
+            # For now, return None since we don't have attention weights
+            attention_weights = None
         
         return PredictionResult(
             text=text[:200] + '...' if len(text) > 200 else text,
@@ -367,8 +364,7 @@ class HealthRiskPredictor:
             
             # Make predictions
             with torch.no_grad():
-                outputs = self.model(input_ids, attention_mask)
-                logits = outputs['logits']
+                logits = self.model(input_ids, attention_mask)
                 probabilities = F.softmax(logits, dim=1)
             
             # Process results

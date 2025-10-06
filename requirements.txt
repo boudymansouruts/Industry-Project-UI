@@ -47,6 +47,12 @@ accelerate>=0.20.0
 sentencepiece>=0.1.99
 protobuf>=3.20.0
 
+# WhisperX for advanced transcription with diarization
+whisperx>=3.4.0
+pyannote-audio>=3.3.0
+ctranslate2>=4.4.0
+faster-whisper>=1.1.0
+
 # Hugging Face ecosystem - SageMaker compatible versions
 datasets>=2.12.0,<4.2.0
 huggingface-hub>=0.15.0

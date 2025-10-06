@@ -87,6 +87,8 @@ cache/
 *.tmp
 *.temp
 temp/
+temp_audio/
+temp_diarization_audio.wav
 
 # Jupyter Notebook
 .ipynb_checkpoints

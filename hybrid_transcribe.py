@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Hybrid Transcription with Fixed Speaker Diarization
+Hybrid Transcription with WhisperX Speaker Diarization
 """
 
 import os
@@ -19,6 +19,8 @@ import re
 from typing import List, Tuple
 import warnings
 warnings.filterwarnings("ignore")
+
+# WhisperX imports removed - using fine-tuned model only
 
 
 def detect_speech_segments(audio: np.ndarray, sr: int = 16000) -> List[Tuple[float, float]]:
@@ -747,8 +749,83 @@ def get_model_path():
     return "openai/whisper-large-v2"  # Default fallback
 
 
+def whisperx_transcribe_audio(audio_file: str, model_dir: str = None):
+    """
+    Use fine-tuned model for transcription without speaker diarization
+    """
+    print(f"FINE-TUNED TRANSCRIPTION: {Path(audio_file).name}")
+    print("=" * 60)
+    
+    start_time = time.time()
+    
+    if model_dir is None:
+        model_dir = get_model_path()
+    
+    print(f"Using fine-tuned model: {model_dir}")
+    
+    # Get full transcription without speaker diarization
+    full_transcription, audio, sr = transcribe_full_audio(audio_file, model_dir)
+    
+    # Create simple chunks for emotion analysis (no speaker identification)
+    chunk_duration = 10.0  # 10 second chunks
+    chunk_size = int(chunk_duration * sr)
+    chunks = []
+    
+    # Load model and processor for chunk transcription
+    processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
+    model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
+    model.eval()
+    
+    for i in range(0, len(audio), chunk_size):
+        start_time_chunk = i / sr
+        end_time_chunk = min((i + chunk_size) / sr, len(audio) / sr)
+        
+        # Transcribe this chunk
+        chunk_text = transcribe_audio_slice(
+            audio, sr, start_time_chunk, end_time_chunk,
+            processor, model, device
+        )
+        
+        if chunk_text and len(chunk_text.strip()) > 1:
+            chunks.append({
+                'speaker': 'Speaker',  # No speaker diarization
+                'text': chunk_text.strip(),
+                'start_time': start_time_chunk,
+                'end_time': end_time_chunk,
+                'word_count': len(chunk_text.strip().split()),
+                'audio_duration': len(audio) / sr,
+                'chunk_index': len(chunks)
+            })
+
+    end_time = time.time()
+    processing_time = end_time - start_time
+
+    print("\nFINE-TUNED TRANSCRIPTION COMPLETED")
+    print(f"Total processing time: {processing_time:.1f} seconds")
+    total_words = sum(ch["word_count"] for ch in chunks)
+    print(f"Words: {total_words} (no speaker segmentation)")
+    
+    # Print the results
+    print("\n" + "="*50)
+    print("FINAL TRANSCRIPT")
+    print("="*50)
+    print()
+    print(full_transcription)
+    print()
+
+    return {
+        'raw_transcription': full_transcription,
+        'speaker_transcription': full_transcription,  # Same as raw since no speakers
+        'processing_time': processing_time,
+        'audio_duration': len(audio) / sr,
+        'segments': chunks
+    }
+
+
 def hybrid_transcribe_audio(audio_file: str, model_dir: str = None):
-    print(f"HYBRID TRANSCRIPTION: {Path(audio_file).name}")
+    print(f"SIMPLE TRANSCRIPTION: {Path(audio_file).name}")
     print("=" * 60)
 
     # Start timing
@@ -758,40 +835,64 @@ def hybrid_transcribe_audio(audio_file: str, model_dir: str = None):
         model_dir = get_model_path()
     
     print(f"Using model: {model_dir}")
-    # Reuse loader from transcribe_full_audio for consistency
-    _, audio, sr = transcribe_full_audio(audio_file, model_dir)
+    # Get full transcription without speaker diarization
+    full_transcription, audio, sr = transcribe_full_audio(audio_file, model_dir)
 
-    print("\nSTEP 2: Transcribe first, then assign speakers")
-    diarized_chunks = build_speaker_based_segments(audio, sr, model_dir)
-
-    # Build human-readable transcript from diarized chunks
-    blocks = []
-    for ch in diarized_chunks:
-        blocks.append(f"[{ch['speaker']}]: {ch['text']}")
-    speaker_transcription = "\n\n".join(blocks)
+    # Create simple chunks for emotion analysis (no speaker identification)
+    chunk_duration = 10.0  # 10 second chunks
+    chunk_size = int(chunk_duration * sr)
+    chunks = []
+    
+    # Load model and processor for chunk transcription
+    processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
+    model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
+    model.eval()
+    
+    for i in range(0, len(audio), chunk_size):
+        start_time_chunk = i / sr
+        end_time_chunk = min((i + chunk_size) / sr, len(audio) / sr)
+        
+        # Transcribe this chunk
+        chunk_text = transcribe_audio_slice(
+            audio, sr, start_time_chunk, end_time_chunk,
+            processor, model, device
+        )
+        
+        if chunk_text and len(chunk_text.strip()) > 1:
+            chunks.append({
+                'speaker': 'Speaker',  # No speaker diarization
+                'text': chunk_text.strip(),
+                'start_time': start_time_chunk,
+                'end_time': end_time_chunk,
+                'word_count': len(chunk_text.strip().split()),
+                'audio_duration': len(audio) / sr,
+                'chunk_index': len(chunks)
+            })
 
     end_time = time.time()
     processing_time = end_time - start_time
 
-    print("\nHYBRID TRANSCRIPTION COMPLETED")
+    print("\nSIMPLE TRANSCRIPTION COMPLETED")
     print(f"Total processing time: {processing_time:.1f} seconds")
-    total_words = sum(ch["word_count"] for ch in diarized_chunks)
-    print(f"Words: {total_words} (speaker-segmented)")
+    total_words = sum(ch["word_count"] for ch in chunks)
+    print(f"Words: {total_words} (no speaker segmentation)")
     
     # Print the results
     print("\n" + "="*50)
-    print("FINAL TRANSCRIPT WITH SPEAKERS")
+    print("FINAL TRANSCRIPT")
     print("="*50)
     print()
-    print(speaker_transcription)
+    print(full_transcription)
     print()
 
     return {
-        'raw_transcription': " ".join(ch["text"] for ch in diarized_chunks),
-        'speaker_transcription': speaker_transcription,
+        'raw_transcription': full_transcription,
+        'speaker_transcription': full_transcription,  # Same as raw since no speakers
         'processing_time': processing_time,
         'audio_duration': len(audio) / sr,
-        'segments': diarized_chunks
+        'segments': chunks
     }
 
 
