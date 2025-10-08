@@ -23,7 +23,7 @@ import numpy as np
 
 DATA_PATH = Path("data/company_sentiment_examples.csv")
 OUTPUT_DIR = Path("models/company-sentiment")
-MODEL_NAME = "roberta-base"
+MODEL_NAME = "roberta-large"
 
 
 def load_data() -> pd.DataFrame:
@@ -63,16 +63,19 @@ def main():
     # Map labels to ids
     df["labels"] = df["label"].map(label2id)
 
-    # Simple split
-    val_frac = 0.15
-    val_size = max(1, int(len(df) * val_frac))
-    df_train = df.iloc[:-val_size] if val_size < len(df) else df
-    df_val = df.iloc[-val_size:] if val_size < len(df) else df.iloc[:0]
+    # Stratified split
+    from sklearn.model_selection import train_test_split
+    df_train, df_val = train_test_split(
+        df,
+        test_size=0.15,
+        random_state=42,
+        stratify=df["labels"],
+    )
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-    ds_train = Dataset.from_pandas(df_train[["text", "labels"]])
-    ds_val = Dataset.from_pandas(df_val[["text", "labels"]])
+    ds_train = Dataset.from_pandas(df_train[["text", "labels"]].reset_index(drop=True))
+    ds_val = Dataset.from_pandas(df_val[["text", "labels"]].reset_index(drop=True))
 
     ds_train = ds_train.map(lambda x: tokenize_function(x, tokenizer), batched=True)
     ds_val = ds_val.map(lambda x: tokenize_function(x, tokenizer), batched=True)
@@ -90,20 +93,40 @@ def main():
         output_dir=str(OUTPUT_DIR),
         evaluation_strategy="epoch" if len(df_val) > 0 else "no",
         save_strategy="epoch" if len(df_val) > 0 else "no",
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=16,
-        num_train_epochs=2,
+        per_device_train_batch_size=8,
+        per_device_eval_batch_size=8,
+        num_train_epochs=5,
         learning_rate=2e-5,
         weight_decay=0.01,
         logging_steps=25,
         load_best_model_at_end=len(df_val) > 0,
         metric_for_best_model="f1_macro",
         greater_is_better=True,
+        seed=42,
     )
 
     data_collator = DataCollatorWithPadding(tokenizer)
 
-    trainer = Trainer(
+    # Class weights
+    import numpy as np
+    class_counts = df_train["labels"].value_counts().sort_index().values.astype(float)
+    inv_freq = 1.0 / np.maximum(class_counts, 1.0)
+    weights = inv_freq / inv_freq.sum() * len(class_counts)
+
+    from transformers import Trainer
+    import torch
+    import torch.nn as nn
+
+    class WeightedTrainer(Trainer):
+        def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
+            labels = inputs.get("labels")
+            outputs = model(**{k: v for k, v in inputs.items() if k != "labels"})
+            logits = outputs.get("logits")
+            loss_fct = nn.CrossEntropyLoss(weight=torch.tensor(weights, dtype=torch.float, device=logits.device))
+            loss = loss_fct(logits, labels)
+            return (loss, outputs) if return_outputs else loss
+
+    trainer = WeightedTrainer(
         model=model,
         args=args,
         train_dataset=ds_train,

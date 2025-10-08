@@ -1,0 +1,276 @@
+{
+  "raw_transcript": {
+    "full_text": {
+      "context": "Full Raw Transcript",
+      "text_length": 512,
+      "predicted_emotion": "anger",
+      "confidence": 0.20792216062545776,
+      "all_scores": {
+        "anger": 0.20792216062545776,
+        "client_wants_to_leave": 0.1572258025407791,
+        "compliance_privacy": 0.03582226485013962,
+        "confusion": 0.08488103747367859,
+        "escalation": 0.057742249220609665,
+        "financial_distress": 0.0684746503829956,
+        "frustration": 0.10496875643730164,
+        "happy": 0.09645634889602661,
+        "neutral": 0.033096954226493835,
+        "risk_issue": 0.05006680637598038,
+        "safety_wellbeing": 0.0371275469660759,
+        "urgency": 0.0662154108285904
+      }
+    },
+    "chunks": {
+      "most_common_emotion": "anger",
+      "occurrences": 3,
+      "total_chunks": 4,
+      "emotion_distribution": {
+        "anger": 3,
+        "happy": 1
+      },
+      "avg_confidences": {
+        "anger": 0.18811476727326712,
+        "happy": 0.11069536209106445
+      },
+      "chunk_results": [
+        {
+          "context": "Chunk 1/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.20792216062545776,
+          "all_scores": {
+            "anger": 0.20792216062545776,
+            "client_wants_to_leave": 0.1572258025407791,
+            "compliance_privacy": 0.03582226485013962,
+            "confusion": 0.08488103747367859,
+            "escalation": 0.057742249220609665,
+            "financial_distress": 0.0684746503829956,
+            "frustration": 0.10496875643730164,
+            "happy": 0.09645634889602661,
+            "neutral": 0.033096954226493835,
+            "risk_issue": 0.05006680637598038,
+            "safety_wellbeing": 0.0371275469660759,
+            "urgency": 0.0662154108285904
+          }
+        },
+        {
+          "context": "Chunk 2/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.15596145391464233,
+          "all_scores": {
+            "anger": 0.15596145391464233,
+            "client_wants_to_leave": 0.10135244578123093,
+            "compliance_privacy": 0.026826810091733932,
+            "confusion": 0.1015772745013237,
+            "escalation": 0.04761800915002823,
+            "financial_distress": 0.05018434673547745,
+            "frustration": 0.119515061378479,
+            "happy": 0.10992991924285889,
+            "neutral": 0.11553534865379333,
+            "risk_issue": 0.0514247827231884,
+            "safety_wellbeing": 0.03407442942261696,
+            "urgency": 0.08600017428398132
+          }
+        },
+        {
+          "context": "Chunk 3/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.20046068727970123,
+          "all_scores": {
+            "anger": 0.20046068727970123,
+            "client_wants_to_leave": 0.16607695817947388,
+            "compliance_privacy": 0.035398684442043304,
+            "confusion": 0.08372100442647934,
+            "escalation": 0.056516382843256,
+            "financial_distress": 0.06755787879228592,
+            "frustration": 0.10496052354574203,
+            "happy": 0.09355292469263077,
+            "neutral": 0.03304338455200195,
+            "risk_issue": 0.05199942737817764,
+            "safety_wellbeing": 0.03836625814437866,
+            "urgency": 0.06834591925144196
+          }
+        },
+        {
+          "context": "Chunk 4/4",
+          "text_length": 20,
+          "predicted_emotion": "happy",
+          "confidence": 0.11069536209106445,
+          "all_scores": {
+            "anger": 0.09981007128953934,
+            "client_wants_to_leave": 0.10335452854633331,
+            "compliance_privacy": 0.05817636474967003,
+            "confusion": 0.05287540704011917,
+            "escalation": 0.10451972484588623,
+            "financial_distress": 0.06961393356323242,
+            "frustration": 0.0792035460472107,
+            "happy": 0.11069536209106445,
+            "neutral": 0.058644212782382965,
+            "risk_issue": 0.10259898751974106,
+            "safety_wellbeing": 0.07740117609500885,
+            "urgency": 0.08310659974813461
+          }
+        }
+      ]
+    }
+  },
+  "diarized_transcript": {
+    "full_text": {
+      "context": "Full Diarized Transcript",
+      "text_length": 512,
+      "predicted_emotion": "anger",
+      "confidence": 0.16997981071472168,
+      "all_scores": {
+        "anger": 0.16997981071472168,
+        "client_wants_to_leave": 0.15505719184875488,
+        "compliance_privacy": 0.038569126278162,
+        "confusion": 0.08538112789392471,
+        "escalation": 0.06261308491230011,
+        "financial_distress": 0.06716382503509521,
+        "frustration": 0.11089276522397995,
+        "happy": 0.10464934259653091,
+        "neutral": 0.03899123892188072,
+        "risk_issue": 0.052867282181978226,
+        "safety_wellbeing": 0.041077420115470886,
+        "urgency": 0.07275786250829697
+      }
+    },
+    "chunks": {
+      "most_common_emotion": "anger",
+      "occurrences": 4,
+      "total_chunks": 4,
+      "emotion_distribution": {
+        "anger": 4
+      },
+      "avg_confidences": {
+        "anger": 0.20775791630148888
+      },
+      "chunk_results": [
+        {
+          "context": "Chunk 1/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.210609570145607,
+          "all_scores": {
+            "anger": 0.210609570145607,
+            "client_wants_to_leave": 0.16245974600315094,
+            "compliance_privacy": 0.034190114587545395,
+            "confusion": 0.08637835830450058,
+            "escalation": 0.05375393480062485,
+            "financial_distress": 0.06939011067152023,
+            "frustration": 0.10752127319574356,
+            "happy": 0.0925145074725151,
+            "neutral": 0.029379164800047874,
+            "risk_issue": 0.04939347505569458,
+            "safety_wellbeing": 0.035090915858745575,
+            "urgency": 0.06931889802217484
+          }
+        },
+        {
+          "context": "Chunk 2/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.1959989070892334,
+          "all_scores": {
+            "anger": 0.1959989070892334,
+            "client_wants_to_leave": 0.16365131735801697,
+            "compliance_privacy": 0.03668244928121567,
+            "confusion": 0.08257069438695908,
+            "escalation": 0.05626701936125755,
+            "financial_distress": 0.06801464408636093,
+            "frustration": 0.09761878848075867,
+            "happy": 0.09626278281211853,
+            "neutral": 0.03420686721801758,
+            "risk_issue": 0.055733248591423035,
+            "safety_wellbeing": 0.039552491158246994,
+            "urgency": 0.07344085723161697
+          }
+        },
+        {
+          "context": "Chunk 3/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.21422915160655975,
+          "all_scores": {
+            "anger": 0.21422915160655975,
+            "client_wants_to_leave": 0.16045448184013367,
+            "compliance_privacy": 0.034984949976205826,
+            "confusion": 0.08594602346420288,
+            "escalation": 0.056538213044404984,
+            "financial_distress": 0.06250951439142227,
+            "frustration": 0.10561218112707138,
+            "happy": 0.09352996200323105,
+            "neutral": 0.03249761089682579,
+            "risk_issue": 0.048886120319366455,
+            "safety_wellbeing": 0.03581400588154793,
+            "urgency": 0.06899768859148026
+          }
+        },
+        {
+          "context": "Chunk 4/4",
+          "text_length": 512,
+          "predicted_emotion": "anger",
+          "confidence": 0.21019403636455536,
+          "all_scores": {
+            "anger": 0.21019403636455536,
+            "client_wants_to_leave": 0.15803419053554535,
+            "compliance_privacy": 0.035996951162815094,
+            "confusion": 0.08533874154090881,
+            "escalation": 0.055785465985536575,
+            "financial_distress": 0.06683749705553055,
+            "frustration": 0.10185019671916962,
+            "happy": 0.09465012699365616,
+            "neutral": 0.03352411091327667,
+            "risk_issue": 0.0516083799302578,
+            "safety_wellbeing": 0.04039118438959122,
+            "urgency": 0.06578905880451202
+          }
+        }
+      ]
+    },
+    "by_speaker": {
+      "Speaker 2": {
+        "context": "Speaker 2",
+        "text_length": 512,
+        "predicted_emotion": "anger",
+        "confidence": 0.19053830206394196,
+        "all_scores": {
+          "anger": 0.19053830206394196,
+          "client_wants_to_leave": 0.1674514263868332,
+          "compliance_privacy": 0.03510108217597008,
+          "confusion": 0.08216189593076706,
+          "escalation": 0.0564553439617157,
+          "financial_distress": 0.07239935547113419,
+          "frustration": 0.10019512474536896,
+          "happy": 0.09711306542158127,
+          "neutral": 0.03314846381545067,
+          "risk_issue": 0.05391372740268707,
+          "safety_wellbeing": 0.03876188397407532,
+          "urgency": 0.07276035100221634
+        }
+      },
+      "Speaker 1": {
+        "context": "Speaker 1",
+        "text_length": 512,
+        "predicted_emotion": "anger",
+        "confidence": 0.2035282850265503,
+        "all_scores": {
+          "anger": 0.2035282850265503,
+          "client_wants_to_leave": 0.16058945655822754,
+          "compliance_privacy": 0.03493300452828407,
+          "confusion": 0.08461739122867584,
+          "escalation": 0.05820678174495697,
+          "financial_distress": 0.07023296505212784,
+          "frustration": 0.10453767329454422,
+          "happy": 0.09562423825263977,
+          "neutral": 0.031243164092302322,
+          "risk_issue": 0.050114575773477554,
+          "safety_wellbeing": 0.038093045353889465,
+          "urgency": 0.06827940046787262
+        }
+      }
+    }
+  }
+}

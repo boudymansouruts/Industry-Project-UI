@@ -238,7 +238,7 @@ def process_specific_file():
                 self.transcript_chunks = speaker_data['speaker_chunks']
                 self.overall_raw_sentiment = self._analyze_full_transcript_sentiment(speaker_data['speaker_chunks'])
                 self.diarization_result = diarization_result
-                self.speaker_sentiments = self._analyze_speaker_sentiments(speaker_data['speaker_chunks'])
+                self.speaker_sentiments = self._analyze_speaker_sentiments_simple(speaker_data['speaker_chunks'])
             
             def _create_raw_transcription(self, chunks):
                 return " ".join(chunk['text'] for chunk in chunks)
@@ -301,20 +301,26 @@ def process_specific_file():
                     if len(clean_text) > 512:  # DistilBERT has 512 token limit
                         clean_text = clean_text[:512]
                     
-                    # Use the fine-tuned model
+                    # Use the fine-tuned company sentiment model
                     sentiment_analyzer = pipeline(
                         "sentiment-analysis",
-                        model="models/sentiment-model/checkpoint-500",
+                        model="models/company-sentiment",
                         return_all_scores=True
                     )
                     
                     # Load label mapping
                     try:
-                        with open("models/sentiment-model/label_mapping.json", "r") as f:
-                            label_mapping = json.load(f)
+                        with open("models/company-sentiment/label_mapping.json", "r") as f:
+                            label_data = json.load(f)
+                            # Convert id2label format to simple mapping
+                            label_mapping = label_data.get("id2label", label_data)
                     except:
-                        # Fallback mapping
-                        label_mapping = {"0": "negative", "1": "neutral", "2": "positive"}
+                        # Fallback mapping for company sentiment
+                        label_mapping = {
+                            "0": "anger", "1": "client_wants_to_leave", "2": "compliance_privacy",
+                            "3": "confusion", "4": "escalation", "5": "financial_distress",
+                            "6": "frustration", "7": "risk_issue", "8": "safety_wellbeing", "9": "urgency"
+                        }
                     
                     results = sentiment_analyzer(clean_text)
                     
@@ -338,29 +344,49 @@ def process_specific_file():
                     return self._rule_based_sentiment(text, context)
             
             def _rule_based_sentiment(self, text, context=""):
-                """Fallback rule-based sentiment analysis"""
+                """Fallback rule-based sentiment analysis for company risk detection"""
                 try:
-                    positive_words = ['good', 'great', 'excellent', 'wonderful', 'amazing', 'fantastic', 'happy', 'pleased', 'thank', 'thanks', 'yes', 'okay', 'ok', 'fine', 'well', 'better', 'best', 'love', 'like', 'enjoy', 'welcome']
-                    negative_words = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'dislike', 'angry', 'mad', 'upset', 'sad', 'disappointed', 'frustrated', 'no', 'not', 'never', 'worst', 'wrong', 'problem', 'issue', 'difficult', 'hard', 'trouble']
+                    # Define keyword patterns for each risk category
+                    risk_patterns = {
+                        'anger': ['angry', 'furious', 'rage', 'mad', 'hate', 'terrible', 'awful'],
+                        'frustration': ['frustrated', 'annoyed', 'irritated', 'fed up', 'enough', 'tired of'],
+                        'confusion': ['confused', 'don\'t understand', 'what do you mean', 'unclear', 'explain'],
+                        'urgency': ['urgent', 'immediately', 'now', 'asap', 'hurry', 'emergency', 'need'],
+                        'financial_distress': ['money', 'can\'t afford', 'expensive', 'cost', 'payment', 'funding', 'budget'],
+                        'safety_wellbeing': ['hospital', 'health', 'sick', 'pain', 'hurt', 'unsafe', 'danger'],
+                        'client_wants_to_leave': ['leave', 'quit', 'cancel', 'change company', 'switch', 'different provider'],
+                        'escalation': ['manager', 'supervisor', 'complaint', 'escalate', 'unacceptable'],
+                        'compliance_privacy': ['privacy', 'confidential', 'legal', 'rights', 'policy', 'compliance'],
+                        'risk_issue': ['problem', 'issue', 'concern', 'worry', 'wrong', 'mistake', 'error']
+                    }
                     
                     text_lower = text.lower()
-                    positive_count = sum(1 for word in positive_words if word in text_lower)
-                    negative_count = sum(1 for word in negative_words if word in text_lower)
                     
-                    if positive_count > negative_count:
-                        emotion = 'positive'
-                        confidence = min(0.6 + (positive_count - negative_count) * 0.1, 0.9)
-                    elif negative_count > positive_count:
-                        emotion = 'negative'
-                        confidence = min(0.6 + (negative_count - positive_count) * 0.1, 0.9)
+                    # Count matches for each category
+                    scores = {}
+                    for category, keywords in risk_patterns.items():
+                        count = sum(1 for keyword in keywords if keyword in text_lower)
+                        scores[category] = count
+                    
+                    # Find the category with the highest count
+                    total_matches = sum(scores.values())
+                    
+                    if total_matches > 0:
+                        best_category = max(scores, key=scores.get)
+                        confidence = min(0.5 + (scores[best_category] / total_matches) * 0.4, 0.9)
+                        
+                        # Normalize scores to probabilities
+                        all_scores = {cat: score / total_matches if total_matches > 0 else 0.1 for cat, score in scores.items()}
                     else:
-                        emotion = 'neutral'
-                        confidence = 0.5
+                        # Default to confusion if no clear matches
+                        best_category = 'confusion'
+                        confidence = 0.3
+                        all_scores = {cat: 0.1 for cat in risk_patterns.keys()}
                     
                     return {
-                        'predicted_emotion': emotion,
+                        'predicted_emotion': best_category,
                         'confidence': confidence,
-                        'all_scores': {'positive': 0.33, 'negative': 0.33, 'neutral': 0.34},
+                        'all_scores': all_scores,
                         'context': context,
                         'text_length': len(text),
                         'method': 'rule_based'
@@ -368,7 +394,7 @@ def process_specific_file():
                     
                 except Exception as e:
                     print(f"⚠️  Rule-based analysis failed for {context}: {str(e)}")
-                    return {'predicted_emotion': 'neutral', 'confidence': 0.5, 'context': context}
+                    return {'predicted_emotion': 'confusion', 'confidence': 0.3, 'context': context}
             
             def _combine_sentiment_results(self, full_sentiment, chunk_sentiments, speaker_sentiments):
                 """Combine multiple sentiment analysis results for better accuracy"""
@@ -380,35 +406,41 @@ def process_specific_file():
                         'speaker_consensus': 0.2   # Speaker-specific patterns
                     }
                     
-                    # Calculate chunk average
-                    if chunk_sentiments:
-                        chunk_avg = {
-                            'positive': sum(s.get('all_scores', {}).get('positive', 0) for s in chunk_sentiments) / len(chunk_sentiments),
-                            'negative': sum(s.get('all_scores', {}).get('negative', 0) for s in chunk_sentiments) / len(chunk_sentiments),
-                            'neutral': sum(s.get('all_scores', {}).get('neutral', 0) for s in chunk_sentiments) / len(chunk_sentiments)
-                        }
-                    else:
-                        chunk_avg = {'positive': 0.33, 'negative': 0.33, 'neutral': 0.34}
-                    
-                    # Calculate speaker consensus
-                    if speaker_sentiments:
-                        speaker_avg = {
-                            'positive': sum(s.get('all_scores', {}).get('positive', 0) for s in speaker_sentiments.values()) / len(speaker_sentiments),
-                            'negative': sum(s.get('all_scores', {}).get('negative', 0) for s in speaker_sentiments.values()) / len(speaker_sentiments),
-                            'neutral': sum(s.get('all_scores', {}).get('neutral', 0) for s in speaker_sentiments.values()) / len(speaker_sentiments)
-                        }
-                    else:
-                        speaker_avg = {'positive': 0.33, 'negative': 0.33, 'neutral': 0.34}
-                    
-                    # Combine weighted scores
+                    # Get all emotion labels from full_sentiment
                     full_scores = full_sentiment.get('all_scores', {})
-                    combined_scores = {}
+                    all_emotions = list(full_scores.keys())
                     
-                    for emotion in ['positive', 'negative', 'neutral']:
+                    if not all_emotions:
+                        # Fallback to full sentiment if no scores available
+                        return full_sentiment
+                    
+                    # Calculate chunk average for each emotion
+                    chunk_avg = {}
+                    if chunk_sentiments:
+                        for emotion in all_emotions:
+                            chunk_avg[emotion] = sum(s.get('all_scores', {}).get(emotion, 0) for s in chunk_sentiments) / len(chunk_sentiments)
+                    else:
+                        # Equal distribution as fallback
+                        default_val = 1.0 / len(all_emotions)
+                        chunk_avg = {emotion: default_val for emotion in all_emotions}
+                    
+                    # Calculate speaker consensus for each emotion
+                    speaker_avg = {}
+                    if speaker_sentiments:
+                        for emotion in all_emotions:
+                            speaker_avg[emotion] = sum(s.get('all_scores', {}).get(emotion, 0) for s in speaker_sentiments.values()) / len(speaker_sentiments)
+                    else:
+                        # Equal distribution as fallback
+                        default_val = 1.0 / len(all_emotions)
+                        speaker_avg = {emotion: default_val for emotion in all_emotions}
+                    
+                    # Combine weighted scores for all emotions
+                    combined_scores = {}
+                    for emotion in all_emotions:
                         combined_scores[emotion] = (
-                            weights['full_transcript'] * full_scores.get(emotion, 0.33) +
-                            weights['chunk_average'] * chunk_avg.get(emotion, 0.33) +
-                            weights['speaker_consensus'] * speaker_avg.get(emotion, 0.33)
+                            weights['full_transcript'] * full_scores.get(emotion, 0) +
+                            weights['chunk_average'] * chunk_avg.get(emotion, 0) +
+                            weights['speaker_consensus'] * speaker_avg.get(emotion, 0)
                         )
                     
                     # Get the emotion with highest combined score
@@ -432,16 +464,25 @@ def process_specific_file():
                     return full_sentiment  # Fallback to full transcript result
             
             def _analyze_speaker_sentiments_simple(self, chunks):
-                """Analyze sentiment for each speaker separately using simple model"""
+                """Analyze sentiment for each speaker separately using company sentiment model"""
                 try:
                     from transformers import pipeline
                     import re
+                    import json
                     
                     sentiment_analyzer = pipeline(
                         "sentiment-analysis",
-                        model="models/sentiment-model/checkpoint-500",
+                        model="models/company-sentiment",
                         return_all_scores=True
                     )
+                    
+                    # Load label mapping
+                    try:
+                        with open("models/company-sentiment/label_mapping.json", "r") as f:
+                            label_data = json.load(f)
+                            label_mapping = label_data.get("id2label", label_data)
+                    except:
+                        label_mapping = None
                     
                     speaker_texts = {}
                     for chunk in chunks:

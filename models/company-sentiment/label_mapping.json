@@ -2,17 +2,29 @@
   "label2id": {
     "anger": 0,
     "client_wants_to_leave": 1,
-    "escalation": 2,
-    "frustration": 3,
-    "risk_issue": 4,
-    "urgency": 5
+    "compliance_privacy": 2,
+    "confusion": 3,
+    "escalation": 4,
+    "financial_distress": 5,
+    "frustration": 6,
+    "happy": 7,
+    "neutral": 8,
+    "risk_issue": 9,
+    "safety_wellbeing": 10,
+    "urgency": 11
   },
   "id2label": {
     "0": "anger",
     "1": "client_wants_to_leave",
-    "2": "escalation",
-    "3": "frustration",
-    "4": "risk_issue",
-    "5": "urgency"
+    "2": "compliance_privacy",
+    "3": "confusion",
+    "4": "escalation",
+    "5": "financial_distress",
+    "6": "frustration",
+    "7": "happy",
+    "8": "neutral",
+    "9": "risk_issue",
+    "10": "safety_wellbeing",
+    "11": "urgency"
   }
 }

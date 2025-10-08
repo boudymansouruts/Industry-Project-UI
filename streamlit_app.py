@@ -36,7 +36,7 @@ def get_pipeline():
 
 
 st.set_page_config(page_title="Audio Analysis", page_icon="🎤", layout="wide")
-st.title("🎤 Speaker-Aware Transcription & Sentiment Analysis")
+st.title("Speaker-Aware Transcription & Sentiment Analysis")
 st.caption("Upload an audio file to transcribe by speaker, analyze sentiments, and track cumulative results.")
 
 with st.sidebar:
@@ -174,17 +174,50 @@ with tab2:
     st.subheader("Cumulative Summary")
     st.caption(f"Total uploads: {len(entries)}")
 
-    # Aggregate
+    # Aggregate emotions
     counts = {}
     for e in entries:
         o = e.get('overall_raw_sentiment') or {}
         label = (o.get('predicted_emotion') or 'neutral').lower()
         counts[label] = counts.get(label, 0) + 1
 
-    colp, coln, colneg = st.columns(3)
-    colp.metric("Positive", counts.get('positive', 0))
-    coln.metric("Neutral", counts.get('neutral', 0))
-    colneg.metric("Negative", counts.get('negative', 0))
+    # Display emotion counts in a grid
+    st.write("**Emotion Distribution:**")
+    
+    # Group emotions by type
+    positive_emotions = ['happy']
+    neutral_emotions = ['neutral', 'confusion']
+    risk_emotions = ['anger', 'frustration', 'urgency', 'escalation', 'client_wants_to_leave', 
+                     'risk_issue', 'safety_wellbeing', 'financial_distress', 'compliance_privacy']
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("**😊 Positive**")
+        for emotion in positive_emotions:
+            count = counts.get(emotion, 0)
+            if count > 0:
+                st.metric(emotion.replace('_', ' ').title(), count)
+        if sum(counts.get(e, 0) for e in positive_emotions) == 0:
+            st.caption("No positive emotions")
+    
+    with col2:
+        st.markdown("**😐 Neutral**")
+        for emotion in neutral_emotions:
+            count = counts.get(emotion, 0)
+            if count > 0:
+                st.metric(emotion.replace('_', ' ').title(), count)
+        if sum(counts.get(e, 0) for e in neutral_emotions) == 0:
+            st.caption("No neutral emotions")
+    
+    with col3:
+        st.markdown("**⚠️ Risk/Concern**")
+        for emotion in risk_emotions:
+            count = counts.get(emotion, 0)
+            if count > 0:
+                st.metric(emotion.replace('_', ' ').title(), count)
+        if sum(counts.get(e, 0) for e in risk_emotions) == 0:
+            st.caption("No risk emotions")
 
     st.divider()
     st.write("Raw Entries")

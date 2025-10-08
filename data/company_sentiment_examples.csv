@@ -1,102 +1,466 @@
 id,label,text
-1,frustration,"I've been waiting all week and still haven't received a call back."
-2,frustration,"No one showed up for my scheduled appointment today."
-3,frustration,"I emailed two days ago and haven't heard anything back yet."
-4,frustration,"Why am I still waiting for a reply to my inquiry?"
-5,frustration,"Your worker didn’t come as promised. This is unacceptable."
-6,frustration,"Left multiple voicemails—no response from your team."
-7,frustration,"I took time off for this visit and nobody arrived."
-8,frustration,"It’s been over a week with zero updates on my case."
-9,frustration,"I was told someone would call yesterday—nothing."
-10,frustration,"I keep following up and I’m getting nowhere."
-11,frustration,"Why is it so hard to get a simple status update?"
-12,frustration,"I’ve been bounced around and still don’t have an answer."
-13,frustration,"Your agent said they'd email me back—still waiting."
-14,frustration,"Appointment window passed and no one even notified me."
-15,frustration,"Please stop ignoring my messages and give me an update."
-16,frustration,"I rearranged my schedule and nobody showed up."
-17,frustration,"This is the third time I’ve asked—why no reply?"
-18,frustration,"You promised a callback this morning; I got nothing."
-19,frustration,"It shouldn’t take days to get a simple confirmation."
-20,frustration,"I was left waiting without any communication at all."
-21,client_wants_to_leave,"I’m done with this—I want to cancel my service."
-22,client_wants_to_leave,"Please terminate my contract immediately."
-23,client_wants_to_leave,"I’ll start looking somewhere else for support."
-24,client_wants_to_leave,"I’m switching to another provider."
-25,client_wants_to_leave,"This isn’t working for me; I want to leave."
-26,client_wants_to_leave,"I can’t keep doing this—I’m moving on."
+1,frustration,I've been waiting all week and still haven't received a call back.
+2,frustration,No one showed up for my scheduled appointment today.
+3,frustration,I emailed two days ago and haven't heard anything back yet.
+4,frustration,Why am I still waiting for a reply to my inquiry?
+5,frustration,Your worker didn’t come as promised. This is unacceptable.
+6,frustration,Left multiple voicemails—no response from your team.
+7,frustration,I took time off for this visit and nobody arrived.
+8,frustration,It’s been over a week with zero updates on my case.
+9,frustration,I was told someone would call yesterday—nothing.
+10,frustration,I keep following up and I’m getting nowhere.
+11,frustration,Why is it so hard to get a simple status update?
+12,frustration,I’ve been bounced around and still don’t have an answer.
+13,frustration,Your agent said they'd email me back—still waiting.
+14,frustration,Appointment window passed and no one even notified me.
+15,frustration,Please stop ignoring my messages and give me an update.
+16,frustration,I rearranged my schedule and nobody showed up.
+17,frustration,This is the third time I’ve asked—why no reply?
+18,frustration,You promised a callback this morning; I got nothing.
+19,frustration,It shouldn’t take days to get a simple confirmation.
+20,frustration,I was left waiting without any communication at all.
+21,client_wants_to_leave,I’m done with this—I want to cancel my service.
+22,client_wants_to_leave,Please terminate my contract immediately.
+23,client_wants_to_leave,I’ll start looking somewhere else for support.
+24,client_wants_to_leave,I’m switching to another provider.
+25,client_wants_to_leave,This isn’t working for me; I want to leave.
+26,client_wants_to_leave,I can’t keep doing this—I’m moving on.
 27,client_wants_to_leave,"If this continues, I’ll be taking my business elsewhere."
-28,client_wants_to_leave,"I’m ready to end the service today."
-29,client_wants_to_leave,"You’ve left me no choice but to look for someone else."
+28,client_wants_to_leave,I’m ready to end the service today.
+29,client_wants_to_leave,You’ve left me no choice but to look for someone else.
 30,client_wants_to_leave,"I’d like to close my account, please."
-31,client_wants_to_leave,"Consider this my notice to cancel."
-32,client_wants_to_leave,"I’m tired of chasing—just cancel my service."
+31,client_wants_to_leave,Consider this my notice to cancel.
+32,client_wants_to_leave,I’m tired of chasing—just cancel my service.
 33,client_wants_to_leave,"I can’t trust the timelines, I’m leaving."
-34,client_wants_to_leave,"I want to discontinue and get a final bill."
-35,client_wants_to_leave,"I’m actively comparing alternatives now."
-36,client_wants_to_leave,"I no longer wish to continue with your company."
-37,risk_issue,"There was a safety hazard at the client’s home that wasn’t addressed."
-38,risk_issue,"Medication instructions were unclear—this could be dangerous."
-39,risk_issue,"The wheelchair battery isn’t charging; this is a mobility risk."
-40,risk_issue,"Care was missed for two days—client was left unattended."
-41,risk_issue,"Data in the email included personal details—possible privacy breach."
-42,risk_issue,"A fall occurred yesterday; no incident report was filed."
-43,risk_issue,"Incorrect equipment was installed and is unstable."
-44,risk_issue,"The client reported chest pain during the call—needs escalation."
-45,risk_issue,"Client said they felt unsafe with a staff member present."
-46,risk_issue,"Transport was delayed; client missed a critical appointment."
-47,risk_issue,"Access code was shared over voicemail—security concern."
-48,risk_issue,"Client is out of critical medication due to scheduling error."
-49,risk_issue,"Home has no heating—client at risk due to temperature."
-50,risk_issue,"The ramp is broken; client can’t safely exit the house."
-51,risk_issue,"Care plan wasn’t followed; client complained of worsening symptoms."
-52,risk_issue,"Staff used personal phone for client photos—compliance issue."
-53,risk_issue,"Client mentioned self-harm ideation—urgent wellness check needed."
-54,risk_issue,"Repeated missed calls from our side triggered escalation."
-55,risk_issue,"Conflicting instructions from two staff caused confusion."
-56,risk_issue,"A neighbor reported shouting during a visit—duty of care check."
-57,risk_issue,"Payment details were discussed on speakerphone—privacy risk."
-58,risk_issue,"Client complains of being left without food support."
-59,risk_issue,"No interpreter provided despite known language barrier."
-60,risk_issue,"Care notes are incomplete; audit trail is missing."
-61,anger,"This is ridiculous—how many times do I have to ask?"
-62,anger,"I’m sick of excuses; fix this now."
-63,anger,"You people never do what you promise."
-64,anger,"I’m furious no one showed up today."
-65,anger,"Stop wasting my time and sort this out."
-66,anger,"I shouldn’t have to call five times to get help."
-67,anger,"I’m angry I was lied to about the appointment."
+34,client_wants_to_leave,I want to discontinue and get a final bill.
+35,client_wants_to_leave,I’m actively comparing alternatives now.
+36,client_wants_to_leave,I no longer wish to continue with your company.
+37,risk_issue,There was a safety hazard at the client’s home that wasn’t addressed.
+38,risk_issue,Medication instructions were unclear—this could be dangerous.
+39,risk_issue,The wheelchair battery isn’t charging; this is a mobility risk.
+40,risk_issue,Care was missed for two days—client was left unattended.
+41,risk_issue,Data in the email included personal details—possible privacy breach.
+42,risk_issue,A fall occurred yesterday; no incident report was filed.
+43,risk_issue,Incorrect equipment was installed and is unstable.
+44,risk_issue,The client reported chest pain during the call—needs escalation.
+45,risk_issue,Client said they felt unsafe with a staff member present.
+46,risk_issue,Transport was delayed; client missed a critical appointment.
+47,risk_issue,Access code was shared over voicemail—security concern.
+48,risk_issue,Client is out of critical medication due to scheduling error.
+49,risk_issue,Home has no heating—client at risk due to temperature.
+50,risk_issue,The ramp is broken; client can’t safely exit the house.
+51,risk_issue,Care plan wasn’t followed; client complained of worsening symptoms.
+52,risk_issue,Staff used personal phone for client photos—compliance issue.
+53,risk_issue,Client mentioned self-harm ideation—urgent wellness check needed.
+54,risk_issue,Repeated missed calls from our side triggered escalation.
+55,risk_issue,Conflicting instructions from two staff caused confusion.
+56,risk_issue,A neighbor reported shouting during a visit—duty of care check.
+57,risk_issue,Payment details were discussed on speakerphone—privacy risk.
+58,risk_issue,Client complains of being left without food support.
+59,risk_issue,No interpreter provided despite known language barrier.
+60,risk_issue,Care notes are incomplete; audit trail is missing.
+61,anger,This is ridiculous—how many times do I have to ask?
+62,anger,I’m sick of excuses; fix this now.
+63,anger,You people never do what you promise.
+64,anger,I’m furious no one showed up today.
+65,anger,Stop wasting my time and sort this out.
+66,anger,I shouldn’t have to call five times to get help.
+67,anger,I’m angry I was lied to about the appointment.
 68,anger,"This is unacceptable service, I’m done being polite."
-69,anger,"Why is no one taking responsibility for this mess?"
-70,anger,"I want a manager—right now."
-71,anger,"You ignored me again—this is beyond frustrating."
-72,anger,"Don’t tell me to wait; I’ve waited long enough."
-73,anger,"I’m not paying for this incompetence."
-74,anger,"How hard is it to call me back?"
-75,anger,"I feel disrespected by your team’s attitude."
-76,urgency,"I need someone to come today—this can’t wait."
+69,anger,Why is no one taking responsibility for this mess?
+70,anger,I want a manager—right now.
+71,anger,You ignored me again—this is beyond frustrating.
+72,anger,Don’t tell me to wait; I’ve waited long enough.
+73,anger,I’m not paying for this incompetence.
+74,anger,How hard is it to call me back?
+75,anger,I feel disrespected by your team’s attitude.
+76,urgency,I need someone to come today—this can’t wait.
 77,urgency,"Please fix this now, it’s an emergency."
-78,urgency,"I require an immediate call back within the hour."
-79,urgency,"This needs to be resolved before end of day."
-80,urgency,"I can’t be without this support tonight."
-81,urgency,"We’re out of essential supplies—urgent assistance needed."
-82,urgency,"The situation is getting worse—send help now."
-83,urgency,"I’ve been waiting at the door; the worker must come immediately."
-84,urgency,"Client can’t move safely right now—urgent visit required."
-85,urgency,"Please prioritize this case; it’s time‑sensitive."
-86,escalation,"I want to speak to a manager right now."
-87,escalation,"I’m filing a formal complaint about this."
-88,escalation,"Please escalate this ticket to your leadership team."
-89,escalation,"Consider this a formal escalation—I need action today."
-90,escalation,"Who is the supervisor? I need their contact immediately."
-91,escalation,"I’ll be taking this to the commission if not addressed."
-92,escalation,"Open a priority escalation—this has gone on long enough."
-93,escalation,"I want written confirmation this has been escalated."
-94,escalation,"Log this as a complaint and send me a reference number."
+78,urgency,I require an immediate call back within the hour.
+79,urgency,This needs to be resolved before end of day.
+80,urgency,I can’t be without this support tonight.
+81,urgency,We’re out of essential supplies—urgent assistance needed.
+82,urgency,The situation is getting worse—send help now.
+83,urgency,I’ve been waiting at the door; the worker must come immediately.
+84,urgency,Client can’t move safely right now—urgent visit required.
+85,urgency,Please prioritize this case; it’s time‑sensitive.
+86,escalation,I want to speak to a manager right now.
+87,escalation,I’m filing a formal complaint about this.
+88,escalation,Please escalate this ticket to your leadership team.
+89,escalation,Consider this a formal escalation—I need action today.
+90,escalation,Who is the supervisor? I need their contact immediately.
+91,escalation,I’ll be taking this to the commission if not addressed.
+92,escalation,Open a priority escalation—this has gone on long enough.
+93,escalation,I want written confirmation this has been escalated.
+94,escalation,Log this as a complaint and send me a reference number.
 95,escalation,"Connect me to the head of the department, please."
 96,client_wants_to_leave,"You see, we want to look somewhere else for service. Because all these mistakes happen. And then when we try to look outside for service, then he said, now why would"
-97,frustration,"She doesn't want to do it"
+97,frustration,She doesn't want to do it
 98,frustration,"But last night nobody can do it,"
 99,frustration,"But I don't understand. So, does the team she know that Janelina doesn't do the cassera?"
 100,risk_issue,"Who should I be calling to fix it? The wheelchair's playing out. Yeah, because the battery is not charging properly."
-
+101,frustration,No one came during the window; we waited with my mother all afternoon.
+102,frustration,No one came during the window; we waited with my father all afternoon.
+103,frustration,No one came during the window; we waited with my nan all afternoon.
+104,frustration,No one came during the window; we waited with my granddad all afternoon.
+105,frustration,"I called twice yesterday about {need}, still no reply."
+106,frustration,"We were promised a call this morning about {need}, but nothing came."
+107,frustration,I keep repeating the same details for my mother and nothing happens.
+108,frustration,I keep repeating the same details for my father and nothing happens.
+109,frustration,I keep repeating the same details for my nan and nothing happens.
+110,frustration,I keep repeating the same details for my granddad and nothing happens.
+111,frustration,The nurse said they'd email a plan; it never arrived.
+112,frustration,"We rearranged appointments, and yet no carer attended."
+113,frustration,I've been on hold multiple times and then disconnected.
+114,frustration,It’s been days with no update on equipment delivery.
+115,frustration,You said someone would check on mother—no one did.
+116,frustration,You said someone would check on father—no one did.
+117,frustration,You said someone would check on nan—no one did.
+118,frustration,You said someone would check on granddad—no one did.
+119,frustration,Why must I chase simple updates every time?
+120,client_wants_to_leave,We’re moving to another provider who can support my mother properly.
+121,client_wants_to_leave,We’re moving to another provider who can support my father properly.
+122,client_wants_to_leave,We’re moving to another provider who can support my nan properly.
+123,client_wants_to_leave,We’re moving to another provider who can support my granddad properly.
+124,client_wants_to_leave,Please cancel our service; we’ve found alternative care.
+125,client_wants_to_leave,We’ve decided to discontinue; send closure confirmation.
+126,client_wants_to_leave,We’ll start looking elsewhere if this doesn’t improve immediately.
+127,client_wants_to_leave,End the contract—this hasn’t met our needs.
+128,risk_issue,Mother missed medication due to no carer visit—safety concern.
+129,risk_issue,Father missed medication due to no carer visit—safety concern.
+130,risk_issue,Nan missed medication due to no carer visit—safety concern.
+131,risk_issue,Granddad missed medication due to no carer visit—safety concern.
+132,risk_issue,Wheelchair battery isn't holding charge; mobility risk.
+133,risk_issue,Bathroom has no grab rails; increased fall risk.
+134,risk_issue,Mother reported chest discomfort; needs nurse review.
+135,risk_issue,Father reported chest discomfort; needs nurse review.
+136,risk_issue,Nan reported chest discomfort; needs nurse review.
+137,risk_issue,Granddad reported chest discomfort; needs nurse review.
+138,risk_issue,Heating failed overnight; mother was in the cold—wellbeing risk.
+139,risk_issue,Heating failed overnight; father was in the cold—wellbeing risk.
+140,risk_issue,Heating failed overnight; nan was in the cold—wellbeing risk.
+141,risk_issue,Heating failed overnight; granddad was in the cold—wellbeing risk.
+142,risk_issue,Two different staff left conflicting instructions in the notes.
+143,risk_issue,Stair lift stalled midway; hazard.
+144,risk_issue,No interpreter provided despite language barrier—communication risk.
+145,risk_issue,Transport delay caused missed specialist appointment.
+146,risk_issue,Care plan steps not followed; mother condition worsening.
+147,risk_issue,Care plan steps not followed; father condition worsening.
+148,risk_issue,Care plan steps not followed; nan condition worsening.
+149,risk_issue,Care plan steps not followed; granddad condition worsening.
+150,anger,This is unacceptable—I’ve asked repeatedly and nothing changes.
+151,anger,Stop passing me around and fix this for my mother.
+152,anger,Stop passing me around and fix this for my father.
+153,anger,Stop passing me around and fix this for my nan.
+154,anger,Stop passing me around and fix this for my granddad.
+155,anger,You promised support and didn’t deliver—again.
+156,anger,How many times must I call to get basic help?
+157,anger,I’m angry this keeps happening; take responsibility.
+158,urgency,We need someone tonight; mother can’t manage alone.
+159,urgency,We need someone tonight; father can’t manage alone.
+160,urgency,We need someone tonight; nan can’t manage alone.
+161,urgency,We need someone tonight; granddad can’t manage alone.
+162,urgency,Immediate callback required—mother is unwell.
+163,urgency,Immediate callback required—father is unwell.
+164,urgency,Immediate callback required—nan is unwell.
+165,urgency,Immediate callback required—granddad is unwell.
+166,urgency,Urgent equipment delivery needed today.
+167,urgency,Please arrange same‑day transport to the clinic.
+168,urgency,This cannot wait until tomorrow; act now.
+169,escalation,Open a formal complaint and escalate to a supervisor.
+170,escalation,I want the complaints procedure emailed to me now.
+171,escalation,Escalate to management and confirm in writing.
+172,escalation,Provide a reference number for this escalation.
+173,escalation,Escalate priority and update me hourly.
+174,compliance_privacy,Personal details were sent in plain email—privacy incident.
+175,compliance_privacy,Photo taken without consent—policy breach.
+176,compliance_privacy,Paper notes misplaced; sensitive info at risk.
+177,compliance_privacy,No consent recorded for sharing medical information.
+178,compliance_privacy,Identifiers read aloud in public—confidentiality breach.
+179,safety_wellbeing,Mother had two near-falls this week—risk assessment needed.
+180,safety_wellbeing,Father had two near-falls this week—risk assessment needed.
+181,safety_wellbeing,Nan had two near-falls this week—risk assessment needed.
+182,safety_wellbeing,Granddad had two near-falls this week—risk assessment needed.
+183,safety_wellbeing,Front steps are icy and ungritted; hazard.
+184,safety_wellbeing,No night check‑ins; mother felt unsafe.
+185,safety_wellbeing,No night check‑ins; father felt unsafe.
+186,safety_wellbeing,No night check‑ins; nan felt unsafe.
+187,safety_wellbeing,No night check‑ins; granddad felt unsafe.
+188,safety_wellbeing,Smoke detector battery low—safety risk.
+189,safety_wellbeing,Door lock faulty—premises unsecured.
+190,financial_distress,We can’t afford the increased fees; need options.
+191,financial_distress,Invoice is incorrect; cannot pay this amount.
+192,financial_distress,Funding delayed; services at risk of interruption.
+193,financial_distress,Please set up a payment plan; we’re struggling.
+194,financial_distress,Unexpected fees appeared; need a refund review.
+195,confusion,I’m not sure who to call for scheduling.
+196,confusion,We received two appointment times; which is correct?
+197,confusion,Care plan isn’t clear—please explain next steps.
+198,confusion,Do you arrange transport or do we?
+199,confusion,We’re getting mixed information from different staff.
+200,frustration,still waiting on the nurse
+201,frustration,no one came
+202,frustration,no call back again
+203,frustration,window missed
+204,frustration,tired of chasing
+205,risk_issue,no rails in bathroom
+206,risk_issue,wheelchair battery flat
+207,risk_issue,missed meds
+208,risk_issue,heater broken
+209,urgency,need help tonight
+210,urgency,urgent visit please
+211,urgency,call within the hour
+212,happy,Thank you so much for helping us today.
+213,happy,We're really happy with the service.
+214,happy,The carer was wonderful with my mother.
+215,happy,The carer was wonderful with my father.
+216,happy,The carer was wonderful with my nan.
+217,happy,The carer was wonderful with my granddad.
+218,happy,Everything went smoothly today—thank you!
+219,happy,We appreciate all your support.
+220,happy,The team has been fantastic lately.
+221,happy,Really pleased with how quickly you resolved this.
+222,happy,Mother loves her new carer.
+223,happy,Father loves his new carer.
+224,happy,Nan loves her new carer.
+225,happy,Granddad loves his new carer.
+226,happy,Excellent service today—very grateful.
+227,happy,The nurse was very professional and kind.
+228,happy,We're so relieved this is sorted out.
+229,happy,Great communication from your team.
+230,happy,Thank you for being so responsive.
+231,happy,Very satisfied with the care plan.
+232,happy,The equipment arrived on time—thank you!
+233,happy,We feel well supported by your service.
+234,happy,The staff are always so friendly.
+235,happy,Really appreciate the extra effort.
+236,happy,Mother is much happier now.
+237,happy,Father is much happier now.
+238,happy,Nan is much happier now.
+239,happy,Granddad is much happier now.
+240,happy,Things are going really well.
+241,happy,We're delighted with the outcome.
+242,happy,Thank you for following up so quickly.
+243,happy,The visit went perfectly today.
+244,happy,Very happy with the new schedule.
+245,happy,Great work from the care team.
+246,happy,We couldn't be more pleased.
+247,happy,This is exactly what we needed.
+248,happy,Mother's feeling much better now—thank you.
+249,happy,Father's feeling much better now—thank you.
+250,happy,Nan's feeling much better now—thank you.
+251,happy,Granddad's feeling much better now—thank you.
+252,happy,Wonderful support—we're very grateful.
+253,happy,Everything is working well for us.
+254,happy,The service has been brilliant.
+255,happy,Really impressed with your professionalism.
+256,happy,Thank you for making this so easy.
+257,neutral,Hello
+258,neutral,Hi there
+259,neutral,Good morning
+260,neutral,Good afternoon
+261,neutral,Good evening
+262,neutral,How are you?
+263,neutral,I'm calling about my appointment
+264,neutral,I have a question about the schedule
+265,neutral,Can you help me with something?
+266,neutral,I'd like to confirm my booking
+267,neutral,What time is the visit?
+268,neutral,Just checking in
+269,neutral,Thank you
+270,neutral,Thanks
+271,neutral,Okay
+272,neutral,Alright
+273,neutral,I see
+274,neutral,Understood
+275,neutral,That makes sense
+276,neutral,Got it
+277,neutral,I'll wait for your call
+278,neutral,Please send me the details
+279,neutral,Can you email that to me?
+280,neutral,I received your message
+281,neutral,Thanks for letting me know
+282,neutral,Goodbye
+283,neutral,Have a good day
+284,neutral,Talk to you soon
+285,neutral,Bye
+286,neutral,Take care
+287,neutral,I'm just calling to check
+288,neutral,Is this the right number for support?
+289,neutral,Can I speak to someone about my account?
+290,neutral,I need to update my contact details
+291,neutral,What are your opening hours?
+292,neutral,Can I reschedule my appointment?
+293,neutral,I'd like to confirm the visit time
+294,neutral,Just following up on my request
+295,neutral,Could you repeat that please?
+296,neutral,I understand
+297,neutral,That's fine
+298,neutral,No problem
+299,neutral,Sure
+300,neutral,Yes please
+301,neutral,No thank you
+302,neutral,I'll call back later
+303,neutral,Can you hold for a moment?
+304,neutral,I'm available tomorrow
+305,neutral,What date works best?
+306,neutral,Please confirm when you can
+307,neutral,I received the email
+308,neutral,Thanks for your help
+309,neutral,Appreciate it
+310,neutral,Cheers
+311,neutral,Much appreciated
+312,neutral,Thank you for your time
+313,neutral,Thanks for calling back
+314,neutral,I appreciate the update
+315,neutral,Thanks for checking
+316,neutral,Okay thank you
+317,neutral,Alright thanks
+318,neutral,Got it thanks
+319,neutral,Understood thank you
+320,neutral,That's helpful thank you
+321,neutral,I'll let you know
+322,neutral,I'll get back to you
+323,neutral,Can you send that in writing?
+324,neutral,I'd like a copy of that
+325,neutral,Please add that to my notes
+326,neutral,Is there anything else I need to do?
+327,neutral,What's the next step?
+328,neutral,How long will that take?
+329,neutral,When can I expect to hear back?
+330,neutral,I'm just confirming the details
+331,neutral,Let me check my calendar
+332,neutral,I'll have a look at that
+333,neutral,Could you clarify that for me?
+334,neutral,I need a moment to check
+335,neutral,Can I call you back?
+336,neutral,I'll speak to my family about it
+337,neutral,We'll discuss and let you know
+338,neutral,That should work for us
+339,neutral,I think that's everything
+340,neutral,Is there anything else?
+341,neutral,Thanks again
+342,neutral,Appreciate your help
+343,anger,Thank you but this is still unacceptable.
+344,anger,Thanks for nothing—this doesn't solve my problem.
+345,anger,I appreciate the call but I'm still furious about this.
+346,frustration,Thank you but I've been waiting too long for this.
+347,frustration,Thanks but why did it take so long?
+348,frustration,I appreciate it but this should have been done already.
+349,frustration,Thanks for finally getting back to me.
+350,frustration,Thank you but I shouldn't have to chase this.
+351,client_wants_to_leave,Thank you but we're still switching providers.
+352,client_wants_to_leave,Thanks anyway but we've decided to leave.
+353,client_wants_to_leave,I appreciate your help but we're canceling the service.
+354,client_wants_to_leave,Thank you for trying but we're moving to another company.
+355,urgency,Thank you but I need this resolved today.
+356,urgency,Thanks but this is urgent—please prioritize it.
+357,urgency,I appreciate it but we need help immediately.
+358,financial_distress,Thank you but we still can't afford these fees.
+359,financial_distress,Thanks but the payment is still an issue for us.
+360,financial_distress,I appreciate it but we need cheaper options.
+361,confusion,Thank you but I still don't understand the process.
+362,confusion,Thanks but can you explain that again?
+363,confusion,I appreciate it but I'm still unclear about next steps.
+364,escalation,Thank you but I want to speak to a manager now.
+365,escalation,Thanks but I'm filing a formal complaint regardless.
+366,escalation,I appreciate the call but I'm escalating this issue.
+367,happy,Thank you so much! This is exactly what we needed!
+368,happy,Thanks! You've been incredibly helpful!
+369,happy,I really appreciate everything—mother is so happy now!
+370,happy,Thank you! The service has been excellent!
+371,happy,Thanks! We're very satisfied with the outcome!
+372,happy,I'm so grateful—everything is perfect!
+373,happy,Thank you! This has made such a difference!
+374,happy,Thanks! The carer is absolutely wonderful!
+375,happy,I appreciate all your help—we're delighted!
+376,happy,Thank you! Everything is going so well now!
+377,neutral,I'll check and get back to you
+378,neutral,Let me verify that information
+379,neutral,I need to confirm the appointment time
+380,neutral,Can you send me those details?
+381,neutral,I received your voicemail
+382,neutral,I'll look into that
+383,neutral,Let me speak with my family first
+384,neutral,I need to check my schedule
+385,neutral,Can you clarify the process?
+386,neutral,What are the next steps?
+387,neutral,I'll need some time to think about it
+388,neutral,Could you explain the options?
+389,neutral,I'm calling to confirm
+390,neutral,Just touching base
+391,neutral,Following up on our conversation
+392,neutral,Checking in about the appointment
+393,frustration,This has been going on for weeks now.
+394,frustration,I've called multiple times about this.
+395,frustration,Still waiting on a response from your team.
+396,frustration,Nobody seems to know what's happening.
+397,frustration,This is taking way too long.
+398,frustration,I was promised a solution days ago.
+399,frustration,We keep getting passed around departments.
+400,frustration,The communication has been terrible.
+401,anger,I'm absolutely fed up with this service.
+402,anger,This is completely unacceptable behavior.
+403,anger,I've had enough of these excuses.
+404,anger,You people don't care about your clients.
+405,anger,I'm disgusted with how this has been handled.
+406,anger,This is outrageous—I demand answers now.
+407,anger,Stop making promises you can't keep.
+408,anger,I will not tolerate this any longer.
+409,client_wants_to_leave,We're actively looking at other providers.
+410,client_wants_to_leave,I'm done with this—cancel everything.
+411,client_wants_to_leave,We can't continue with this level of service.
+412,client_wants_to_leave,I'm switching as soon as possible.
+413,client_wants_to_leave,This relationship isn't working out.
+414,client_wants_to_leave,We've lost confidence in your company.
+415,client_wants_to_leave,I want out of this contract immediately.
+416,client_wants_to_leave,We're going to find someone more reliable.
+417,safety_wellbeing,Mother hasn't eaten properly in two days.
+418,safety_wellbeing,Father is showing signs of dehydration.
+419,safety_wellbeing,The home environment feels unsafe.
+420,safety_wellbeing,Nan had a bad fall yesterday—very concerned.
+421,safety_wellbeing,Granddad's mobility is getting worse.
+422,safety_wellbeing,There's no emergency plan in place.
+423,safety_wellbeing,We're worried about her being alone at night.
+424,risk_issue,The care plan isn't being followed properly.
+425,risk_issue,Medication timing is inconsistent.
+426,risk_issue,Access to the property is a security concern.
+427,risk_issue,Important documents were left out in the open.
+428,risk_issue,No one checked on the equipment malfunction.
+429,risk_issue,The incident wasn't reported properly.
+430,urgency,This cannot wait any longer—act now.
+431,urgency,We need immediate assistance today.
+432,urgency,Someone must come within the hour.
+433,urgency,This is time-critical—please respond ASAP.
+434,urgency,Emergency situation—need help right away.
+435,confusion,I don't know who to contact about this.
+436,confusion,The instructions were very unclear.
+437,confusion,I'm getting different information from everyone.
+438,confusion,Which service am I supposed to use?
+439,confusion,I don't understand the billing process.
+440,confusion,Who is my assigned case worker?
+441,escalation,Put me through to senior management.
+442,escalation,I'm taking this to the ombudsman.
+443,escalation,This needs to be escalated immediately.
+444,escalation,I want a formal investigation opened.
+445,escalation,Connect me with your complaints department.
+446,financial_distress,We simply cannot pay this amount.
+447,financial_distress,The costs are becoming unmanageable.
+448,financial_distress,We're struggling with the current fees.
+449,financial_distress,Is there financial assistance available?
+450,financial_distress,The unexpected charges are a big problem.
+451,compliance_privacy,That information should not have been shared.
+452,compliance_privacy,This is a data protection violation.
+453,compliance_privacy,Consent was never given for that disclosure.
+454,compliance_privacy,The privacy policy wasn't followed.
+455,compliance_privacy,Confidential details were exposed.
+456,happy,The new carer has been absolutely brilliant!
+457,happy,We're thrilled with how things are progressing.
+458,happy,Mother's quality of life has improved so much.
+459,happy,Everything has exceeded our expectations.
+460,happy,We feel so supported and well cared for.
+461,happy,The service is fantastic—couldn't ask for better.
+462,happy,We're extremely pleased with the care team.
+463,happy,This has been life-changing for our family.
+464,happy,The professionalism has been outstanding.
+465,happy,We're very happy and grateful for everything.

@@ -20,12 +20,11 @@ import pandas as pd
 from tqdm import tqdm
 
 # Import transcription components
-from hybrid_transcribe import (
-    whisperx_transcribe_audio,
-    hybrid_transcribe_audio, 
-    voice_based_diarization,
-    transcribe_full_audio
-)
+from hybrid_transcribe import transcribe_full_audio
+from pyannote.audio import Pipeline as PyAnnotePipeline
+from transformers import WhisperProcessor, WhisperForConditionalGeneration
+import soundfile as sf
+from config import HUGGINGFACE_TOKEN
 
 # Import emotion recognition components with robust path handling (works in SageMaker & local)
 import sys
@@ -293,39 +292,79 @@ class TranscriptionChunkRiskPipeline:
     
     def _get_transcription_chunks(self, audio_file: str) -> List[Dict[str, Any]]:
         """
-        Use WhisperX for transcription with speaker diarization
+        Use pyannote diarization + Whisper transcription (2 speakers enforced)
         """
-        logger.info("Using WhisperX transcription with speaker diarization...")
+        logger.info("Using pyannote diarization + Whisper transcription...")
         
-        # Use WhisperX for transcription with diarization
-        transcription_result = whisperx_transcribe_audio(audio_file)
-        audio_duration = transcription_result['audio_duration']
-        segments = transcription_result.get('segments', [])
+        # Step 1: Load audio
+        with sf.SoundFile(audio_file) as f:
+            sr_orig = f.samplerate
+            frames_total = f.frames
+            audio_data = f.read(frames=frames_total, dtype='float32')
+            if sr_orig != 16000:
+                import librosa
+                audio_data = librosa.resample(audio_data, orig_sr=sr_orig, target_sr=16000)
+                sr = 16000
+            else:
+                sr = sr_orig
+
+        audio_duration = len(audio_data) / sr
+
+        # Step 2: Pyannote diarization (enforce 2 speakers)
+        temp_audio_path = "temp_diarization.wav"
+        sf.write(temp_audio_path, audio_data, sr, format='WAV', subtype='PCM_16')
+        
+        diarizer = PyAnnotePipeline.from_pretrained(
+            "pyannote/speaker-diarization-3.1",
+            use_auth_token=HUGGINGFACE_TOKEN
+        )
+        diarization = diarizer(temp_audio_path, num_speakers=2)
+        os.remove(temp_audio_path)
+
+        # Step 3: Load Whisper model
+        model_dir = "models/whisper-base-finetuned"
+        processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
+        model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model = model.to(device)
+        model.eval()
+
+        # Step 4: Transcribe each diarized segment
+        segments = []
+        for turn, _, speaker_label in diarization.itertracks(yield_label=True):
+            start_sample = int(turn.start * sr)
+            end_sample = int(turn.end * sr)
+            segment_audio = audio_data[start_sample:end_sample]
+
+            inputs = processor(segment_audio, sampling_rate=sr, return_tensors="pt")
+            inputs = {k: v.to(device) for k, v in inputs.items()}
+            with torch.no_grad():
+                predicted_ids = model.generate(inputs["input_features"])
+            text = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0].strip()
+
+            if text and len(text) > 1:
+                segments.append({
+                    'speaker': speaker_label,  # raw: SPEAKER_00 / SPEAKER_01
+                    'text': text,
+                    'start_time': turn.start,
+                    'end_time': turn.end,
+                    'word_count': len(text.split())
+                })
 
         transcription_chunks = []
-        # Map raw speaker labels to human-friendly consecutive names: Speaker 1/2
-        speaker_name_map: Dict[str, str] = {}
-        next_speaker_idx = 1
+        # Map raw diarizer labels 'SPEAKER_00/01' → 'Speaker 1/2'; leave others as-is
+        import re
+        speaker_pattern = re.compile(r"^SPEAKER[_\s]?0*(\d+)$", re.IGNORECASE)
         for i, seg in enumerate(segments):
-            raw_speaker = seg.get('speaker') or ''
-            speaker_key = str(raw_speaker).strip().upper()
-            # Try to extract numeric suffix if available (e.g., SPEAKER_00 -> 1)
-            friendly = None
-            try:
-                import re
-                m = re.search(r'(\d+)$', speaker_key.replace('SPEAKER_', '').replace('SPEAKER', '').strip())
-                if m:
-                    friendly = f"Speaker {int(m.group(1)) + 1 if 'SPEAKER_' in speaker_key or 'SPEAKER' in speaker_key else int(m.group(1))}"
-            except Exception:
-                friendly = None
-
-            if not friendly:
-                # Assign consecutive numbers per unique raw label
-                if speaker_key not in speaker_name_map:
-                    speaker_name_map[speaker_key] = f"Speaker {next_speaker_idx}"
-                    next_speaker_idx += 1
-                friendly = speaker_name_map[speaker_key]
-
+            raw_speaker = (seg.get('speaker') or '').strip()
+            speaker_key = raw_speaker.upper()
+            friendly = raw_speaker
+            m = speaker_pattern.match(speaker_key.replace(' ', '_'))
+            if m:
+                try:
+                    friendly = f"Speaker {int(m.group(1)) + 1}"
+                except Exception:
+                    friendly = raw_speaker or 'Speaker 1'
             chunk_info = {
                 'speaker': friendly,
                 'text': seg['text'],
@@ -339,14 +378,14 @@ class TranscriptionChunkRiskPipeline:
             logger.info(f"Chunk {i+1}: [{chunk_info['speaker']}] {seg['start_time']:.1f}s-{seg['end_time']:.1f}s, {seg['word_count']} words")
 
         if not transcription_chunks:
-            logger.warning("No chunks returned; falling back to single full-audio chunk")
-            speaker_transcription = transcription_result['speaker_transcription']
+            logger.warning("No chunks returned from diarization; using fallback single chunk")
+            full_text, _, _ = transcribe_full_audio(audio_file, "models/whisper-base-finetuned")
             transcription_chunks.append({
                 'speaker': 'Speaker 1',
-                'text': speaker_transcription,
+                'text': full_text,
                 'start_time': 0.0,
                 'end_time': audio_duration,
-                'word_count': len(speaker_transcription.split()),
+                'word_count': len(full_text.split()),
                 'audio_duration': audio_duration,
                 'chunk_index': 0
             })

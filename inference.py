@@ -159,16 +159,47 @@ class HealthRiskPredictor:
         
     def load_model(self):
         """Load trained model and tokenizer"""
-        # Resolve model path (prefer explicit path, then checkpoints/best_model.pt, then BEST_MODEL_PATH)
+        # Check for company-sentiment model first
+        company_dir = Path("models/company-sentiment")
+        if company_dir.exists() and (company_dir / "config.json").exists():
+            logger.info(f"Loading company-sentiment model from {company_dir}")
+            from transformers import AutoModelForSequenceClassification
+            
+            # Load tokenizer and model
+            self.tokenizer = AutoTokenizer.from_pretrained(str(company_dir))
+            self.model = AutoModelForSequenceClassification.from_pretrained(str(company_dir))
+            
+            # Load label mapping
+            mapping_path = company_dir / "label_mapping.json"
+            if mapping_path.exists():
+                with open(mapping_path, "r", encoding="utf-8") as f:
+                    m = json.load(f)
+                    id2label = {int(k): v for k, v in m.get("id2label", {}).items()}
+                    label2id = {k: int(v) for k, v in m.get("label2id", {}).items()}
+                    
+                    # Override globals
+                    global ID_TO_LABEL, LABEL_TO_ID, NUM_CLASSES
+                    ID_TO_LABEL = id2label
+                    LABEL_TO_ID = label2id
+                    NUM_CLASSES = len(ID_TO_LABEL)
+                    logger.info(f"Loaded {NUM_CLASSES} company-specific labels")
+            
+            self.model.to(self.device)
+            self.model.eval()
+            logger.info("Company-sentiment model loaded successfully")
+            return
+        
+        # Fallback to BioBERT
+        logger.info("Company model not found; loading BioBERT fallback")
+        
+        # Resolve model path
         candidate_paths = []
         if self.model_path is not None:
             candidate_paths.append(Path(self.model_path))
         try:
-            # Prefer checkpoints/best_model.pt if present
             candidate_paths.append(CHECKPOINT_DIR / "best_model.pt")
         except NameError:
             pass
-        # Also try BEST_MODEL_PATH/best_model.pt
         candidate_paths.append(BEST_MODEL_PATH / "best_model.pt")
 
         resolved_path = next((p for p in candidate_paths if p and Path(p).exists()), None)
@@ -176,38 +207,32 @@ class HealthRiskPredictor:
             resolved_path = candidate_paths[0]
 
         self.model_path = Path(resolved_path)
-
-        logger.info(f"Loading model from {self.model_path}")
+        logger.info(f"Loading BioBERT model from {self.model_path}")
         
         # Load tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(
             MODEL_NAME,
             cache_dir=CACHE_DIR
         )
-
-        # Initialize plain BioBERT classifier (skip company-specific model)
+        
+        # Initialize BioBERT classifier
         self.model = BioBERTClassifier(
             model_name=MODEL_NAME,
             num_classes=NUM_CLASSES,
-            dropout_rate=0.0  # No dropout during inference
+            dropout_rate=0.0
         )
         
         # Load checkpoint if exists
         if self.model_path.exists():
-            # PyTorch 2.6+ defaults to weights_only=True which can block older checkpoints.
-            # Our checkpoints are locally trained and trusted, so explicitly allow full load.
             checkpoint = torch.load(self.model_path, map_location=self.device, weights_only=False)
-            
-            # Handle different checkpoint formats
             if 'model_state_dict' in checkpoint:
                 self.model.load_state_dict(checkpoint['model_state_dict'])
             else:
                 self.model.load_state_dict(checkpoint)
-            
-            logger.info("Model loaded successfully")
+            logger.info("BioBERT model loaded successfully")
         else:
             logger.warning(f"Model checkpoint not found at {self.model_path}")
-            logger.warning("Using untrained model for demonstration")
+            logger.warning("Using untrained BioBERT model")
         
         self.model.to(self.device)
         self.model.eval()
