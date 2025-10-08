@@ -1,5 +1,5 @@
 {
-  "current_model": "whisper-base-finetuned",
+  "current_model": "whisper-large",
   "models": {
     "whisper-base": {
       "path": "openai/whisper-base",

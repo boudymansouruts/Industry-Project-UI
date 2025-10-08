@@ -426,6 +426,12 @@ def transcribe_with_timestamps(audio: np.ndarray, sr: int, model_dir: str = None
     """Transcribe entire audio with timestamps using Whisper's built-in segmentation."""
     processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
     model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+    
+    # Clear CUDA memory before loading model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
     model.eval()
@@ -774,6 +780,12 @@ def whisperx_transcribe_audio(audio_file: str, model_dir: str = None):
     # Load model and processor for chunk transcription
     processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
     model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+    
+    # Clear CUDA memory before loading model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
     model.eval()
@@ -846,6 +858,12 @@ def hybrid_transcribe_audio(audio_file: str, model_dir: str = None):
     # Load model and processor for chunk transcription
     processor = WhisperProcessor.from_pretrained(model_dir, language="en", task="transcribe")
     model = WhisperForConditionalGeneration.from_pretrained(model_dir)
+    
+    # Clear CUDA memory before loading model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
     model.eval()
