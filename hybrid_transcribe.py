@@ -445,15 +445,15 @@ def transcribe_with_timestamps(audio: np.ndarray, sr: int, model_dir: str = None
         predicted_ids = model.generate(
             input_features,
             forced_decoder_ids=processor.get_decoder_prompt_ids(language="en", task="transcribe"),
-            max_length=448,
-            num_beams=6,
+            max_length=256,  # Reduced from 448 for faster processing
+            num_beams=1,     # Reduced from 6 for faster processing
             do_sample=False,
             early_stopping=True,
-            no_repeat_ngram_size=3,
-            length_penalty=1.2,
+            no_repeat_ngram_size=2,  # Reduced from 3
+            length_penalty=1.0,      # Reduced from 1.2
             temperature=0.0,
             top_p=1.0,
-            repetition_penalty=1.1,
+            repetition_penalty=1.0,  # Reduced from 1.1
             num_return_sequences=1,
             use_cache=True,
             return_dict_in_generate=True,
